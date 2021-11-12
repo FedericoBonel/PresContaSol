@@ -21,7 +21,7 @@ public class ProgramaMain {
         Usuario usuario;
         // Inicializa las variables del programa
         InicializadoresVariables.inicializarMunicipios(municipios);
-        InicializadoresVariables.inicializarUsuarios(usuarios);
+        InicializadoresVariables.inicializarUsuarios(usuarios, municipios);
         // Verifica usuario
         System.out.println(LOGIN_TEXT_BIENVENIDO);
         usuario = ingresar(usuarios);

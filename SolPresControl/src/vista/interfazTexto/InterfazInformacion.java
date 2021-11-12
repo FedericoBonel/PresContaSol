@@ -100,10 +100,13 @@ public class InterfazInformacion {
             if (municipioObj.hasCuentadante()) {
                 cuentadanteObj = municipioObj.getCuentadante();
                 System.out.println(cuentadanteObj.getPresentaciones().size());
-
                 for (String presentacion : cuentadanteObj.getPresentaciones().keySet()) {
                     presentacionObj = cuentadanteObj.getPresentaciones().get(presentacion);
-                    totalDocumentos += presentacionObj.getDocumentos().size();
+                    Hashtable<String, Boolean> documentos = presentacionObj.getDocumentos();
+                    for (String documento : documentos.keySet()) {
+                        if (documentos.get(documento))
+                        totalDocumentos += 1;
+                    }
                 }
             } else {
                 System.out.println(0);

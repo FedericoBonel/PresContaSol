@@ -45,7 +45,7 @@ public class InicializadoresVariables {
     /**
      * Inicializados de usuarios itera por los datos creando los usuarios y agregandolos a la tabla hash
      */
-    public static void inicializarUsuarios(Hashtable<String, Usuario> usuarios) {
+    public static void inicializarUsuarios(Hashtable<String, Usuario> usuarios, Hashtable<String, Municipio> municipios) {
         for (int i = 0; i < NOMBRE_USUARIOS.length; i++) {
             if (TIPOS_USUARIOS[i].equals("Fiscal")) {
                 usuarios.put(NOMBRE_USUARIOS[i], new Fiscal(NOMBRE_USUARIOS[i], CONTRAS_USUARIOS[i]));
@@ -53,7 +53,9 @@ public class InicializadoresVariables {
                 continue;
             }
             if (TIPOS_USUARIOS[i].equals("Cuentadante")) {
-                usuarios.put(NOMBRE_USUARIOS[i], new Cuentadante(NOMBRE_USUARIOS[i], CONTRAS_USUARIOS[i]));
+                Cuentadante cuentadante = new Cuentadante(NOMBRE_USUARIOS[i], CONTRAS_USUARIOS[i]);
+                usuarios.put(NOMBRE_USUARIOS[i], cuentadante);
+                OperacionesRelaciones.updateMunicipioACuentadante(cuentadante, municipios.get(IDENTIFICADORES_MUNICIPIOS[i]));
                 continue;
             }
             usuarios.put(NOMBRE_USUARIOS[i], new Usuario(NOMBRE_USUARIOS[i], CONTRAS_USUARIOS[i], TIPOS_USUARIOS[i]));
