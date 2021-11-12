@@ -1,6 +1,5 @@
 package vista.interfazTexto;
 
-import controlador.abstraccionNegocio.*;
 import controlador.herramientas.Verificadores;
 import vista.TextosConstantes;
 
@@ -15,7 +14,7 @@ public class InterfacesGenerales {
     /**
      * Interfaz que muestra categoria actual, pide una nueva categoria y la devuelve
      */
-    public static int pedirCategoria(){
+    public static int pedirCategoria() {
         Scanner in = new Scanner(System.in);
         // Intenta pedir la categoria
         while (true) {
@@ -37,16 +36,16 @@ public class InterfacesGenerales {
      * Pide una fecha y la devuelve como string en formato "anio-mes-dia"
      */
 
-    public static String pedirFecha(){
+    public static String pedirFecha() {
         String[] opciones = {TextosConstantes.INGRESE_NUEVA_FECHA_YEAR,
                 TextosConstantes.INGRESE_NUEVA_FECHA_MONTH,
                 TextosConstantes.INGRESE_NUEVA_FECHA_DAY};
         StringBuilder fechaIngresada = new StringBuilder();
         String[] input = interfazPedirDatosYEsperar(opciones);
         // Concatena y devuelve la fecha
-        fechaIngresada.append(input[0].replaceAll("\\s+",""))
-                        .append("-").append(input[1].replaceAll("\\s+",""))
-                        .append("-").append(input[2].replaceAll("\\s+",""));
+        fechaIngresada.append(input[0].replaceAll("\\s+", ""))
+                .append("-").append(input[1].replaceAll("\\s+", ""))
+                .append("-").append(input[2].replaceAll("\\s+", ""));
         return fechaIngresada.toString();
     }
 
@@ -76,31 +75,6 @@ public class InterfacesGenerales {
     }
 
     /**
-     * Interfaz de imprimir cuentadantes de entidad y pedir un nuevo cuentadante
-     */
-    public static String pedirCuentadante(Entidad entidad) {
-        Scanner in = new Scanner(System.in);
-        // Si es un municipio cuentadante es 1
-        if (entidad instanceof Municipio objeto) {
-            if (objeto.hasCuentadante()) {
-                Cuentadante cuentadante = objeto.getCuentadante();
-                System.out.println(TextosConstantes.CUENTADANTES_ACTUALES + "\n" + cuentadante.getId());
-            }
-        // Si es un fiscal posee varios cuentadantes
-        } else {
-            Fiscal objeto = (Fiscal) entidad;
-            Hashtable<String, Cuentadante> cuentadantes = objeto.getCuentadantes();
-            if (!cuentadantes.isEmpty()) {
-                System.out.println(TextosConstantes.CUENTADANTES_ACTUALES);
-                for (String cuentadante : cuentadantes.keySet()) System.out.println(cuentadante);
-            }
-        }
-        //TODO QUITAR ESTA PARTE CUANDO TENGAMOS pedirYValidarIdUsuario
-        // Move la parte de if municipio a gestor municipios y else a fiscal en sus propios metodos
-        return pedirIdentificador(TextosConstantes.INGRESE_IDENTIFICADOR_CUENTADANTE);
-    }
-
-    /**
      * Interfaz que pide identificador y lo devuelve
      */
 
@@ -110,7 +84,7 @@ public class InterfacesGenerales {
         // Toma la entrada y devuelvelo acordemente
         System.out.println(TextosConstantes.INGRESE_VACIO_TERMINAR);
         System.out.println(textoAImprimir);
-        input = in.nextLine().replaceAll("\\s+","");
+        input = in.nextLine().replaceAll("\\s+", "");
         return input;
     }
 
@@ -126,7 +100,7 @@ public class InterfacesGenerales {
         for (String opcion : opciones) {
             System.out.println(opcion);
             input[contador] = in.nextLine();
-            contador ++;
+            contador++;
         }
         return input;
     }
@@ -135,7 +109,7 @@ public class InterfacesGenerales {
      * Interfaz que imprime todas las opciones en el array y espera por un input entero en un rango
      * especifico
      */
-    public static int interfazImprimirTodoYPedirEntero(String[] opciones){
+    public static int interfazImprimirTodoYPedirEntero(String[] opciones) {
         Scanner in = new Scanner(System.in);
         int input;
         while (true) {
@@ -144,7 +118,7 @@ public class InterfacesGenerales {
                 System.out.println(opcion);
             }
             // Pide el input en rango
-            input = Verificadores.verificarInputEnteroEnRango(in, 0, opciones.length-1);
+            input = Verificadores.verificarInputEnteroEnRango(in, 0, opciones.length - 1);
             // Si es invalido pidelo de nuevo
             if (input == -1) {
                 System.out.println(TextosConstantes.ERROR_SOLO_ENTEROS);
