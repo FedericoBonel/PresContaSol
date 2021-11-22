@@ -16,4 +16,10 @@ public abstract class Entidad {
     public String getId() {
         return id;
     }
+
+    // Devuelve los parametros como string
+    @Override
+    public String toString() {
+        return id;
+    }
 }

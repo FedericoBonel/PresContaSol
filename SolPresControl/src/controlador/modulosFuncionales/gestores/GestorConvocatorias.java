@@ -4,8 +4,8 @@ import controlador.abstraccionNegocio.*;
 import controlador.herramientas.OperacionesGenerales;
 import controlador.herramientas.Verificadores;
 import vista.TextosConstantes;
-import vista.interfazTexto.InterfacesGenerales;
-import vista.interfazTexto.InterfazConvocatorias;
+import vista.interfazTexto.UIGenerales;
+import vista.interfazTexto.UIConvocatorias;
 
 import java.time.LocalDate;
 import java.util.Hashtable;
@@ -22,7 +22,7 @@ public class GestorConvocatorias {
     public static void gestorConvocatorias(Usuario usuario, Hashtable<String, Convocatoria> convocatorias, Hashtable<String, Presentacion> presentaciones) {
         int input = -1;
         while (input != 0) {
-            input = InterfazConvocatorias.convocatoriasInterfaz(usuario, convocatorias);
+            input = UIConvocatorias.interfazPrincipal(usuario, convocatorias);
             switch (input) {
                 case 1 -> modificarConvocatoria(usuario, convocatorias);
                 case 2 -> eliminarConvocatoria(convocatorias, presentaciones);
@@ -39,16 +39,16 @@ public class GestorConvocatorias {
         int input;
         Convocatoria convocatoria;
         //Pide el identificador
-        convocatoria = pedirYVerificarIdConvo(convocatorias);
+        convocatoria = pedirIdConvo(convocatorias);
         // Si convocatoria es nula el usuario desea abortar la operacion
         if (convocatoria == null) return;
         // Imprime el menu y lanza el modulo que corresponda
-        input = InterfazConvocatorias.modificarConvocatoriasInterfaz();
+        input = UIConvocatorias.interfazModificar();
         switch (input) {
             case 1 -> modificarFechaAperturaConvocatoria(convocatoria);
             case 2 -> modificarFechaCierreConvocatoria(convocatoria);
             case 3 -> OperacionesGenerales.modificarDocumentos(usuario, convocatoria);
-            case 4 -> OperacionesGenerales.modificarEstado(usuario, convocatoria);
+            case 4 -> OperacionesGenerales.modificarApertura(usuario, convocatoria);
         }
     }
 
@@ -59,9 +59,9 @@ public class GestorConvocatorias {
         String nuevaFecha;
         while (true) {
             // Pide la nueva fecha al usuario
-            nuevaFecha = InterfacesGenerales.pedirFecha();
+            nuevaFecha = UIGenerales.pedirFecha();
             //Verifica y asigna la fecha
-            if (!Verificadores.verificarYAsignarFechaApertura(convocatoria, nuevaFecha)) {
+            if (!Verificadores.asignarFechaAperturaConvo(convocatoria, nuevaFecha)) {
                 // En caso de fecha invalida,informa al usuario y vuelve a pedirla
                 System.out.println(TextosConstantes.CONVOCATORIA_ERROR_FECHA_APERTURA);
                 continue;
@@ -79,9 +79,9 @@ public class GestorConvocatorias {
         String nuevaFecha;
         while (true) {
             // Pide la nueva fecha al usuario
-            nuevaFecha = InterfacesGenerales.pedirFecha();
+            nuevaFecha = UIGenerales.pedirFecha();
             //Verifica y asigna la fecha
-            if (!Verificadores.verificarYAsignarFechaCierre(convocatoria, nuevaFecha)) {
+            if (!Verificadores.asignarFechaCierreConvo(convocatoria, nuevaFecha)) {
                 // En caso de fecha invalida,informa al usuario y vuelve a pedirla
                 System.out.println(TextosConstantes.CONVOCATORIA_ERROR_FECHA_CIERRE);
                 continue;
@@ -96,7 +96,7 @@ public class GestorConvocatorias {
      * Metodo que elimina convocatorias, pide su identificador, lo verifica y la elimina
      */
     private static void eliminarConvocatoria(Hashtable<String, Convocatoria> convocatorias, Hashtable<String, Presentacion> presentaciones) {
-        Convocatoria convocatoria = pedirYVerificarIdConvo(convocatorias);
+        Convocatoria convocatoria = pedirIdConvo(convocatorias);
         //Si la convocatoria pasada es nula el usuario desea abortar la operacion
         if (convocatoria == null) return;
         //Remueve todas sus presentaciones del sistema
@@ -116,9 +116,9 @@ public class GestorConvocatorias {
         Object[] datosParaConvocatoria;
         // Pide el identificador y validalo como unico y no existente
         while (true) {
-            identificador = InterfacesGenerales.pedirIdentificador(TextosConstantes.INGRESE_IDENTIFICADOR_CONVOCATORIA);
+            identificador = UIGenerales.pedirIdentificador(TextosConstantes.INGRESE_IDENTIFICADOR_CONVOCATORIA);
             if (identificador.isEmpty()) return;
-            if (!Verificadores.verificarFormatoIdentificador("Evento", identificador) || convocatorias.containsKey(identificador)) {
+            if (!Verificadores.verificarId("Evento", identificador) || convocatorias.containsKey(identificador)) {
                 System.out.println(TextosConstantes.ERROR_FORMATO_O_YA_EXISTE);
                 continue;
             }
@@ -149,8 +149,8 @@ public class GestorConvocatorias {
         LocalDate fechaAperturaFinal, fechaCierreFinal;
         while (true) {
             // Pide las fechas requeridas
-            fechaAperturaFinal = OperacionesGenerales.pedirYValidarFecha(TextosConstantes.CONVOCATORIA_FECHA_APERTURA);
-            fechaCierreFinal = OperacionesGenerales.pedirYValidarFecha(TextosConstantes.CONVOCATORIA_FECHA_CIERRE);
+            fechaAperturaFinal = UIGenerales.pedirYValidarFecha(TextosConstantes.CONVOCATORIA_FECHA_APERTURA);
+            fechaCierreFinal = UIGenerales.pedirYValidarFecha(TextosConstantes.CONVOCATORIA_FECHA_CIERRE);
             // Verifica de ambas
             if (!fechaCierreFinal.isAfter(fechaAperturaFinal)) {
                 System.out.println(TextosConstantes.ERROR_OPERACION_INVALIDA);
@@ -169,15 +169,15 @@ public class GestorConvocatorias {
     /**
      * Metodo que pide id de convocatoria EXISTENTE, la verifica como existente en el hashtable pasado y la devuelve
      */
-    public static Convocatoria pedirYVerificarIdConvo(Hashtable<String, Convocatoria> convocatorias) {
+    public static Convocatoria pedirIdConvo(Hashtable<String, Convocatoria> convocatorias) {
         Convocatoria convocatoria;
         String identificador;
         while (true) {
             //Pide el identificador
-            identificador = InterfacesGenerales.pedirIdentificador(TextosConstantes.INGRESE_IDENTIFICADOR_CONVOCATORIA);
+            identificador = UIGenerales.pedirIdentificador(TextosConstantes.INGRESE_IDENTIFICADOR_CONVOCATORIA);
             if (identificador.isEmpty()) return null;
             // Verifica si es valido
-            if (!Verificadores.verificarFormatoIdentificador("Evento", identificador)) {
+            if (!Verificadores.verificarId("Evento", identificador)) {
                 // Si es invalido, informa al usuario y vuelve a pedirlo
                 System.out.println(TextosConstantes.EVENTOS_ERROR_FORMATO);
                 continue;

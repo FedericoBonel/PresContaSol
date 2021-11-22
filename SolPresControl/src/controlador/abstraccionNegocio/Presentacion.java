@@ -9,19 +9,24 @@ import java.util.Hashtable;
  */
 public class Presentacion extends Evento {
     // Estado de apertura de presentacion por defecto
-    private final static boolean ESTADO_DEFECTO_PRES = true;
+    private final static boolean ABIERTO_DEFECTO = true;
     // Convocatoria a la que presenta
     private Convocatoria convocatoria;
     // Cuentadante al que pertenece la presentacion
     private Cuentadante cuentadante;
+    // Municipio al que pertenece la presentacion
+    private Municipio municipio;
 
     //Constructor de la presentacion
-    public Presentacion(String id, LocalDate fechaInicio, Convocatoria convocatoria, Cuentadante cuentadante, Hashtable<String, Boolean> docsEntregados) {
-        super(id, fechaInicio, ESTADO_DEFECTO_PRES, docsEntregados);
+    public Presentacion(String id, LocalDate fechaInicio, Convocatoria convocatoria, Cuentadante cuentadante, Municipio municipio,
+                        Hashtable<String, Boolean> docsEntregados) {
+        super(id, fechaInicio, ABIERTO_DEFECTO, docsEntregados);
         this.convocatoria = convocatoria;
         convocatoria.addPresentacion(this);
         this.cuentadante = cuentadante;
         cuentadante.addPresentacion(this);
+        this.municipio = municipio;
+        municipio.addPresentacion(this);
     }
 
     // Remueve el documento adicional pasado de la presentacion
@@ -40,7 +45,7 @@ public class Presentacion extends Evento {
         // Itera por todos los documentos requeridos
         for (String documento : convocatoria.getDocumentos().keySet()) {
             // Si el documento es requerido y no esta subido en esta presentacion entonces no esta entregado
-            if (convocatoria.getEstadoDocumento(documento) && !super.getEstadoDocumento(documento)) {
+            if (convocatoria.isRequeOEntrega(documento) && !super.isRequeOEntrega(documento)) {
                 return false;
             }
         }
@@ -74,4 +79,22 @@ public class Presentacion extends Evento {
         this.cuentadante = cuentadante;
     }
 
+    // Devuelve a que cuentadante corresponde esta presentacion
+    public Municipio getMunicipio() {
+        return municipio;
+    }
+
+    // Asigna cuentadante a presentacion
+    protected void setMunicipio(Municipio municipio) {
+        this.municipio = municipio;
+    }
+
+    // Devuelve todos los atributos de la instancia como string
+    @Override
+    public String toString() {
+        return super.toString() +
+                " | " + convocatoria.getFechaCierre().toString() +
+                " | " + cuentadante.getId() +
+                " | " + this.todosRequeridosEntregados();
+    }
 }

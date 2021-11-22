@@ -38,4 +38,18 @@ public class Fiscal extends Usuario {
         cuentadantes.remove(cuentadante.getId());
     }
 
+    // Devuelve como string los atributos de la instancia
+    @Override
+    public String toString() {
+        return  super.toString() +
+                " | "  + cuentadantes.keySet() +
+                " | " + "null";
+    }
+
+    public String toStringAdmin() {
+        return  super.toStringAdmin() +
+                " | "  + cuentadantes.keySet() +
+                " | " + "null";
+    }
+
 }

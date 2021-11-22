@@ -14,14 +14,14 @@ public abstract class Evento extends Entidad {
     private final Hashtable<String, Boolean> documentos;
     // Primera fecha, sea esta la fecha de creacion o apertura
     private LocalDate fechaInicio;
-    // Estado del evento, puede estar -> abierto:true, cerrado:false
-    private boolean estado;
+    // Estado del evento, puede estar -> abierto:true, no abierto:false
+    private boolean abierto;
 
     //Constructor del evento
-    public Evento(String id, LocalDate fechaInicio, boolean estado, Hashtable<String, Boolean> documentos) {
+    public Evento(String id, LocalDate fechaInicio, boolean isAbierto, Hashtable<String, Boolean> documentos) {
         super(id);
         this.fechaInicio = fechaInicio;
-        this.estado = estado;
+        this.abierto = isAbierto;
         this.documentos = documentos;
     }
 
@@ -35,14 +35,14 @@ public abstract class Evento extends Entidad {
         fechaInicio = nuevaFechaInicio;
     }
 
-    // Devuelve el estado de apertura
-    public boolean getEstado() {
-        return estado;
+    // Devuelve si esta abierto o no
+    public boolean isAbierto() {
+        return abierto;
     }
 
     // Asigna un nuevo estado de apertura
-    public void setEstado(boolean estado) {
-        this.estado = estado;
+    public void setAbierto(boolean estado) {
+        this.abierto = estado;
     }
 
     // Devuelve los documentos para el evento
@@ -51,13 +51,13 @@ public abstract class Evento extends Entidad {
     }
 
     // Devuelve estado de documento requerido o entregado
-    public Boolean getEstadoDocumento(String docReq) {
-        return documentos.get(docReq);
+    public Boolean isRequeOEntrega(String documento) {
+        return documentos.get(documento);
     }
 
     // Agrega un nuevo documento requerido o entregado
-    public void addDocumento(String nuevoDocReq, Boolean estado) {
-        documentos.put(nuevoDocReq, estado);
+    public void addDocumento(String nuevoDoc, Boolean requeOEntrega) {
+        documentos.put(nuevoDoc, requeOEntrega);
     }
 
     // Remueve un documento de los requeridos o entregados
@@ -70,4 +70,18 @@ public abstract class Evento extends Entidad {
         return documentos.containsKey(documento);
     }
 
+    // Devuelve todos los atributos de la instancia como string
+    @Override
+    public String toString() {
+        return super.toString() + " | " + abierto + " | " + this.documentosVerdaderosAString() + " | " + fechaInicio.toString();
+    }
+
+    // Transforma los documentos verdaderos del evento en una string "bonita" y la devuelve
+    private String documentosVerdaderosAString() {
+        StringBuilder output = new StringBuilder();
+        for (String llave : documentos.keySet()) {
+            if (documentos.get(llave)) output.append("/").append(llave);
+        }
+        return output.toString();
+    }
 }

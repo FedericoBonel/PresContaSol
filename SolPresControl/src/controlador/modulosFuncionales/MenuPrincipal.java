@@ -8,9 +8,10 @@ import controlador.herramientas.InicializadoresVariables;
 import controlador.modulosFuncionales.gestores.GestorConvocatorias;
 import controlador.modulosFuncionales.gestores.GestorMunicipios;
 import controlador.modulosFuncionales.gestores.GestorPresentaciones;
-import controlador.modulosFuncionales.gestores.GestorUsuario;
+import controlador.modulosFuncionales.gestores.GestorUsuarios;
 import vista.TextosConstantes;
-import vista.interfazTexto.InterfazMenuPrincipal;
+import vista.interfazTexto.UIInformacion;
+import vista.interfazTexto.UIMenuPrincipal;
 
 import java.util.Hashtable;
 
@@ -30,13 +31,13 @@ public class MenuPrincipal {
 
         //Pide input y los modulos funcionales requeridos
         while (input != 0) {
-            input = InterfazMenuPrincipal.menuPrincipalInterfaz(usuario);
+            input = UIMenuPrincipal.interfazMenuPrincipal(usuario);
             switch (input) {
                 case 1 -> GestorConvocatorias.gestorConvocatorias(usuario, convocatorias, presentaciones);
-                case 2 -> GestorPresentaciones.gestorPresentaciones(usuario, presentaciones, convocatorias);
-                case 3 -> GestorMunicipios.gestorMunicipios(usuario, municipios, usuarios);
-                case 4 -> vista.interfazTexto.InterfazInformacion.interfazInformacionSistema(convocatorias, municipios);
-                case 5 -> GestorUsuario.gestorUsuario(usuario, usuarios, presentaciones);
+                case 2 -> GestorPresentaciones.gestorPresentaciones(usuario, convocatorias, presentaciones);
+                case 3 -> GestorMunicipios.gestorMunicipios(usuario, municipios, usuarios, presentaciones);
+                case 4 -> UIInformacion.interfazInfoGnral(convocatorias, municipios);
+                case 5 -> GestorUsuarios.gestorUsuario(usuario, usuarios, presentaciones);
             }
         }
         System.out.println(TextosConstantes.SALIENDO_DEL_SISTEMA);

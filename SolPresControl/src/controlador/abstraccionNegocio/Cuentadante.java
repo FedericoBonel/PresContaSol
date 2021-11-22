@@ -37,6 +37,17 @@ public class Cuentadante extends Usuario {
         return presentaciones.containsKey(presentacion.getId());
     }
 
+    // Asigna la presentacion al cuentadante
+    protected void addPresentacion(Presentacion presentacion) {
+        presentaciones.put(presentacion.getId(), presentacion);
+    }
+
+    // Remueve la presentacion del cuentadante
+    protected void removePresentacion(Presentacion presentacion) {
+        presentaciones.remove(presentacion.getId());
+    }
+
+
     // Devuelve el municipio asignado
     public Municipio getMunicipio() {
         return municipio;
@@ -79,13 +90,19 @@ public class Cuentadante extends Usuario {
         return fiscal != null;
     }
 
-    // Asigna la presentacion al cuentadante
-    protected void addPresentacion(Presentacion presentacion) {
-        presentaciones.put(presentacion.getId(), presentacion);
+    // Devuelve los parametros de la instancia como string sin las presentaciones ni el municipio
+    @Override
+    public String toString() {
+        String resultado = super.toString() + " | " + "null";
+        if(this.hasFiscal()) resultado += " | " + fiscal.getId();
+        else resultado += " | " + "null";
+        return resultado;
     }
 
-    // Remueve la presentacion del cuentadante
-    protected void removePresentacion(Presentacion presentacion) {
-        presentaciones.remove(presentacion.getId());
+    public String toStringAdmin() {
+        String resultado = super.toStringAdmin() + " | " + "null";
+        if(this.hasFiscal()) resultado += " | " +  fiscal.getId();
+        else resultado += " | " +  "null";
+        return resultado;
     }
 }

@@ -15,13 +15,14 @@ public class GestorMunicipios {
     /**
      * Gestor de municipios, lanza la interfaz del gestor segun usuario y lanza los modulos requeridos
      */
-    public static void gestorMunicipios(Usuario usuario, Hashtable<String, Municipio> municipios, Hashtable<String, Usuario> usuarios) {
+    public static void gestorMunicipios(Usuario usuario, Hashtable<String, Municipio> municipios,
+                                        Hashtable<String, Usuario> usuarios, Hashtable<String, Presentacion>presentaciones) {
         int input = -1;
         while (input != 0) {
-            input = InterfazMunicipios.municipiosInterfaz(usuario, municipios);
+            input = UIMunicipios.interfazMunicipios(usuario, municipios);
             switch (input) {
                 case 1 -> modificarMunicipio(usuarios, municipios);
-                case 2 -> eliminarMunicipio(municipios);
+                case 2 -> eliminarMunicipio(municipios, presentaciones);
                 case 3 -> crearMunicipio(municipios);
             }
         }
@@ -34,11 +35,11 @@ public class GestorMunicipios {
         int input;
         Municipio municipio;
         //Pide el identificador
-        municipio = pedirYVerificarIdMunicipios(municipios);
+        municipio = pedirIdMunicipios(municipios);
         // Si municipio nulo el usuario desea abortar la operacion
         if (municipio == null) return;
         // Imprime el menu y lanza el modulo que corresponda
-        input = InterfazMunicipios.modificarMunicipioInterfaz();
+        input = UIMunicipios.modificarMunicipioInterfaz();
         switch (input) {
             case 1 -> modificarCategoria(municipio);
             case 2 -> OperacionesGenerales.actualizarNuevoCuentadante(municipio, usuarios);
@@ -48,15 +49,15 @@ public class GestorMunicipios {
     /**
      * Metodo que pide id de municipio EXISTENTE, la verifica como existente en el hashtable pasado y la devuelve
      */
-    public static Municipio pedirYVerificarIdMunicipios(Hashtable<String, Municipio> municipios) {
+    public static Municipio pedirIdMunicipios(Hashtable<String, Municipio> municipios) {
         Municipio municipio;
         String identificador;
         while (true) {
             //Pide el identificador
-            identificador = InterfacesGenerales.pedirIdentificador(TextosConstantes.INGRESE_IDENTIFICADOR_MUNICIPIO);
+            identificador = UIGenerales.pedirIdentificador(TextosConstantes.INGRESE_IDENTIFICADOR_MUNICIPIO);
             // Verifica si es valido
             if (identificador.isEmpty()) return null;
-            if (!Verificadores.verificarFormatoIdentificador("Municipio", identificador)) {
+            if (!Verificadores.verificarId("Municipio", identificador)) {
                 // Si es invalido, informa al usuario y vuelve a pedirlo
                 System.out.println(TextosConstantes.EVENTOS_ERROR_FORMATO);
                 continue;
@@ -80,7 +81,7 @@ public class GestorMunicipios {
     private static void modificarCategoria(Municipio municipio) {
         // Muestra la categoria actual y pide la nueva
         System.out.println(TextosConstantes.MUNICIPIOS_ACTUAL_CATEGORIA + municipio.getCategoria());
-        int input = InterfacesGenerales.pedirCategoria();
+        int input = UIGenerales.pedirCategoria();
         // Verifica que el municipio sea correcto
         if (input == -1) return;
         // Asigna la categoria nueva al municipio
@@ -92,13 +93,15 @@ public class GestorMunicipios {
     /**
      * Metodo que pide un municipio existente, lo verifica, limpia sus relaciones y elimina de la tabla de municipios
      */
-    private static void eliminarMunicipio(Hashtable<String, Municipio> municipios) {
-        Municipio municipio = pedirYVerificarIdMunicipios(municipios);
+    private static void eliminarMunicipio(Hashtable<String, Municipio> municipios, Hashtable<String, Presentacion> presentaciones) {
+        Municipio municipio = pedirIdMunicipios(municipios);
         //Si el municipio pasado es nulo el usuario desea abortar la operacion
         if (municipio == null) return;
+        // Elimina sus presentaciones del sistema
+        for (String presentacion : municipio.getPresentaciones().keySet()) presentaciones.remove(presentacion);
         // Desasigna sus relaciones
-        OperacionesRelaciones.desasignarMunicipioDelCuentadante(municipio);
-        // Remuevela del sistema
+        OperacionesRelaciones.removeMunicipio(municipio);
+        // Remuevelo del sistema
         municipios.remove(municipio.getId());
         System.out.println(TextosConstantes.EXITO_OPERACION);
     }
@@ -110,16 +113,16 @@ public class GestorMunicipios {
         String identificador;
         // Pide el identificador del municipio y verifica que sea valida y unico
         while (true) {
-            identificador = InterfacesGenerales.pedirIdentificador(TextosConstantes.INGRESE_IDENTIFICADOR_MUNICIPIO);
+            identificador = UIGenerales.pedirIdentificador(TextosConstantes.INGRESE_IDENTIFICADOR_MUNICIPIO);
             if (identificador.isEmpty()) return;
-            if (!Verificadores.verificarFormatoIdentificador("Municipio", identificador) || municipios.containsKey(identificador)) {
+            if (!Verificadores.verificarId("Municipio", identificador) || municipios.containsKey(identificador)) {
                 System.out.println(TextosConstantes.ERROR_FORMATO_O_YA_EXISTE);
                 continue;
             }
             break;
         }
         // Pide nueva categoria del municipio
-        int categoria = InterfacesGenerales.pedirCategoria();
+        int categoria = UIGenerales.pedirCategoria();
         if (categoria == -1) return;
         // Si no crea el objeto y agregalo a las municipios
         Municipio municipio = new Municipio(

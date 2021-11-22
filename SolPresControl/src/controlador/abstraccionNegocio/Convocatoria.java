@@ -12,12 +12,10 @@ public class Convocatoria extends Evento {
     // Fecha de cierre de la convocatoria
     private LocalDate fechaCierre;
 
-    //Constructor de convocatoria
+    // Constructor de convocatoria
     public Convocatoria(String id, LocalDate fechaInicio, LocalDate fechaCierre, Hashtable<String, Boolean> docsReq) throws Exception {
-        super(id, fechaInicio, false, docsReq);
-        //Si la fecha de cierre es antes que la fecha de inicio tira una excepcion
-        if (fechaCierre.isBefore(fechaInicio)) throw new Exception("Fecha incorrecta");
-        this.fechaCierre = fechaCierre;
+        super(id, fechaInicio, fechaInicio.isBefore(LocalDate.now()), docsReq);
+        setFechaCierre(fechaCierre);
         this.presentaciones = new Hashtable<>();
     }
 
@@ -44,7 +42,7 @@ public class Convocatoria extends Evento {
     // Asigna nueva fecha de cierre
     public void setFechaCierre(LocalDate fechaCierre) throws Exception {
         //Si la fecha de cierre es antes que la fecha de inicio tira una excepcion
-        if (fechaCierre.isBefore(this.getFechaInicio())) throw new Exception("Fecha incorrecta");
+        if (fechaCierre.isBefore(super.getFechaInicio())) throw new Exception("Fecha incorrecta");
         this.fechaCierre = fechaCierre;
     }
 
@@ -56,5 +54,13 @@ public class Convocatoria extends Evento {
     // Desasigna presentacion del sistema
     protected void removePresentacion(Presentacion presentacion) {
         presentaciones.remove(presentacion.getId());
+    }
+
+
+    // Devuelve todos los atributos de la instancia como string
+    @Override
+    public String toString() {
+        return super.toString() +
+                " | " + fechaCierre.toString();
     }
 }

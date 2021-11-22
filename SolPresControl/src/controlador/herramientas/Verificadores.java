@@ -16,9 +16,9 @@ public class Verificadores {
 
     /**
      * Verificador de usuarios con clave
-     * Retorna usuario si es correcto, si no retorna null
+     * Retorna usuario si es valido, si no retorna null
      */
-    public static Usuario verificarUsuario(String usuario, String contra, Hashtable<String, Usuario> usuarios) {
+    public static Usuario ingresarConClave(String usuario, String contra, Hashtable<String, Usuario> usuarios) {
         //Verifica que el usuario corresponda con la contraseña
         if (usuarios.containsKey(usuario)) {
             Usuario usuarioAVerificar = usuarios.get(usuario);
@@ -30,20 +30,19 @@ public class Verificadores {
     /**
      * Verificador de formato identificador
      */
-    public static boolean verificarFormatoIdentificador(String tipoDeEntidad, String identificador) {
-        if (tipoDeEntidad.equals("Evento"))
-            return identificador.length() <= 100;
-        else if (tipoDeEntidad.equals("Usuario"))
-            return 0 < identificador.length() && identificador.length() <= 10;
-        else if (tipoDeEntidad.equals("Municipio"))
-            return identificador.length() <= 30;
-        else return false;
+    public static boolean verificarId(String tipoDeEntidad, String identificador) {
+        return switch (tipoDeEntidad) {
+            case "Evento" -> identificador.length() <= 100;
+            case "Usuario" -> 0 < identificador.length() && identificador.length() <= 10;
+            case "Municipio" -> identificador.length() <= 30;
+            default -> false;
+        };
     }
 
     /**
      * Verificador de tipo, retorna si el tipo pasado corresponde a alguno valido
      */
-    public static boolean verificarFormatoTipo(String nuevoTipo) {
+    public static boolean verificarTipo(String nuevoTipo) {
         for (String tipo : Usuario.TIPOS_USUARIO) {
             if (tipo.equals(nuevoTipo)) return true;
         }
@@ -54,16 +53,16 @@ public class Verificadores {
     /**
      * Verificador de formato de clave de usuarios
      */
-    public static boolean verificarFormatoClave(String clave) {
+    public static boolean verificarClave(String clave) {
         return 4 <= clave.length() && clave.length() <= 8;
     }
 
 
     /**
-     * Verificador de input in rango de opciones,
-     * toma el siguiente entero del scanner, lo verifica en los rangos, y lo devuelve
+     * Verificador de entrada en rango de opciones,
+     * toma el siguiente entero del scanner, lo verifica en los rangos INCLUSIVE, y lo devuelve
      */
-    public static int verificarInputEnteroEnRango(Scanner fuenteDeInput, int limiteInferiorInclusive, int limiteSuperiorInclusive) {
+    public static int verificarEnteroEnRango(Scanner fuenteDeInput, int limiteInferior, int limiteSuperior) {
         int input;
         try {
             // Pide el input
@@ -74,21 +73,21 @@ public class Verificadores {
             return -1;
         }
         // Verificacion de entrada en rango
-        if (limiteInferiorInclusive <= input && input <= limiteSuperiorInclusive) return input;
+        if (limiteInferior <= input && input <= limiteSuperior) return input;
         return -1;
     }
 
     /**
      * Verificador de fechas de apertura de convocatorias, la pide, la valida y la asigna
      */
-    public static boolean verificarYAsignarFechaApertura(Convocatoria convocatoria, String fecha) {
-        LocalDate fechaFinal;
-        fechaFinal = verificarFecha(fecha);
+    public static boolean asignarFechaAperturaConvo(Convocatoria convocatoria, String fechaString) {
+        LocalDate fechaRes;
+        fechaRes = pasarALocalDate(fechaString);
         // Verifica que la fecha final no sea nula y
         // que sea antes de la fecha de cierre
-        if (fechaFinal != null && fechaFinal.isBefore(convocatoria.getFechaCierre())) {
+        if (fechaRes != null && fechaRes.isBefore(convocatoria.getFechaCierre())) {
             // Asigna la fecha a la convocatoria
-            convocatoria.setFechaInicio(fechaFinal);
+            convocatoria.setFechaInicio(fechaRes);
             return true;
         }
         // En caso contrario no es una fecha valida
@@ -98,12 +97,12 @@ public class Verificadores {
     /**
      * Verificador de fechas de cierre de convocatorias, la pide, la valida y la asigna
      */
-    public static boolean verificarYAsignarFechaCierre(Convocatoria convocatoria, String fecha) {
-        LocalDate fechaFinal;
+    public static boolean asignarFechaCierreConvo(Convocatoria convocatoria, String fechaString) {
+        LocalDate fechaRes;
         try {
             // Intenta pasar la fecha a localDate y a la convocatoria
-            fechaFinal = LocalDate.parse(fecha);
-            convocatoria.setFechaCierre(fechaFinal);
+            fechaRes = LocalDate.parse(fechaString);
+            convocatoria.setFechaCierre(fechaRes);
         } catch (Exception e) {
             // En caso de que la fecha sea invalida devuelve falso
             return false;
@@ -113,10 +112,10 @@ public class Verificadores {
     }
 
     /**
-     * Verificador y convertor de fechas String a LocalDate
+     * Verificador y conversor de fechas String a LocalDate
      * Devuelve nulo en caso de fecha String en formato invalido
      */
-    public static LocalDate verificarFecha(String fecha) {
+    public static LocalDate pasarALocalDate(String fecha) {
         LocalDate fechaFinal;
         try {
             // Intenta pasarlo a LocalDate
@@ -134,7 +133,7 @@ public class Verificadores {
     /**
      * Verifica si el string pasado esta en el array ordenado o no
      */
-    public static boolean arrayContainsString(String string, Object[] array) {
+    public static boolean arrayContieneString(String string, Object[] array) {
         //Si el documento no se encuentra en la lista de posibles documentos requeridos
         return Arrays.binarySearch(array, string) >= 0;
     }

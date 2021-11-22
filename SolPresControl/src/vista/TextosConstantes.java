@@ -10,7 +10,7 @@ public class TextosConstantes {
      */
     public final static String ERROR_ID_NO_ENCONTRADO = "Identificador no encontrado en el sistema";
     public final static String ERROR_FECHA = "Por favor ingrese una fecha valida (en el futuro y en numeros enteros positivos)";
-    public final static String ERROR_OPERACION_INVALIDA = "\nOPERACION INVALIDA";
+    public final static String ERROR_OPERACION_INVALIDA = "OPERACION INVALIDA";
     public static final String INGRESE_VACIO_TERMINAR = "---- Si desea terminar la operacion presione Intro/Enter sin escribir nada ----";
     public final static String INGRESE_NUEVA_FECHA_YEAR = "Ingrese el año de nueva fecha: ";
     public final static String INGRESE_NUEVA_FECHA_MONTH = "Ingrese el mes de nueva fecha: ";
@@ -41,13 +41,13 @@ public class TextosConstantes {
     /**
      * Menu principal
      */
-    public final static String MENU_TEXT_CABECERA = "----------- Menu Principal -----------";
-    public final static String MENU_TEXT_INFORMACION = "4. Informacion";
-    public final static String MENU_TEXT_MUNICIPIOS = "3. Municipios";
-    public final static String MENU_TEXT_PRESENTACIONES = "2. Presentaciones";
-    public final static String MENU_TEXT_CONVOCATORIAS = "1. Convocatorias";
-    public final static String MENU_TEXT_SALIR = "0. SALIR";
-    public final static String MENUADMIN_TEXT_USUARIOS = "5. Usuario";
+    public final static String MENU_CABECERA = "----------- Menu Principal -----------";
+    public final static String MENU_INFORMACION = "4. Informacion";
+    public final static String MENU_MUNICIPIOS = "3. Municipios";
+    public final static String MENU_PRESENTACIONES = "2. Presentaciones";
+    public final static String MENU_CONVOCATORIAS = "1. Convocatorias";
+    public final static String MENU_SALIR = "0. SALIR";
+    public final static String MENUADMIN_USUARIOS = "5. Usuario";
     public final static String ERROR_SOLO_ENTEROS = "Solo puedes ingresar numeros enteros positivos.";
     public final static String INGRESE_INPUT = "Ingrese su opcion en forma de enteros (1, 2, 3, etc.)";
 
@@ -79,7 +79,7 @@ public class TextosConstantes {
      */
     public final static String PRESENTACIONES_CABECERA = "----------- Presentaciones -----------";
     public final static String PRESENTACIONES_GESTOR_CAMPOS = "Identificador   |   Estado Apertura  |   Documentos entregados   |" +
-            "   Todos requeridos entregados  |   Fecha creada   |   Fecha limite  |   Usuario Presentador";
+            "   Fecha creada   |   Fecha limite  |   Usuario Presentador   |   Todos requeridos entregados";
     public final static String INGRESE_IDENTIFICADOR_PRESENTACIONES = "Ingrese el identificador de la presentacion: ";
     public final static String ERROR_CONVOCATORIA_CERRADA = "ERROR: La convocatoria seleccionada ya se encuentra cerrada";
     public final static String PRESENTACION_CERRADA = "OPERACION INVALIDA, La presentacion ya se ha entregado!";
@@ -103,7 +103,6 @@ public class TextosConstantes {
     public final static String MUNICIPIOS_MODIFICAR_CUENTADANTE = "2. Cuentadante Asignado";
     public final static String MUNICIPIOS_ACTUAL_CATEGORIA = "Categoria actual -> ";
     public final static String MUNICIPIOS_PEDIR_CATEGORIA = "Ingrese nueva categoria: ";
-    public final static String MUNICIPIOS_CUENTADANTE_NO_ASIGNADO = "Cuentadante no asignado";
 
 
     /**
@@ -119,7 +118,6 @@ public class TextosConstantes {
      */
     public final static String DOCUMENTOS = "Documentos: -----------";
     public final static String DOCUMENTOS_REQUERIDOS = "----------- Documentos Requeridos: -----------";
-    public final static String DOCUMENTOS_AGREGAR = " ----------- Agregar documentos -----------";
     public final static String FALTAN_DOCUMENTOS = "Hay documentos requeridos no entregados.";
     public final static String DOCUMENTO_NO_EN_LISTA = "El documento no se haya en la lista de opciones";
     public final static String DOCUMENTO_NO_ADICIONAL = "El documento no es adicional";
@@ -135,8 +133,6 @@ public class TextosConstantes {
     public final static String USUARIOS_ERROR_TIPO_FORMATO =
             "Por favor ingrese solo tipos de usuario validos: (Administrador, Cuentadante, Fiscal, Fiscal General)";
     public final static String INGRESE_IDENTIFICADOR_USUARIO = "Ingrese el identificador del usuario: ";
-    public final static String INGRESE_IDENTIFICADOR_CUENTADANTE = "Ingrese el identificador del cuentadante a asignar: ";
-    public final static String CUENTADANTES_ACTUALES = "El/Los cuentadante/s actuales son: ";
     public final static String IDENTIFICADOR_NO_CUENTADANTE = "El identificador no pertenece a un cuentadante!";
     public final static String USUARIOS_QUE_ATRIBUTO_MODIFICAR = "Ingrese el atributo a modificar: ";
     public final static String USUARIOS_CONTRA = "2. Clave";
