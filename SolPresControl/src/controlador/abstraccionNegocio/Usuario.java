@@ -35,4 +35,15 @@ public class Usuario extends Entidad {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
+    // devuelve los parametros como string a mostrar a los administradores
+    public String toStringAdmin() {
+        return super.toString() + " | " + contra + " | " + tipo;
+    }
+
+    // devuelve los parametros como string a mostrar al resto de usuarios
+    @Override
+    public String toString() {
+        return super.toString() + " | " + "ESCONDIDA" + " | " + tipo;
+    }
 }

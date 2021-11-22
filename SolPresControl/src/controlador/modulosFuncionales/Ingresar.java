@@ -2,7 +2,7 @@ package controlador.modulosFuncionales;
 
 import controlador.abstraccionNegocio.Usuario;
 import controlador.herramientas.Verificadores;
-import vista.interfazTexto.InterfazMenuPrincipal;
+import vista.interfazTexto.UIMenuPrincipal;
 
 import java.util.Hashtable;
 
@@ -21,8 +21,8 @@ public class Ingresar {
         Usuario usuario;
         // Pide usuario y clave hasta que sean correctos
         do {
-            usuarioContraInput = InterfazMenuPrincipal.logInInterfaz();
-            usuario = Verificadores.verificarUsuario(usuarioContraInput[0], usuarioContraInput[1], usuarios);
+            usuarioContraInput = UIMenuPrincipal.interfazLogin();
+            usuario = Verificadores.ingresarConClave(usuarioContraInput[0], usuarioContraInput[1], usuarios);
             if (usuario == null) System.out.println(LOGIN_TEXTO_USUARIOINCORRECTO);
         } while (usuario == null);
         return usuario;

@@ -7,7 +7,7 @@ import java.util.Hashtable;
 
 /**
  * Clase temporal que contiene los metodos para inicializar las variables localmente y de manera constante
- * En el futuro esto se hara con la base datos
+ * En el futuro esto se hara con la base datos al inicio del programa
  */
 
 public class InicializadoresVariables {
@@ -49,13 +49,13 @@ public class InicializadoresVariables {
         for (int i = 0; i < NOMBRE_USUARIOS.length; i++) {
             if (TIPOS_USUARIOS[i].equals("Fiscal")) {
                 usuarios.put(NOMBRE_USUARIOS[i], new Fiscal(NOMBRE_USUARIOS[i], CONTRAS_USUARIOS[i]));
-                OperacionesRelaciones.updateFiscalACuentadante((Fiscal) usuarios.get(NOMBRE_USUARIOS[i]), (Cuentadante) usuarios.get("marcos"));
+                OperacionesRelaciones.actualizaFiscalACuenta((Fiscal) usuarios.get(NOMBRE_USUARIOS[i]), (Cuentadante) usuarios.get("marcos"));
                 continue;
             }
             if (TIPOS_USUARIOS[i].equals("Cuentadante")) {
                 Cuentadante cuentadante = new Cuentadante(NOMBRE_USUARIOS[i], CONTRAS_USUARIOS[i]);
                 usuarios.put(NOMBRE_USUARIOS[i], cuentadante);
-                OperacionesRelaciones.updateMunicipioACuentadante(cuentadante, municipios.get(IDENTIFICADORES_MUNICIPIOS[i]));
+                OperacionesRelaciones.actualizaMuniACuenta(cuentadante, municipios.get(IDENTIFICADORES_MUNICIPIOS[i]));
                 continue;
             }
             usuarios.put(NOMBRE_USUARIOS[i], new Usuario(NOMBRE_USUARIOS[i], CONTRAS_USUARIOS[i], TIPOS_USUARIOS[i]));
@@ -76,7 +76,6 @@ public class InicializadoresVariables {
      * Inicializador de convocatorias Itera por las convocatorias creando las convocatorias y agregandolas a la tabla hash
      */
     public static void inicializarConvocatorias(Hashtable<String, Convocatoria> convocatorias) {
-        boolean estado;
         try {
             //Pon todos los documentos como requeridos
             for (String documento : Evento.DOCUMENTOS_OPCIONES) DOCUMENTOS_REQUERIDOS_TODOS.put(documento, true);
@@ -90,7 +89,7 @@ public class InicializadoresVariables {
             // Setea el estado como corresponda
             for (String identificador : convocatorias.keySet()) {
                 convocatorias.get(identificador).
-                        setEstado(!LocalDate.now().isBefore(convocatorias.get(identificador).getFechaInicio())
+                        setAbierto(!LocalDate.now().isBefore(convocatorias.get(identificador).getFechaInicio())
                         && !LocalDate.now().isAfter(convocatorias.get(identificador).getFechaCierre()));
             }
         } catch (Exception e) {
@@ -111,6 +110,7 @@ public class InicializadoresVariables {
                                 LocalDate.now(),
                                 convocatorias.get(IDENTIFICADORES_CONVOCATORIAS[1]),
                                 (Cuentadante) usuarios.get("marcos"),
+                                ((Cuentadante) usuarios.get("marcos")).getMunicipio(),
                                 (Hashtable<String, Boolean>) DOCUMENTOS_ENTREGADOS.clone()));
 
             }
