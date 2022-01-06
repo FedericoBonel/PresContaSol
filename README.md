@@ -1,2 +1,2 @@
 # PresContaSol
-Repositorio de proyecto realizado en asignatura "Proyectos de programacion"
+Repository for the Programming Project course I took to build a simple MVC application on **pure java**
