@@ -1,12 +1,12 @@
 package vista.menuPrincipal;
 
-import controlador.MenuPrincipalControlador;
-import modelo.Presentacion;
+import modelo.evento.presentacion.Presentacion;
 import vista.StringsFinales;
 import vista.componentes.JTableNoEditable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
 /**
@@ -36,7 +36,7 @@ public class PresentacionesPanel extends JPanel {
     /**
      * Controlador que maneja las interacciones realizadas por el usuario
      */
-    private MenuPrincipalControlador controlador;
+    private ActionListener controlador;
 
     /**
      * Crea un panel para mostrar las presentaciones como una tabla con botones
@@ -50,19 +50,19 @@ public class PresentacionesPanel extends JPanel {
         JPanel botones = new JPanel(new BorderLayout());
         // Boton de crear
         crearBoton = new JButton(StringsFinales.CREAR);
-        crearBoton.setActionCommand(StringsFinales.CREAR + StringsFinales.PRESENTACION);
+        crearBoton.setActionCommand(StringsFinales.CREAR);
         operaciones.add(crearBoton);
         // Boton de modificar
         modificarBoton = new JButton(StringsFinales.MODIFICAR);
-        modificarBoton.setActionCommand(StringsFinales.MODIFICAR + StringsFinales.PRESENTACION);
+        modificarBoton.setActionCommand(StringsFinales.MODIFICAR);
         operaciones.add(modificarBoton);
         // Boton de eliminar
         eliminarBoton = new JButton(StringsFinales.ELIMINAR);
-        eliminarBoton.setActionCommand(StringsFinales.ELIMINAR + StringsFinales.PRESENTACION);
+        eliminarBoton.setActionCommand(StringsFinales.ELIMINAR);
         operaciones.add(eliminarBoton);
         // Boton de actualizar
         actualizarBoton = new JButton(StringsFinales.ACTUALIZAR);
-        actualizarBoton.setActionCommand(StringsFinales.ACTUALIZAR + StringsFinales.PRESENTACION);
+        actualizarBoton.setActionCommand(StringsFinales.ACTUALIZAR);
 
         botones.add(BorderLayout.WEST, actualizarBoton);
         botones.add(BorderLayout.EAST, operaciones);
@@ -96,7 +96,7 @@ public class PresentacionesPanel extends JPanel {
      *
      * @param controlador Controlador a gestionar los eventos de interaccion de esta vista
      */
-    public void addControlador(MenuPrincipalControlador controlador) {
+    public void addControlador(ActionListener controlador) {
         this.controlador = controlador;
         crearBoton.addActionListener(controlador);
         modificarBoton.addActionListener(controlador);

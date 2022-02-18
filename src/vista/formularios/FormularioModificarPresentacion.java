@@ -1,7 +1,7 @@
 package vista.formularios;
 
-import controlador.PresentacionesControlador;
-import modelo.Presentacion;
+import controlador.controladorObjetos.PresentacionesControlador;
+import modelo.evento.presentacion.Presentacion;
 import vista.Estilo;
 import vista.StringsFinales;
 import vista.componentes.ListaDinamicaCampoTexto;

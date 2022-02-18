@@ -1,7 +1,7 @@
 package vista.formularios;
 
-import controlador.MunicipiosControlador;
-import modelo.Municipio;
+import controlador.controladorObjetos.MunicipiosControlador;
+import modelo.municipio.Municipio;
 import vista.Estilo;
 import vista.StringsFinales;
 

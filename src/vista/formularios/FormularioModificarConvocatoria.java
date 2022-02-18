@@ -1,7 +1,7 @@
 package vista.formularios;
 
-import controlador.ConvocatoriasControlador;
-import modelo.Convocatoria;
+import controlador.controladorObjetos.ConvocatoriasControlador;
+import modelo.evento.convocatoria.Convocatoria;
 import vista.Estilo;
 import vista.StringsFinales;
 
