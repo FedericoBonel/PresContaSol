@@ -1,6 +1,5 @@
-package modelo;
+package modelo.evento.presentacion;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 
 /**

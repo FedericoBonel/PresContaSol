@@ -1,8 +1,8 @@
-package modelo;
+package modelo.municipio;
 
-import java.util.Comparator;
+import modelo.evento.presentacion.ColeccionPresentaciones;
+
 import java.util.LinkedList;
-import java.util.Locale;
 
 /**
  * Estructura de datos que contiene a todos los municipios del sistema

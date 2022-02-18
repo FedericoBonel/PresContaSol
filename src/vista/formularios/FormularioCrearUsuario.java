@@ -1,8 +1,7 @@
 package vista.formularios;
 
-import controlador.UsuariosControlador;
-import modelo.RolUsuario;
-import modelo.Usuario;
+import controlador.controladorObjetos.UsuariosControlador;
+import modelo.usuario.RolUsuario;
 import vista.Estilo;
 import vista.StringsFinales;
 

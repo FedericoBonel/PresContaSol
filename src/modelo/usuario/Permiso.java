@@ -1,4 +1,4 @@
-package modelo;
+package modelo.usuario;
 
 /**
  * Clase que abstrae a los permisos de los usuarios

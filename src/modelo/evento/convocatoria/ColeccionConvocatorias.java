@@ -1,4 +1,6 @@
-package modelo;
+package modelo.evento.convocatoria;
+
+import modelo.evento.presentacion.ColeccionPresentaciones;
 
 import java.util.*;
 

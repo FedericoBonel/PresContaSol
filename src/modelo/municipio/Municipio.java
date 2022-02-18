@@ -1,4 +1,9 @@
-package modelo;
+package modelo.municipio;
+
+import modelo.evento.presentacion.ColeccionPresentaciones;
+import modelo.Entidad;
+import modelo.evento.presentacion.Presentacion;
+import modelo.usuario.Usuario;
 
 import java.util.LinkedList;
 

@@ -1,10 +1,10 @@
 package vista.menuPrincipal;
 
 import controlador.MenuPrincipalControlador;
-import modelo.ColeccionMunicipios;
-import modelo.ColeccionPresentaciones;
-import modelo.Municipio;
-import modelo.Presentacion;
+import modelo.municipio.ColeccionMunicipios;
+import modelo.evento.presentacion.ColeccionPresentaciones;
+import modelo.municipio.Municipio;
+import modelo.evento.presentacion.Presentacion;
 import vista.Estilo;
 import vista.StringsFinales;
 import vista.componentes.JTableNoEditable;
@@ -12,6 +12,7 @@ import vista.componentes.JTableNoEditable;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * Panel del menu principal que contiene la informacion general del sistema
@@ -36,7 +37,7 @@ public class InformacionPanel extends JPanel {
     /**
      * Controlador que maneja las interacciones realizadas por el usuario
      */
-    private MenuPrincipalControlador controlador;
+    private ActionListener controlador;
 
 
     /**
@@ -59,7 +60,7 @@ public class InformacionPanel extends JPanel {
         contenedorTotales.setBorder(BorderFactory.createEtchedBorder());
         // Boton de actualizar
         actualizarBoton = new JButton(StringsFinales.ACTUALIZAR);
-        actualizarBoton.setActionCommand(StringsFinales.ACTUALIZAR + StringsFinales.INFORMACION);
+        actualizarBoton.setActionCommand(StringsFinales.ACTUALIZAR);
         // Agrega todos los componentes al panel general
         super.add(BorderLayout.NORTH, actualizarBoton);
         super.add(BorderLayout.CENTER, new JScrollPane(tablaObjetos));
@@ -131,7 +132,7 @@ public class InformacionPanel extends JPanel {
      *
      * @param controlador Controlador a gestionar los eventos de interaccion de esta vista
      */
-    public void addControlador(MenuPrincipalControlador controlador) {
+    public void addControlador(ActionListener controlador) {
         this.controlador = controlador;
         actualizarBoton.addActionListener(controlador);
     }

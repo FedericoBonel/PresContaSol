@@ -1,6 +1,10 @@
-package controlador;
+package controlador.controladorObjetos;
 
-import modelo.*;
+import modelo.dataAccess.Singleton;
+import modelo.municipio.ColeccionMunicipios;
+import modelo.municipio.Municipio;
+import modelo.usuario.RolUsuario;
+import modelo.usuario.Usuario;
 import vista.StringsFinales;
 import vista.formularios.FormularioCrearMunicipio;
 import vista.formularios.FormularioModificarMunicipio;

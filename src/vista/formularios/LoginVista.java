@@ -1,7 +1,8 @@
-package vista;
+package vista.formularios;
 
 import controlador.MenuPrincipalControlador;
-import modelo.Usuario;
+import vista.Estilo;
+import vista.StringsFinales;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

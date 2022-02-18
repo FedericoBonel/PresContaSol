@@ -1,4 +1,9 @@
-package modelo;
+package modelo.evento.convocatoria;
+
+import modelo.evento.ColeccionDocumentos;
+import modelo.evento.presentacion.ColeccionPresentaciones;
+import modelo.evento.Evento;
+import modelo.evento.presentacion.Presentacion;
 
 import java.time.LocalDate;
 import java.util.Arrays;

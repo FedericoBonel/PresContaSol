@@ -1,8 +1,13 @@
-package modelo;
+package modelo.evento.presentacion;
+
+import modelo.evento.ColeccionDocumentos;
+import modelo.evento.Evento;
+import modelo.evento.convocatoria.Convocatoria;
+import modelo.municipio.Municipio;
+import modelo.usuario.Usuario;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
-import java.util.Locale;
 
 
 /**

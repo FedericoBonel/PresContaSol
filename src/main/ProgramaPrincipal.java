@@ -1,7 +1,7 @@
 package main;
 
 import controlador.*;
-import vista.LoginVista;
+import vista.formularios.LoginVista;
 import vista.menuPrincipal.MenuPrincipalVista;
 
 /**

@@ -1,4 +1,6 @@
-package modelo;
+package modelo.evento;
+
+import modelo.Entidad;
 
 import java.time.LocalDate;
 import java.util.LinkedList;

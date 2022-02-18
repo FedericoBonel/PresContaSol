@@ -1,4 +1,4 @@
-package modelo;
+package modelo.dataAccess;
 
 import java.io.FileInputStream;
 import java.sql.*;

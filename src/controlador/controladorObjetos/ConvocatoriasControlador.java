@@ -1,6 +1,10 @@
-package controlador;
+package controlador.controladorObjetos;
 
-import modelo.*;
+import modelo.dataAccess.Singleton;
+import modelo.evento.convocatoria.ColeccionConvocatorias;
+import modelo.evento.convocatoria.Convocatoria;
+import modelo.usuario.RolUsuario;
+import modelo.usuario.Usuario;
 import vista.StringsFinales;
 import vista.formularios.FormularioCrearConvocatoria;
 import vista.formularios.FormularioModificarConvocatoria;

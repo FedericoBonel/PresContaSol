@@ -1,4 +1,6 @@
-package modelo;
+package modelo.usuario;
+
+import modelo.usuario.Permiso;
 
 import java.util.LinkedList;
 

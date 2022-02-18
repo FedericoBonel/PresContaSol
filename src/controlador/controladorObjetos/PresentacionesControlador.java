@@ -1,6 +1,11 @@
-package controlador;
+package controlador.controladorObjetos;
 
-import modelo.*;
+import modelo.dataAccess.Singleton;
+import modelo.evento.convocatoria.Convocatoria;
+import modelo.evento.presentacion.ColeccionPresentaciones;
+import modelo.evento.presentacion.Presentacion;
+import modelo.usuario.RolUsuario;
+import modelo.usuario.Usuario;
 import vista.StringsFinales;
 import vista.formularios.FormularioCrearPresentacion;
 import vista.formularios.FormularioModificarPresentacion;

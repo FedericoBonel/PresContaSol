@@ -1,6 +1,9 @@
-package controlador;
+package controlador.controladorObjetos;
 
-import modelo.*;
+import modelo.dataAccess.Singleton;
+import modelo.usuario.ColeccionUsuarios;
+import modelo.usuario.RolUsuario;
+import modelo.usuario.Usuario;
 import vista.StringsFinales;
 import vista.formularios.FormularioCrearUsuario;
 import vista.formularios.FormularioModificarUsuario;

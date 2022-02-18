@@ -1,4 +1,4 @@
-package modelo;
+package modelo.evento;
 
 import java.util.HashSet;
 import java.util.LinkedList;
