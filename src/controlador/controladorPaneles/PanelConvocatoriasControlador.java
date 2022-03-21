@@ -40,7 +40,7 @@ public class PanelConvocatoriasControlador implements ActionListener {
         this.usuarioLogueado = usuarioLogueado;
         convocatoriasControlador = new ConvocatoriasControlador(usuarioLogueado);
         setPanelConvocatorias(panelConvocatorias);
-        configurarPanelMunicipios(usuarioLogueado);
+        configurarPanelConvocatorias(usuarioLogueado);
     }
 
     /**
@@ -58,7 +58,7 @@ public class PanelConvocatoriasControlador implements ActionListener {
      *
      * @param usuarioLogueado Usuario que utilizara el panel
      */
-    private void configurarPanelMunicipios(Usuario usuarioLogueado) {
+    private void configurarPanelConvocatorias(Usuario usuarioLogueado) {
         // Carga las convocatorias
         panelConvocatorias.mostrarConvocatorias(convocatoriasControlador.getConvocatoriasVisibles(),
                 PresentacionesControlador.leerPresentacionesBaseDeDatos());

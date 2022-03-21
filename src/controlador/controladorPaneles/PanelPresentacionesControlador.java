@@ -39,7 +39,7 @@ public class PanelPresentacionesControlador implements ActionListener {
         this.usuarioLogueado = usuarioLogueado;
         presentacionesControlador = new PresentacionesControlador(usuarioLogueado);
         setPanelPresentaciones(panelPresentaciones);
-        configurarPanelMunicipios(usuarioLogueado);
+        configurarPanelPresentaciones(usuarioLogueado);
     }
 
     /**
@@ -57,7 +57,7 @@ public class PanelPresentacionesControlador implements ActionListener {
      *
      * @param usuarioLogueado Usuario que utilizara el panel
      */
-    private void configurarPanelMunicipios(Usuario usuarioLogueado) {
+    private void configurarPanelPresentaciones(Usuario usuarioLogueado) {
         // Carga las presentaciones
         panelPresentaciones.mostrarPresentaciones(presentacionesControlador.getPresentacionesVisibles());
         // Si no tiene permiso para crear quita el boton
