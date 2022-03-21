@@ -74,34 +74,7 @@ public class MenuPrincipalVista {
      * pueda utilizar el sistema
      */
     public MenuPrincipalVista() {
-        // Setea los parametros basicos de la ventana
-        ventana = new JFrame(StringsFinales.NOMBRE_SOFTWARE);
-        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventana.getContentPane().setLayout(new BorderLayout());
-        ventana.setSize(Estilo.DIMENSIONES_MENU_PRINCIPAL[0], Estilo.DIMENSIONES_MENU_PRINCIPAL[1]);
-        ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        ventana.setLocationRelativeTo(null);
-
-        // Configura la barra de menu
-        JMenuBar barraMenu = crearBarraMenu();
-
-        // Configura las pestanias
-        tabs = new JTabbedPane();
-        panelInformacion = new InformacionPanel();
-        tabs.addTab(StringsFinales.INFORMACION, panelInformacion);
-        panelMunicipios = new MunicipiosPanel();
-        tabs.addTab(StringsFinales.MUNICIPIOS, panelMunicipios);
-        panelConvocatorias = new ConvocatoriasPanel();
-        tabs.addTab(StringsFinales.CONVOCATORIAS, panelConvocatorias);
-        panelPresentaciones = new PresentacionesPanel();
-        tabs.addTab(StringsFinales.PRESENTACIONES, panelPresentaciones);
-        panelUsuarios = new UsuariosPanel();
-        tabs.addTab(StringsFinales.USUARIOS, panelUsuarios);
-        tabs.setBorder(new EmptyBorder(Estilo.ESPACIADO_ESTANDAR));
-
-        ventana.setJMenuBar(barraMenu);
-        ventana.add(BorderLayout.CENTER, tabs);
-        ventana.setVisible(false);
+        inicializarVista();
     }
 
     /**
@@ -131,5 +104,46 @@ public class MenuPrincipalVista {
         this.controlador = menuPrincipalControlador;
         panelInformacion.addControlador(menuPrincipalControlador);
         salirBoton.addActionListener(menuPrincipalControlador);
+    }
+
+    /**
+     * Reinicia todos los componentes de la vista
+     */
+    public void reiniciarVista(){
+        inicializarVista();
+    }
+
+    /**
+     * Inicializa todos los componentes de la vista
+     */
+    private void inicializarVista() {
+        // Setea los parametros basicos de la ventana
+        ventana = new JFrame(StringsFinales.NOMBRE_SOFTWARE);
+        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventana.getContentPane().setLayout(new BorderLayout());
+        ventana.setSize(Estilo.DIMENSIONES_MENU_PRINCIPAL[0], Estilo.DIMENSIONES_MENU_PRINCIPAL[1]);
+        ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ventana.setLocationRelativeTo(null);
+
+        // Configura la barra de menu
+        JMenuBar barraMenu = crearBarraMenu();
+
+        // Configura las pestanias
+        tabs = new JTabbedPane();
+        panelInformacion = new InformacionPanel();
+        tabs.addTab(StringsFinales.INFORMACION, panelInformacion);
+        panelMunicipios = new MunicipiosPanel();
+        tabs.addTab(StringsFinales.MUNICIPIOS, panelMunicipios);
+        panelConvocatorias = new ConvocatoriasPanel();
+        tabs.addTab(StringsFinales.CONVOCATORIAS, panelConvocatorias);
+        panelPresentaciones = new PresentacionesPanel();
+        tabs.addTab(StringsFinales.PRESENTACIONES, panelPresentaciones);
+        panelUsuarios = new UsuariosPanel();
+        tabs.addTab(StringsFinales.USUARIOS, panelUsuarios);
+        tabs.setBorder(new EmptyBorder(Estilo.ESPACIADO_ESTANDAR));
+
+        ventana.setJMenuBar(barraMenu);
+        ventana.add(BorderLayout.CENTER, tabs);
+        ventana.setVisible(false);
     }
 }

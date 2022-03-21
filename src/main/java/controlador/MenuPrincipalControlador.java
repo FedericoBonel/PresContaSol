@@ -59,8 +59,6 @@ public class MenuPrincipalControlador implements ActionListener {
      * @param menuPrincipalVista Vista de menu principal que utilizara el usuario
      */
     public MenuPrincipalControlador(LoginVista loginVista, MenuPrincipalVista menuPrincipalVista) {
-        if (loginVista == null) loginVista = new LoginVista();
-        if (menuPrincipalVista == null) menuPrincipalVista = new MenuPrincipalVista();
         setLoginVista(loginVista);
         setMenuPrincipalVista(menuPrincipalVista);
     }
@@ -181,11 +179,11 @@ public class MenuPrincipalControlador implements ActionListener {
                 // Cierra el menu principal
                 menuPrincipalVista.ventana.dispose();
                 // Reinicialo para controlar los permisos del siguiente usuario
-                setMenuPrincipalVista(new MenuPrincipalVista());
+                menuPrincipalVista.reiniciarVista();
                 menuPrincipalVista.addControlador(this);
                 usuarioLogueado = null;
                 // Lanza una nueva vista de autenticacion
-                setLoginVista(new LoginVista());
+                loginVista.reiniciarVista();
                 loginVista.addControlador(this);
             }
 
