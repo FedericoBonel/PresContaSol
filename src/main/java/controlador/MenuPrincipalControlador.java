@@ -1,16 +1,17 @@
 package controlador;
 
-import controlador.controladorObjetos.UsuariosControlador;
-import controlador.controladorPaneles.*;
+import controlador.controladorPaneles.PanelControlador;
 import modelo.usuario.RolUsuario;
 import modelo.usuario.Usuario;
-import vista.formularios.LoginVista;
+import servicios.UsuariosServicio;
 import vista.StringsFinales;
-import vista.menuPrincipal.MenuPrincipalVista;
+import vista.errores.ErrorVistaGenerador;
+import vista.formularios.ventanasEmergentes.LoginVista;
+import vista.menuPrincipal.*;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 /**
  * Controlador del menu principal, funciona como un puente entre el usuario, la vista del menu principal
@@ -27,38 +28,54 @@ public class MenuPrincipalControlador implements ActionListener {
      */
     private MenuPrincipalVista menuPrincipalVista;
     /**
-     * Usuario autenticado que utilizara esta vista
+     * Usuario autenticado que utilizara este controlador
      */
     private Usuario usuarioLogueado;
     /**
+     * Servicio de usuarios
+     */
+    private final UsuariosServicio usuariosServicio;
+    /**
      * Controlador del panel de usuarios
      */
-    private PanelUsuariosControlador panelUsuariosControlador;
+    private final PanelControlador<UsuariosPanel> panelUsuariosControlador;
     /**
      * Controlador del panel de municipios
      */
-    private PanelMunicipiosControlador panelMunicipiosControlador;
+    private final PanelControlador<MunicipiosPanel> panelMunicipiosControlador;
     /**
      * Controlador del panel de presentaciones
      */
-    private PanelPresentacionesControlador panelPresentacionesControlador;
+    private final PanelControlador<PresentacionesPanel> panelPresentacionesControlador;
     /**
      * Controlador del panel de convocatorias
      */
-    private PanelConvocatoriasControlador panelConvocatoriasControlador;
+    private final PanelControlador<ConvocatoriasPanel> panelConvocatoriasControlador;
     /**
      * Controlador del panel de informacion
      */
-    private PanelInformacionControlador panelInformacionControlador;
-
+    private final PanelControlador<InformacionPanel> panelInformacionControlador;
 
     /**
      * Constructor del controlador del menu principal
-     *
      * @param loginVista         Vista de autenticacion desde el cual el usuario se autentica
      * @param menuPrincipalVista Vista de menu principal que utilizara el usuario
+     * @param usuariosServicio Servicio de usuarios
      */
-    public MenuPrincipalControlador(LoginVista loginVista, MenuPrincipalVista menuPrincipalVista) {
+    public MenuPrincipalControlador(LoginVista loginVista,
+                                    MenuPrincipalVista menuPrincipalVista,
+                                    UsuariosServicio usuariosServicio,
+                                    PanelControlador<UsuariosPanel> panelUsuariosControlador,
+                                    PanelControlador<MunicipiosPanel> panelMunicipiosControlador,
+                                    PanelControlador<PresentacionesPanel> panelPresentacionesControlador,
+                                    PanelControlador<ConvocatoriasPanel> panelConvocatoriasControlador,
+                                    PanelControlador<InformacionPanel> panelInformacionControlador) {
+        this.usuariosServicio = usuariosServicio;
+        this.panelUsuariosControlador = panelUsuariosControlador;
+        this.panelMunicipiosControlador = panelMunicipiosControlador;
+        this.panelPresentacionesControlador = panelPresentacionesControlador;
+        this.panelConvocatoriasControlador = panelConvocatoriasControlador;
+        this.panelInformacionControlador = panelInformacionControlador;
         setLoginVista(loginVista);
         setMenuPrincipalVista(menuPrincipalVista);
     }
@@ -90,11 +107,20 @@ public class MenuPrincipalControlador implements ActionListener {
         this.usuarioLogueado = usuarioLogueado;
         loginVista.ventana.dispose();
         // Inicializa los controladores a ser utilizados por el usuario
-        panelUsuariosControlador = new PanelUsuariosControlador(menuPrincipalVista.panelUsuarios, usuarioLogueado);
-        panelMunicipiosControlador = new PanelMunicipiosControlador(menuPrincipalVista.panelMunicipios, usuarioLogueado);
-        panelPresentacionesControlador = new PanelPresentacionesControlador(menuPrincipalVista.panelPresentaciones, usuarioLogueado);
-        panelConvocatoriasControlador = new PanelConvocatoriasControlador(menuPrincipalVista.panelConvocatorias, usuarioLogueado);
-        panelInformacionControlador = new PanelInformacionControlador(menuPrincipalVista.panelInformacion, usuarioLogueado);
+        panelUsuariosControlador.setPanel(menuPrincipalVista.panelUsuarios);
+        panelUsuariosControlador.setUsuarioLogueado(usuarioLogueado);
+
+        panelMunicipiosControlador.setPanel(menuPrincipalVista.panelMunicipios);
+        panelMunicipiosControlador.setUsuarioLogueado(usuarioLogueado);
+
+        panelPresentacionesControlador.setPanel(menuPrincipalVista.panelPresentaciones);
+        panelPresentacionesControlador.setUsuarioLogueado(usuarioLogueado);
+
+        panelConvocatoriasControlador.setPanel(menuPrincipalVista.panelConvocatorias);
+        panelConvocatoriasControlador.setUsuarioLogueado(usuarioLogueado);
+
+        panelInformacionControlador.setPanel(menuPrincipalVista.panelInformacion);
+        panelInformacionControlador.setUsuarioLogueado(usuarioLogueado);
         // Configura los paneles
         configurarPanelUsuarios(usuarioLogueado);
         configurarPanelMunicipios(usuarioLogueado);
@@ -154,6 +180,19 @@ public class MenuPrincipalControlador implements ActionListener {
     }
 
     /**
+     * Autentica al usuario en el sistema con su clave
+     *
+     * @param nombre Nombre de usuario a verificar
+     * @param clave  Clave del usuario a verificar
+     * @return true si el usuario es autenticado correctamente, false en caso contrario
+     */
+    private boolean autenticarUsuario(String nombre, String clave) throws SQLException {
+        Usuario usuarioAutenticar = usuariosServicio.leerPorID(nombre);
+        if (usuarioAutenticar == null) return false;
+        return (usuarioAutenticar.certificaClave(clave));
+    }
+
+    /**
      * Lee las interacciones del usuario sobre las vistas que este controlador gestiona
      *
      * @param evento Evento generado por una interaccion del usuario
@@ -166,12 +205,14 @@ public class MenuPrincipalControlador implements ActionListener {
             case (StringsFinales.INGRESAR) -> {
                 String nombreUsuario = loginVista.usuarioCampo.getText();
                 String clave = String.valueOf(loginVista.claveCampo.getPassword());
-                if (UsuariosControlador.autenticarUsuario(nombreUsuario, clave)) {
-                    inicializarMenuPrincipal(UsuariosControlador.leerUsuariosBaseDeDatos().getUsuario(nombreUsuario));
-                } else {
-                    // En caso de que no sea informacion valida muestra mensaje de error
-                    JOptionPane.showMessageDialog(new JFrame(), StringsFinales.ERROR_USUARIO_CLAVE, "", JOptionPane.ERROR_MESSAGE);
-                    System.out.println(StringsFinales.ERROR_USUARIO_CLAVE);
+                try {
+                    if (autenticarUsuario(nombreUsuario, clave)) {
+                        inicializarMenuPrincipal(usuariosServicio.leerPorID(nombreUsuario));
+                    } else {
+                        ErrorVistaGenerador.mostrarErrorAutenticacion();
+                    }
+                } catch (Exception e) {
+                    ErrorVistaGenerador.mostrarErrorDB(e);
                 }
             }
             // Si el usuario desea salir del sistema

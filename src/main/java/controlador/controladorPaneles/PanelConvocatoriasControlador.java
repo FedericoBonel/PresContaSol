@@ -1,30 +1,39 @@
 package controlador.controladorPaneles;
 
 import controlador.controladorObjetos.ConvocatoriasControlador;
-import controlador.controladorObjetos.PresentacionesControlador;
-import modelo.evento.convocatoria.Convocatoria;
+import modelo.evento.Convocatoria;
 import modelo.usuario.RolUsuario;
 import modelo.usuario.Usuario;
+import servicios.ConvocatoriasServicio;
+import servicios.PresentacionesServicio;
 import vista.StringsFinales;
+import vista.errores.ErrorVistaGenerador;
+import vista.formularios.ventanasEmergentes.FormularioOpcionesGenerador;
 import vista.menuPrincipal.ConvocatoriasPanel;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Controlador del panel convocatorias, funciona como un puente entre el usuario, la vista del panel de convocatorias
  * y el controlador de convocatorias
  */
-public class PanelConvocatoriasControlador implements ActionListener {
+public class PanelConvocatoriasControlador implements PanelControlador<ConvocatoriasPanel>{
     /**
      * Controlador de convocatorias a ser utilizado por el usuario
      */
-    private ConvocatoriasControlador convocatoriasControlador;
+    private final ConvocatoriasControlador convocatoriasControlador;
     /**
      * Vista de menu principal gestionada por este controlador
      */
     private ConvocatoriasPanel panelConvocatorias;
+    /**
+     * Servicio de convocatorias
+     */
+    private final ConvocatoriasServicio convocatoriasServicio;
+    /**
+     * Servicio de presentaciones
+     */
+    private final PresentacionesServicio presentacionesServicio;
     /**
      * Usuario autenticado que utilizara esta vista
      */
@@ -32,15 +41,27 @@ public class PanelConvocatoriasControlador implements ActionListener {
 
     /**
      * Constructor del controlador del panel de convocatorias
-     *
-     * @param panelConvocatorias Vista del panel de convocatorias que gestionara este controlador
-     * @param usuarioLogueado Usuario que utilizara el controlador
+     * @param convocatoriasControlador controlador de convocatorias
+     * @param convocatoriasServicio Servicio de convocatorias
+     * @param presentacionesServicio servicio de presentaciones
      */
-    public PanelConvocatoriasControlador(ConvocatoriasPanel panelConvocatorias, Usuario usuarioLogueado) {
+    public PanelConvocatoriasControlador(ConvocatoriasControlador convocatoriasControlador,
+                                         ConvocatoriasServicio convocatoriasServicio,
+                                         PresentacionesServicio presentacionesServicio) {
+        this.convocatoriasControlador = convocatoriasControlador;
+        this.convocatoriasServicio = convocatoriasServicio;
+        this.presentacionesServicio = presentacionesServicio;
+    }
+
+    /**
+     * Asigna el usuario que utilizara este panel
+     * @param usuarioLogueado Usuario a utilizar este panel
+     */
+    @Override
+    public void setUsuarioLogueado(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
-        convocatoriasControlador = new ConvocatoriasControlador(usuarioLogueado);
-        setPanelConvocatorias(panelConvocatorias);
-        configurarPanelConvocatorias(usuarioLogueado);
+        this.convocatoriasControlador.setUsuarioLogueado(usuarioLogueado);
+        configurarPanel(usuarioLogueado);
     }
 
     /**
@@ -48,7 +69,8 @@ public class PanelConvocatoriasControlador implements ActionListener {
      *
      * @param vista Vista del panel de convocatorias a asignar
      */
-    private void setPanelConvocatorias(ConvocatoriasPanel vista) {
+    @Override
+    public void setPanel(ConvocatoriasPanel vista) {
         this.panelConvocatorias = vista;
         vista.addControlador(this);
     }
@@ -58,19 +80,24 @@ public class PanelConvocatoriasControlador implements ActionListener {
      *
      * @param usuarioLogueado Usuario que utilizara el panel
      */
-    private void configurarPanelConvocatorias(Usuario usuarioLogueado) {
-        // Carga las convocatorias
-        panelConvocatorias.mostrarConvocatorias(convocatoriasControlador.getConvocatoriasVisibles(),
-                PresentacionesControlador.leerPresentacionesBaseDeDatos());
-        // Si no tiene permiso para crear quita el boton
-        if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[2], RolUsuario.ACCIONES[0]))
-            panelConvocatorias.crearBoton.setVisible(false);
-        // Si no tiene el permiso para modificar nada quita el boton
-        if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[2], RolUsuario.ACCIONES[1]))
-            panelConvocatorias.modificarBoton.setVisible(false);
-        // Si no tiene permiso para eliminar ninguna quita el boton eliminar
-        if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[2], RolUsuario.ACCIONES[7]))
-            panelConvocatorias.eliminarBoton.setVisible(false);
+    @Override
+    public void configurarPanel(Usuario usuarioLogueado) {
+        try {
+            // Carga las convocatorias
+            panelConvocatorias.mostrarConvocatorias(convocatoriasControlador.getConvocatoriasVisibles(),
+                    presentacionesServicio.leerTodo());
+            // Si no tiene permiso para crear quita el boton
+            if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[2], RolUsuario.ACCIONES[0]))
+                panelConvocatorias.crearBoton.setVisible(false);
+            // Si no tiene el permiso para modificar nada quita el boton
+            if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[2], RolUsuario.ACCIONES[1]))
+                panelConvocatorias.modificarBoton.setVisible(false);
+            // Si no tiene permiso para eliminar ninguna quita el boton eliminar
+            if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[2], RolUsuario.ACCIONES[7]))
+                panelConvocatorias.eliminarBoton.setVisible(false);
+        } catch (Exception e) {
+            ErrorVistaGenerador.mostrarErrorDB(e);
+        }
     }
 
     /**
@@ -89,17 +116,17 @@ public class PanelConvocatoriasControlador implements ActionListener {
                 int filaSeleccionada = panelConvocatorias.tablaObjetos.getSelectedRow();
                 if (filaSeleccionada >= 0) {
                     String identificador = String.valueOf(panelConvocatorias.tablaObjetos.getValueAt(filaSeleccionada, 0));
-                    int decision =
-                            JOptionPane.showConfirmDialog(new JFrame(),
-                                    StringsFinales.ESTA_SEGURO,
-                                    StringsFinales.ELIMINAR + " " + identificador,
-                                    JOptionPane.YES_NO_CANCEL_OPTION);
-                    if (decision == JOptionPane.YES_OPTION) {
-                        Convocatoria convocatoriaAEliminar = ConvocatoriasControlador.leerConvocatoriasBaseDeDatos().getConvocatoria(identificador);
-                        convocatoriasControlador.eliminarConvocatoria(convocatoriaAEliminar);
-                        // Actualiza los datos
-                        panelConvocatorias.mostrarConvocatorias(convocatoriasControlador.getConvocatoriasVisibles(),
-                                PresentacionesControlador.leerPresentacionesBaseDeDatos());
+                    boolean eliminar = FormularioOpcionesGenerador.mostrarOpcionSiNoEliminar(identificador);
+                    if (eliminar) {
+                        try {
+                            Convocatoria convocatoriaAEliminar = convocatoriasServicio.leerPorID(identificador);
+                            convocatoriasControlador.eliminarConvocatoria(convocatoriaAEliminar);
+                            // Actualiza los datos
+                            panelConvocatorias.mostrarConvocatorias(convocatoriasControlador.getConvocatoriasVisibles(),
+                                    presentacionesServicio.leerTodo());
+                        } catch (Exception e) {
+                            ErrorVistaGenerador.mostrarErrorDB(e);
+                        }
                     }
                 }
             }
@@ -107,14 +134,24 @@ public class PanelConvocatoriasControlador implements ActionListener {
             case (StringsFinales.MODIFICAR) -> {
                 int filaSeleccionada = panelConvocatorias.tablaObjetos.getSelectedRow();
                 if (filaSeleccionada >= 0) {
-                    String identificador = String.valueOf(panelConvocatorias.tablaObjetos.getValueAt(filaSeleccionada, 0));
-                    Convocatoria convocatoriaAModificar = ConvocatoriasControlador.leerConvocatoriasBaseDeDatos().getConvocatoria(identificador);
-                    convocatoriasControlador.mostrarFormularioModificar(convocatoriaAModificar);
+                    try {
+                        String identificador = String.valueOf(panelConvocatorias.tablaObjetos.getValueAt(filaSeleccionada, 0));
+                        Convocatoria convocatoriaAModificar = convocatoriasServicio.leerPorID(identificador);
+                        convocatoriasControlador.mostrarFormularioModificar(convocatoriaAModificar);
+                    } catch (Exception e) {
+                        ErrorVistaGenerador.mostrarErrorDB(e);
+                    }
                 }
             }
             // Si el usuario desea actualizar los datos de las convocatorias
-            case (StringsFinales.ACTUALIZAR) -> panelConvocatorias.mostrarConvocatorias(
-                    convocatoriasControlador.getConvocatoriasVisibles(), PresentacionesControlador.leerPresentacionesBaseDeDatos());
+            case (StringsFinales.ACTUALIZAR) -> {
+                try {
+                    panelConvocatorias.mostrarConvocatorias(
+                            convocatoriasControlador.getConvocatoriasVisibles(), presentacionesServicio.leerTodo());
+                } catch (Exception e) {
+                    ErrorVistaGenerador.mostrarErrorDB(e);
+                }
+            }
         }
     }
 }

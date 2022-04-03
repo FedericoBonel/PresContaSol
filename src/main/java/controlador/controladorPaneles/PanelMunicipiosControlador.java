@@ -4,22 +4,23 @@ import controlador.controladorObjetos.MunicipiosControlador;
 import modelo.municipio.Municipio;
 import modelo.usuario.RolUsuario;
 import modelo.usuario.Usuario;
+import servicios.MunicipiosServicio;
 import vista.StringsFinales;
+import vista.errores.ErrorVistaGenerador;
+import vista.formularios.ventanasEmergentes.FormularioOpcionesGenerador;
 import vista.menuPrincipal.MunicipiosPanel;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Controlador del panel municipios, funciona como un puente entre el usuario, la vista del panel de municipios
  * y el controlador de municipios
  */
-public class PanelMunicipiosControlador implements ActionListener {
+public class PanelMunicipiosControlador implements PanelControlador<MunicipiosPanel>{
     /**
      * Controlador de municipios a ser utilizado por el usuario
      */
-    private MunicipiosControlador municipiosControlador;
+    private final MunicipiosControlador municipiosControlador;
     /**
      * Vista de menu principal gestionada por este controlador
      */
@@ -28,18 +29,31 @@ public class PanelMunicipiosControlador implements ActionListener {
      * Usuario autenticado que utilizara esta vista
      */
     private Usuario usuarioLogueado;
+    /**
+     * Servicio de municipios
+     */
+    private final MunicipiosServicio municipiosServicio;
 
     /**
      * Constructor del controlador del panel de municipios
-     *
-     * @param panelMunicipios Vista del panel de municipios que gestionara este controlador
-     * @param usuarioLogueado Usuario que utilizara el controlador
+     * @param municipiosServicio Servicio de municipios
+     * @param municipiosControlador Controlador de municipios
      */
-    public PanelMunicipiosControlador(MunicipiosPanel panelMunicipios, Usuario usuarioLogueado) {
+    public PanelMunicipiosControlador(MunicipiosServicio municipiosServicio,
+                                      MunicipiosControlador municipiosControlador) {
+        this.municipiosServicio = municipiosServicio;
+        this.municipiosControlador = municipiosControlador;
+    }
+
+    /**
+     * Asigna el usuario que utilizara este controlador
+     * @param usuarioLogueado Usuario a utilizar este controlador
+     */
+    @Override
+    public void setUsuarioLogueado(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
-        municipiosControlador = new MunicipiosControlador(usuarioLogueado);
-        setPanelMunicipios(panelMunicipios);
-        configurarPanelMunicipios(usuarioLogueado);
+        this.municipiosControlador.setUsuarioLogueado(usuarioLogueado);
+        configurarPanel(usuarioLogueado);
     }
 
     /**
@@ -47,7 +61,8 @@ public class PanelMunicipiosControlador implements ActionListener {
      *
      * @param vista Vista del panel de municipios a asignar
      */
-    private void setPanelMunicipios(MunicipiosPanel vista) {
+    @Override
+    public void setPanel(MunicipiosPanel vista) {
         this.panelMunicipios = vista;
         vista.addControlador(this);
     }
@@ -57,7 +72,8 @@ public class PanelMunicipiosControlador implements ActionListener {
      *
      * @param usuarioLogueado Usuario que utilizara el panel
      */
-    private void configurarPanelMunicipios(Usuario usuarioLogueado) {
+    @Override
+    public void configurarPanel(Usuario usuarioLogueado) {
         // Carga los municipios
         panelMunicipios.mostrarMunicipios(municipiosControlador.getMunicipiosVisibles());
         // Si no tiene permiso para crear quita el boton
@@ -90,15 +106,16 @@ public class PanelMunicipiosControlador implements ActionListener {
                 if (filaSeleccionada >= 0) {
                     String identificador = String.valueOf(
                             panelMunicipios.tablaObjetos.getValueAt(filaSeleccionada, 0));
-                    int decision = JOptionPane.showConfirmDialog(new JFrame(),
-                            StringsFinales.ESTA_SEGURO,
-                            StringsFinales.ELIMINAR + " " + identificador,
-                            JOptionPane.YES_NO_CANCEL_OPTION);
-                    if (decision == JOptionPane.YES_OPTION) {
-                        Municipio municipioAEliminar = MunicipiosControlador.leerMunicipiosBaseDeDatos().getMunicipio(identificador);
-                        municipiosControlador.eliminarMunicipio(municipioAEliminar);
-                        // Actualiza los datos
-                        panelMunicipios.mostrarMunicipios(municipiosControlador.getMunicipiosVisibles());
+                    boolean eliminar = FormularioOpcionesGenerador.mostrarOpcionSiNoEliminar(identificador);
+                    if (eliminar) {
+                        try {
+                            Municipio municipioAEliminar = municipiosServicio.leerPorID(identificador);
+                            municipiosControlador.eliminarMunicipio(municipioAEliminar);
+                            // Actualiza los datos
+                            panelMunicipios.mostrarMunicipios(municipiosControlador.getMunicipiosVisibles());
+                        } catch (Exception e) {
+                            ErrorVistaGenerador.mostrarErrorDB(e);
+                        }
                     }
                 }
             }
@@ -106,9 +123,13 @@ public class PanelMunicipiosControlador implements ActionListener {
             case (StringsFinales.MODIFICAR) -> {
                 int filaSeleccionada = panelMunicipios.tablaObjetos.getSelectedRow();
                 if (filaSeleccionada >= 0) {
-                    String identificador = String.valueOf(panelMunicipios.tablaObjetos.getValueAt(filaSeleccionada, 0));
-                    Municipio municipioAModificar = MunicipiosControlador.leerMunicipiosBaseDeDatos().getMunicipio(identificador);
-                    municipiosControlador.mostrarFormularioModificar(municipioAModificar);
+                    try {
+                        String identificador = String.valueOf(panelMunicipios.tablaObjetos.getValueAt(filaSeleccionada, 0));
+                        Municipio municipioAModificar = municipiosServicio.leerPorID(identificador);
+                        municipiosControlador.mostrarFormularioModificar(municipioAModificar);
+                    } catch (Exception e) {
+                        ErrorVistaGenerador.mostrarErrorDB(e);
+                    }
                 }
             }
             // Si el usuario desea actualizar los datos de los municipios

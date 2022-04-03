@@ -1,18 +1,17 @@
 package controlador.controladorObjetos;
 
-import modelo.dataAccess.Singleton;
-import modelo.municipio.ColeccionMunicipios;
 import modelo.municipio.Municipio;
 import modelo.usuario.RolUsuario;
 import modelo.usuario.Usuario;
+import servicios.MunicipiosServicio;
+import servicios.UsuariosServicio;
 import vista.StringsFinales;
-import vista.formularios.FormularioCrearMunicipio;
-import vista.formularios.FormularioModificarMunicipio;
+import vista.errores.ErrorVistaGenerador;
+import vista.formularios.creacion.FormularioCrearMunicipio;
+import vista.formularios.modificacion.FormularioModificarMunicipio;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
 import java.util.LinkedList;
 
 /**
@@ -28,7 +27,7 @@ public class MunicipiosControlador implements ActionListener {
     /**
      * Usuario logueado que esta utilizando el sistema
      */
-    private final Usuario usuarioLogueado;
+    private Usuario usuarioLogueado;
 
     /**
      * Formulario de creacion de municipios que este controlador debe gestionar
@@ -38,13 +37,28 @@ public class MunicipiosControlador implements ActionListener {
      * Formulario de modificacion de municipios que este controlador debe gestionar
      */
     private FormularioModificarMunicipio formularioModificarMunicipio;
+    /**
+     * Servicio de municipios
+     */
+    private final MunicipiosServicio municipiosServicio;
+    /**
+     * Servicio de usuarios
+     */
+    private final UsuariosServicio usuariosServicio;
 
 
     /**
      * Costructor del controlador
-     * @param usuarioLogueado Usuario autenticado en el sistema que utilizara el controlador
+     * @param municipiosServicio Servicio de municipios
+     * @param usuariosServicio Servicio de usuarios
      */
-    public MunicipiosControlador(Usuario usuarioLogueado) {
+    public MunicipiosControlador(MunicipiosServicio municipiosServicio,
+                                 UsuariosServicio usuariosServicio) {
+        this.municipiosServicio = municipiosServicio;
+        this.usuariosServicio = usuariosServicio;
+    }
+
+    public void setUsuarioLogueado(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
     }
 
@@ -54,17 +68,22 @@ public class MunicipiosControlador implements ActionListener {
      * @return Un linked list con todos los municipios que deben ser visibles por el usuario logueado
      */
     public LinkedList<Municipio> getMunicipiosVisibles() {
-        ColeccionMunicipios municipios = leerMunicipiosBaseDeDatos();
-        // Consultar cualquier municipio
-        if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[9])) {
-            return municipios.getMunicipiosLinkedList();
-        // Consultar solo el municipio asignado
-        } else if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[14])) {
-            LinkedList<Municipio> municipiosVisibles = new LinkedList<>();
-            Municipio municipioRepresentado = usuarioLogueado.getMunicipioRepresentadoDe(municipios);
-            if (municipioRepresentado != null) municipiosVisibles.add(municipioRepresentado);
-            return municipiosVisibles;
-        } else {
+        try {
+            LinkedList<Municipio> municipios = municipiosServicio.leerTodo();
+            // Consultar cualquier municipio
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[9])) {
+                return municipios;
+                // Consultar solo el municipio asignado
+            } else if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[14])) {
+                LinkedList<Municipio> municipiosVisibles = new LinkedList<>();
+                Municipio municipioRepresentado = usuarioLogueado.getMunicipioRepresentadoDe(municipios);
+                if (municipioRepresentado != null) municipiosVisibles.add(municipioRepresentado);
+                return municipiosVisibles;
+            } else {
+                return new LinkedList<>();
+            }
+        } catch (Exception e) {
+            ErrorVistaGenerador.mostrarErrorDB(e);
             return new LinkedList<>();
         }
     }
@@ -77,17 +96,16 @@ public class MunicipiosControlador implements ActionListener {
      * @throws IllegalArgumentException Si alguno de los parametros es invalido o el municipio ya existe
      */
     public void crearMunicipio(String id, String nombre, int categoria) throws IllegalArgumentException {
-        // Crear municipios
-        if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[0])) {
-            Municipio nuevoMunicipio = new Municipio(id, nombre, categoria);
-            // Verifica si ya esta creado
-            leerMunicipiosBaseDeDatos().addMunicipio(nuevoMunicipio);
-            // Actualiza base de datos
-            agregarMunicipioABaseDeDatos(nuevoMunicipio);
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(),
-                    StringsFinales.ERROR_NO_PERMISOS, "", JOptionPane.ERROR_MESSAGE);
-            System.out.println(StringsFinales.ERROR_NO_PERMISOS);
+        try {
+            // Crear municipios
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[0])) {
+                Municipio nuevoMunicipio = new Municipio(id, nombre, categoria);
+                municipiosServicio.registrar(nuevoMunicipio);
+            } else {
+                ErrorVistaGenerador.mostrarErrorNoPermisos();
+            }
+        } catch (Exception e) {
+            ErrorVistaGenerador.mostrarErrorDB(e);
         }
     }
 
@@ -98,16 +116,15 @@ public class MunicipiosControlador implements ActionListener {
      * @throws IllegalArgumentException Si el municipio ya no existe en el sistema
      */
     public void eliminarMunicipio(Municipio municipio) {
-        // Eliminar cualquier municipio
-        if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[6])) {
-            // Verifica que todavia exista
-            leerMunicipiosBaseDeDatos().removeMunicipio(municipio, PresentacionesControlador.leerPresentacionesBaseDeDatos());
-            // Actualiza base de datos
-            eliminarMunicipioDeBaseDeDatos(municipio);
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(),
-                    StringsFinales.ERROR_NO_PERMISOS, "", JOptionPane.ERROR_MESSAGE);
-            System.out.println(StringsFinales.ERROR_NO_PERMISOS);
+        try {
+            // Eliminar cualquier municipio
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[6])) {
+                municipiosServicio.eliminar(municipio);
+            } else {
+                ErrorVistaGenerador.mostrarErrorNoPermisos();
+            }
+        } catch (Exception e) {
+            ErrorVistaGenerador.mostrarErrorDB(e);
         }
     }
 
@@ -119,21 +136,18 @@ public class MunicipiosControlador implements ActionListener {
      */
     public void asignarRepresentanteAMunicipio(Municipio municipio, Usuario representante) {
         // Modificar Representante de cualquier municipio y usuario a asignar tiene permiso para representar (i.e. Cuentadantes)
-        if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[2]) &&
-            representante.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[16])) {
-            // Toma el municipio antiguo del cuentadante y actualizalo
-            Municipio municipioAntiguo = municipio.tomaNuevoRepresentante(representante, leerMunicipiosBaseDeDatos());
-            // Actualiza base de datos
-            if (municipioAntiguo != null)
-                // Remueve el supervisor del municipio antiguo en caso de tenerlo
-                actualizarMunicipioEnBaseDeDatos(municipioAntiguo, DB_CAMPOS[4], "NULL");
-            actualizarMunicipioEnBaseDeDatos(municipio, DB_CAMPOS[4], representante.getId());
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(),
-                StringsFinales.ERROR_NO_PERMISOS + " o " + StringsFinales.ERROR_USUARIO_NO_REPRESENTANTE, "", JOptionPane.ERROR_MESSAGE);
-            System.out.print(StringsFinales.ERROR_NO_PERMISOS);
-            System.out.print(" o ");
-            System.out.println(StringsFinales.ERROR_USUARIO_NO_REPRESENTANTE);
+        try {
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[2]) &&
+                    representante.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[16])) {
+                // Toma el municipio antiguo del cuentadante y actualizalo
+                Municipio municipioAntiguo = municipio.tomaNuevoRepresentante(representante, municipiosServicio.leerTodo());
+                if (municipioAntiguo != null) municipiosServicio.actualizar(municipioAntiguo, DB_CAMPOS[4], "NULL");
+                municipiosServicio.actualizar(municipio, DB_CAMPOS[4], representante.getId());
+            } else {
+                ErrorVistaGenerador.mostrarErrorNoPermisos();
+            }
+        } catch (Exception e) {
+            ErrorVistaGenerador.mostrarErrorDB(e);
         }
     }
 
@@ -144,18 +158,18 @@ public class MunicipiosControlador implements ActionListener {
      * @param supervisor    Fiscal que se desee asignar
      */
     public void asignarSupervisorAMunicipio(Municipio municipio, Usuario supervisor) {
-        // Modificar Supervisor de cualquier municipio y usuario a asignar tiene permiso para supervisar (i.e. Fiscales)
-        if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[3]) &&
-                supervisor.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[15])) {
-            municipio.tomaNuevoSupervisorFiscal(supervisor);
-            // Actualiza base de datos
-            actualizarMunicipioEnBaseDeDatos(municipio, DB_CAMPOS[3], supervisor.getId());
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(),
-                    StringsFinales.ERROR_NO_PERMISOS + " o " + StringsFinales.ERROR_USUARIO_NO_SUPERVISOR, "", JOptionPane.ERROR_MESSAGE);
-            System.out.print(StringsFinales.ERROR_NO_PERMISOS);
-            System.out.print(" o ");
-            System.out.println(StringsFinales.ERROR_USUARIO_NO_SUPERVISOR);
+        try {
+            // Modificar Supervisor de cualquier municipio y usuario a asignar tiene permiso para supervisar (i.e. Fiscales)
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[3]) &&
+                    supervisor.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[15])) {
+                municipio.tomaNuevoSupervisorFiscal(supervisor);
+                // Actualiza base de datos
+                municipiosServicio.actualizar(municipio, DB_CAMPOS[3], supervisor.getId());
+            } else {
+                ErrorVistaGenerador.mostrarErrorNoPermisos();
+            }
+        } catch (Exception e) {
+            ErrorVistaGenerador.mostrarErrorDB(e);
         }
     }
 
@@ -166,15 +180,17 @@ public class MunicipiosControlador implements ActionListener {
      * @param categoria Nueva categoria a asignar
      */
     public void asignarCategoria(Municipio municipio, int categoria) {
-        // Modificar cualquier municipio
-        if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[1])) {
-            municipio.setCategoria(categoria);
-            // Actualiza base de datos
-            actualizarMunicipioEnBaseDeDatos(municipio, DB_CAMPOS[2], String.valueOf(categoria));
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(),
-                    StringsFinales.ERROR_NO_PERMISOS, "", JOptionPane.ERROR_MESSAGE);
-            System.out.println(StringsFinales.ERROR_NO_PERMISOS);
+        try {
+            // Modificar cualquier municipio
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[1])) {
+                municipio.setCategoria(categoria);
+                // Actualiza base de datos
+                municipiosServicio.actualizar(municipio, DB_CAMPOS[2], String.valueOf(categoria));
+            } else {
+                ErrorVistaGenerador.mostrarErrorNoPermisos();
+            }
+        } catch (Exception e) {
+            ErrorVistaGenerador.mostrarErrorDB(e);
         }
     }
 
@@ -184,15 +200,17 @@ public class MunicipiosControlador implements ActionListener {
      * @param municipio Municipio a actualizar
      */
     public void removeRepresentanteDeMunicipio(Municipio municipio) {
-        // Modificar representante de cualquier municipio
-        if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[2])) {
-            municipio.abandonaRepresentante();
-            // Actualiza base de datos
-            actualizarMunicipioEnBaseDeDatos(municipio, DB_CAMPOS[4], "NULL");
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(),
-                    StringsFinales.ERROR_NO_PERMISOS, "", JOptionPane.ERROR_MESSAGE);
-            System.out.println(StringsFinales.ERROR_NO_PERMISOS);
+        try {
+            // Modificar representante de cualquier municipio
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[2])) {
+                municipio.abandonaRepresentante();
+                // Actualiza base de datos
+                municipiosServicio.actualizar(municipio, DB_CAMPOS[4], "NULL");
+            } else {
+                ErrorVistaGenerador.mostrarErrorNoPermisos();
+            }
+        } catch (Exception e) {
+            ErrorVistaGenerador.mostrarErrorDB(e);
         }
     }
 
@@ -202,124 +220,19 @@ public class MunicipiosControlador implements ActionListener {
      * @param municipio Municipio a actualizar
      */
     public void removeSupervisorDeMunicipio(Municipio municipio) {
-        // Modificar supervisor de cualquier municipio
-        if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[3])) {
-            municipio.abandonaSupervisor();
-            // Actualiza base de datos
-            actualizarMunicipioEnBaseDeDatos(municipio, DB_CAMPOS[3], "NULL");
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(),
-                    StringsFinales.ERROR_NO_PERMISOS, "", JOptionPane.ERROR_MESSAGE);
-            System.out.println(StringsFinales.ERROR_NO_PERMISOS);
-        }
-    }
-
-    /**
-     * Lee los municipios desde la base de datos y los retorna como una coleccion
-     *
-     * @return Todos los municipios de la base de datos
-     */
-    public static ColeccionMunicipios leerMunicipiosBaseDeDatos() {
-        ColeccionMunicipios municipios = new ColeccionMunicipios();
         try {
-            Municipio municipioActual;
-            String fiscalId, cuentadanteId;
-            Connection baseDatos = Singleton.getConnection();
-            Statement stmt = baseDatos.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from municipio");
-            while (rs.next()) {
-                municipioActual = new Municipio(rs.getString(1),
-                        rs.getString(2),
-                        rs.getInt(3));
-                fiscalId = rs.getString(4);
-                cuentadanteId = rs.getString(5);
-                if (fiscalId != null)
-                    municipioActual.tomaNuevoSupervisorFiscal(UsuariosControlador.leerUsuariosBaseDeDatos().getUsuario(fiscalId));
-                if (cuentadanteId != null)
-                    municipioActual.tomaNuevoRepresentante(UsuariosControlador.leerUsuariosBaseDeDatos().getUsuario(cuentadanteId), municipios);
-                municipios.addMunicipio(municipioActual);
-            }
-        } catch (Exception e) {
-            // Si ocurrio algun error muestralo por pantalla
-            JOptionPane.showMessageDialog(new JFrame(),
-                    Singleton.ERROR_ACCESO_BASE_DATOS + e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
-            System.out.print(Singleton.ERROR_ACCESO_BASE_DATOS);
-            System.out.println(e.getMessage());
-        }
-        return municipios;
-    }
-
-    /**
-     * Agrega el municipio a la base de datos
-     *
-     * @param municipio Municipio a agregar
-     */
-    private void agregarMunicipioABaseDeDatos(Municipio municipio) {
-        try {
-            Connection baseDatos = Singleton.getConnection();
-            PreparedStatement stmt = baseDatos.prepareStatement("insert into municipio values (?, ?, ?, NULL, NULL)");
-            stmt.setString(1, municipio.getId());
-            stmt.setString(2, municipio.getNombre());
-            stmt.setInt(3, municipio.getCategoria());
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            // Si ocurrio algun error muestralo por pantalla
-            JOptionPane.showMessageDialog(new JFrame(),
-                    Singleton.ERROR_ACCESO_BASE_DATOS + e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
-            System.out.print(Singleton.ERROR_ACCESO_BASE_DATOS);
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Elimina el municipio de la base de datos
-     *
-     * @param municipio municipio a eliminar
-     */
-    private void eliminarMunicipioDeBaseDeDatos(Municipio municipio) {
-        try {
-            Connection baseDatos = Singleton.getConnection();
-            PreparedStatement stmt = baseDatos.prepareStatement("delete from municipio where " + DB_CAMPOS[0] + " = ?");
-            stmt.setString(1, municipio.getId());
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            // Si ocurrio algun error muestralo por pantalla
-            JOptionPane.showMessageDialog(new JFrame(),
-                    Singleton.ERROR_ACCESO_BASE_DATOS + e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
-            System.out.print(Singleton.ERROR_ACCESO_BASE_DATOS);
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Actualiza el municipio en la base de datos en el campo especificado
-     *
-     * @param municipio Municipio a actualizar
-     * @param campoBaseDatos Campo a actualizar
-     * @param nuevoValorString Valor a poner en el campo como string
-     */
-    private void actualizarMunicipioEnBaseDeDatos(Municipio municipio, String campoBaseDatos, String nuevoValorString) {
-        try {
-            Connection baseDatos = Singleton.getConnection();
-            PreparedStatement stmt;
-            if (nuevoValorString.equals("NULL")) {
-                stmt = baseDatos.prepareStatement("update municipio set " + campoBaseDatos + " = NULL where " + DB_CAMPOS[0] + " = ?");
-                stmt.setString(1, municipio.getId());
+            // Modificar supervisor de cualquier municipio
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[3])) {
+                municipio.abandonaSupervisor();
+                // Actualiza base de datos
+                municipiosServicio.actualizar(municipio, DB_CAMPOS[3], "NULL");
             } else {
-                stmt = baseDatos.prepareStatement("update municipio set " + campoBaseDatos + " = ? where " + DB_CAMPOS[0] + " = ?");
-                stmt.setString(1, nuevoValorString);
-                stmt.setString(2, municipio.getId());
+                ErrorVistaGenerador.mostrarErrorNoPermisos();
             }
-            stmt.executeUpdate();
         } catch (Exception e) {
-            // Si ocurrio algun error muestralo por pantalla
-            JOptionPane.showMessageDialog(new JFrame(),
-                    Singleton.ERROR_ACCESO_BASE_DATOS + e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
-            System.out.print(Singleton.ERROR_ACCESO_BASE_DATOS);
-            System.out.println(e.getMessage());
+            ErrorVistaGenerador.mostrarErrorDB(e);
         }
     }
-
 
     /**
      * Crea y muestra el formulario para pedir los datos de un nuevo municipio
@@ -334,21 +247,30 @@ public class MunicipiosControlador implements ActionListener {
      * @param municipioAModificar Municipio que se desea modificar en el formulario
      */
     public void mostrarFormularioModificar(Municipio municipioAModificar){
-        formularioModificarMunicipio =
-                new FormularioModificarMunicipio(this,
-                        municipioAModificar,
-                        UsuariosControlador.leerUsuariosBaseDeDatos().getRepresentantesLinkedList(),
-                        UsuariosControlador.leerUsuariosBaseDeDatos().getSupervisoresLinkedList());
-        // Si no puede modificar categoria deshabilita el boton
-        if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[1]))
-            formularioModificarMunicipio.categoriaCampo.setEnabled(false);
-        // Si no puede modificar representante deshabilita el boton
-        if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[2]))
-            formularioModificarMunicipio.representanteCampo.setEnabled(false);
-        // Si no puede modificar supervisor deshabilita el boton
-        if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[3]))
-            formularioModificarMunicipio.supervisorCampo.setEnabled(false);
-        formularioModificarMunicipio.ventana.setVisible(true);
+        try {
+            LinkedList<Usuario> representantes = new LinkedList<>();
+            LinkedList<Usuario> supervisores = new LinkedList<>();
+            usuariosServicio.leerTodo().forEach(usuario -> {
+                if (usuario.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[16]))
+                    representantes.add(usuario);
+                else if (usuario.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[15]))
+                    supervisores.add(usuario);
+            });
+            formularioModificarMunicipio =
+                    new FormularioModificarMunicipio(this, municipioAModificar, representantes, supervisores);
+            // Si no puede modificar categoria deshabilita el boton
+            if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[1]))
+                formularioModificarMunicipio.categoriaCampo.setEnabled(false);
+            // Si no puede modificar representante deshabilita el boton
+            if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[2]))
+                formularioModificarMunicipio.representanteCampo.setEnabled(false);
+            // Si no puede modificar supervisor deshabilita el boton
+            if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[3]))
+                formularioModificarMunicipio.supervisorCampo.setEnabled(false);
+            formularioModificarMunicipio.ventana.setVisible(true);
+        } catch (Exception e) {
+            ErrorVistaGenerador.mostrarErrorDB(e);
+        }
     }
 
 
@@ -372,11 +294,7 @@ public class MunicipiosControlador implements ActionListener {
                     // Cierra la ventana
                     formularioCrearMunicipio.ventana.dispose();
                 } catch (IllegalArgumentException e) {
-                    // Si ocurrio algun error muestralo por pantalla
-                    JOptionPane.showMessageDialog(new JFrame(),
-                            StringsFinales.ERROR_REALIZANDO_OPERACION + e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
-                    System.out.println(StringsFinales.ERROR_REALIZANDO_OPERACION);
-                    System.out.println(e.getMessage());
+                    ErrorVistaGenerador.mostrarErrorEnOperacion(e);
                 }
             }
 
@@ -390,11 +308,11 @@ public class MunicipiosControlador implements ActionListener {
                     String nuevoSupervisorId = String.valueOf(formularioModificarMunicipio.supervisorCampo.getSelectedItem());
                     Usuario nuevoSupervisor = null;
                     if (!nuevoSupervisorId.equals(StringsFinales.NINGUNO))
-                        nuevoSupervisor = UsuariosControlador.leerUsuariosBaseDeDatos().getUsuario(nuevoSupervisorId);
+                        nuevoSupervisor = usuariosServicio.leerPorID(nuevoSupervisorId);
                     String nuevoRepresentanteId = String.valueOf(formularioModificarMunicipio.representanteCampo.getSelectedItem());
                     Usuario nuevoRepresentante = null;
                     if (!nuevoRepresentanteId.equals(StringsFinales.NINGUNO))
-                        nuevoRepresentante = UsuariosControlador.leerUsuariosBaseDeDatos().getUsuario(nuevoRepresentanteId);
+                        nuevoRepresentante = usuariosServicio.leerPorID(nuevoRepresentanteId);
 
                     // Verifica si se desea modificar categoria
                     if (nuevaCategoria != municipioAModificar.getCategoria())
@@ -412,12 +330,8 @@ public class MunicipiosControlador implements ActionListener {
 
                     // Cierra la ventana
                     formularioModificarMunicipio.ventana.dispose();
-                } catch (IllegalArgumentException e) {
-                    // Si ocurrio algun error muestralo por pantalla
-                    JOptionPane.showMessageDialog(new JFrame(),
-                            StringsFinales.ERROR_REALIZANDO_OPERACION + e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
-                    System.out.println(StringsFinales.ERROR_REALIZANDO_OPERACION);
-                    System.out.println(e.getMessage());
+                } catch (Exception e) {
+                    ErrorVistaGenerador.mostrarErrorEnOperacion(e);
                 }
             }
         }

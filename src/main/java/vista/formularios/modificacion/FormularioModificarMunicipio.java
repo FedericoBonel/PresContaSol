@@ -1,4 +1,4 @@
-package vista.formularios;
+package vista.formularios.modificacion;
 
 import controlador.controladorObjetos.MunicipiosControlador;
 import modelo.municipio.Municipio;
@@ -18,7 +18,7 @@ public class FormularioModificarMunicipio {
     /**
      * Ventana del formulario
      */
-    public JFrame ventana;
+    public final JFrame ventana;
     /**
      * Opciones para la categoria
      */
@@ -34,11 +34,11 @@ public class FormularioModificarMunicipio {
     /**
      * Boton de modificar
      */
-    public JButton modificarBoton;
+    public final JButton modificarBoton;
     /**
      * Municipio a ser modificado en este formulario
      */
-    public Municipio municipioAModificar;
+    public final Municipio municipioAModificar;
 
     /**
      * Controlador que debe gestionar las interacciones de esta vista

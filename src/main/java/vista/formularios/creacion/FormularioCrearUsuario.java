@@ -1,4 +1,4 @@
-package vista.formularios;
+package vista.formularios.creacion;
 
 import controlador.controladorObjetos.UsuariosControlador;
 import modelo.usuario.RolUsuario;
@@ -16,7 +16,7 @@ public class FormularioCrearUsuario {
     /**
      * Ventana del formulario
      */
-    public JFrame ventana;
+    public final JFrame ventana;
     /**
      * Campo de texto de identificador
      */
@@ -36,7 +36,7 @@ public class FormularioCrearUsuario {
     /**
      * Boton de crear
      */
-    public JButton crearBoton;
+    public final JButton crearBoton;
 
     /**
      * Controlador que debe gestionar las interacciones de esta vista

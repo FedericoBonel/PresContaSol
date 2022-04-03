@@ -1,4 +1,4 @@
-package vista.formularios;
+package vista.formularios.creacion;
 
 import controlador.controladorObjetos.MunicipiosControlador;
 import modelo.municipio.Municipio;
@@ -16,7 +16,7 @@ public class FormularioCrearMunicipio {
     /**
      * Ventana del formulario
      */
-    public JFrame ventana;
+    public final JFrame ventana;
     /**
      * Campo de texto de identificador (Se usan los limites de usuario por cuestiones visuales)
      */
@@ -32,7 +32,7 @@ public class FormularioCrearMunicipio {
     /**
      * Boton de crear
      */
-    public JButton crearBoton;
+    public final JButton crearBoton;
 
     /**
      * Controlador que debe gestionar las interacciones de esta vista

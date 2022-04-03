@@ -60,18 +60,18 @@ public class Estilo {
     /**
      * Espaciado estandar utilizado en los componentes de cada panel (5,5,5,5)
      */
-    public static Insets ESPACIADO_ESTANDAR = new Insets(5,5,5,5);
+    public static final Insets ESPACIADO_ESTANDAR = new Insets(5,5,5,5);
     /**
      * Espaciado utilizado en vista login (20,20,20,20)
      */
-    public static Insets ESPACIADO_TODO_LOGIN = new Insets(20,20,20,20);
+    public static final Insets ESPACIADO_TODO_LOGIN = new Insets(20,20,20,20);
     /**
      * Espaciado utilizado en nombre y clave de vista login
      */
-    public static Insets ESPACIADO_NOMBRE_CLAVE_LOGIN = new Insets(5,0,5,0);
+    public static final Insets ESPACIADO_NOMBRE_CLAVE_LOGIN = new Insets(5,0,5,0);
     /**
      * Espaciado utilizado en barra de menu del menu principal
      */
-    public static Insets ESPACIADO_BARRA_MENU = new Insets(0,0,5,0);
+    public static final Insets ESPACIADO_BARRA_MENU = new Insets(0,0,5,0);
 
 }

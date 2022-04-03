@@ -1,8 +1,5 @@
-package modelo.evento.presentacion;
+package modelo.evento;
 
-import modelo.evento.ColeccionDocumentos;
-import modelo.evento.Evento;
-import modelo.evento.convocatoria.Convocatoria;
 import modelo.municipio.Municipio;
 import modelo.usuario.Usuario;
 

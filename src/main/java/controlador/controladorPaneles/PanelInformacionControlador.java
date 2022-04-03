@@ -1,60 +1,80 @@
 package controlador.controladorPaneles;
 
-import controlador.controladorObjetos.MunicipiosControlador;
-import controlador.controladorObjetos.PresentacionesControlador;
 import modelo.usuario.Usuario;
+import servicios.MunicipiosServicio;
+import servicios.PresentacionesServicio;
 import vista.StringsFinales;
+import vista.errores.ErrorVistaGenerador;
 import vista.menuPrincipal.InformacionPanel;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Controlador del panel informacion, funciona como un puente entre el usuario, la vista del panel de informacion
  * y el controlador de convocatorias
  */
-public class PanelInformacionControlador implements ActionListener {
+public class PanelInformacionControlador implements PanelControlador<InformacionPanel> {
     /**
      * Vista de menu principal gestionada por este controlador
      */
     private InformacionPanel informacionPanel;
     /**
-     * Usuario autenticado que utilizara esta vista
+     * Servicio de Municipios
+     */
+    private final MunicipiosServicio municipiosServicio;
+    /**
+     * Servicio de Presentaciones
+     */
+    private final PresentacionesServicio presentacionesServicio;
+    /**
+     * Usuario que utilizara el panel
      */
     private Usuario usuarioLogueado;
 
     /**
      * Constructor del controlador del panel de informacion
-     *
-     * @param informacionPanel Vista del panel de convocatorias que gestionara este controlador
-     * @param usuarioLogueado Usuario que utilizara el controlador
+     * @param municipiosServicio Servicio de municipios
+     * @param presentacionesServicio Servicio de presentaciones
      */
-    public PanelInformacionControlador(InformacionPanel informacionPanel, Usuario usuarioLogueado) {
-        this.usuarioLogueado = usuarioLogueado;
-        setPanelInformacion(informacionPanel);
-        configurarPanelInformacion(usuarioLogueado);
+    public PanelInformacionControlador(MunicipiosServicio municipiosServicio,
+                                       PresentacionesServicio presentacionesServicio) {
+        this.municipiosServicio = municipiosServicio;
+        this.presentacionesServicio = presentacionesServicio;
     }
+
+    /**
+     * Asigna el usuario a utilizar el panel
+     * @param usuarioLogueado Usuario a utilizar el panel
+     */
+    @Override
+    public void setUsuarioLogueado(Usuario usuarioLogueado){
+        this.usuarioLogueado = usuarioLogueado;
+    };
 
     /**
      * Asigna la vista del panel de informacion que este controlador debe manejar
      *
      * @param vista Vista del panel de convocatorias a asignar
      */
-    private void setPanelInformacion(InformacionPanel vista) {
+    @Override
+    public void setPanel(InformacionPanel vista) {
         this.informacionPanel = vista;
         vista.addControlador(this);
+        configurarPanel(usuarioLogueado);
     }
 
     /**
      * Configura el panel de informacion en la vista del menu principal asignada para el usuario logueado
      *
-     * @param usuarioLogueado Usuario que utilizara el panel
      */
-    private void configurarPanelInformacion(Usuario usuarioLogueado) {
-        // Todos pueden ver esto
-        informacionPanel
-                .mostrarInformacion(MunicipiosControlador.leerMunicipiosBaseDeDatos(),
-                        PresentacionesControlador.leerPresentacionesBaseDeDatos());
+    @Override
+    public void configurarPanel(Usuario usuarioLogueado) {
+        try {
+            // Todos pueden ver esto
+            informacionPanel.mostrarInformacion(municipiosServicio.leerTodo(), presentacionesServicio.leerTodo());
+        } catch (Exception e) {
+            ErrorVistaGenerador.mostrarErrorDB(e);
+        }
     }
 
     /**
@@ -65,11 +85,13 @@ public class PanelInformacionControlador implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent evento) {
         String accion = evento.getActionCommand();
-        switch (accion) {
-            case (StringsFinales.ACTUALIZAR) ->
-                    informacionPanel
-                            .mostrarInformacion(MunicipiosControlador.leerMunicipiosBaseDeDatos(),
-                                    PresentacionesControlador.leerPresentacionesBaseDeDatos());
+        if (StringsFinales.ACTUALIZAR.equals(accion)) {
+            try {
+                informacionPanel
+                        .mostrarInformacion(municipiosServicio.leerTodo(), presentacionesServicio.leerTodo());
+            } catch (Exception e) {
+                ErrorVistaGenerador.mostrarErrorDB(e);
+            }
         }
     }
 }

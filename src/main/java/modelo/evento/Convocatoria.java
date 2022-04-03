@@ -1,9 +1,4 @@
-package modelo.evento.convocatoria;
-
-import modelo.evento.ColeccionDocumentos;
-import modelo.evento.presentacion.ColeccionPresentaciones;
-import modelo.evento.Evento;
-import modelo.evento.presentacion.Presentacion;
+package modelo.evento;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -144,27 +139,12 @@ public class Convocatoria extends Evento {
      * @param presentaciones Coleccion de presentaciones del sistema
      * @return un LinkedList con todas las presentaciones realizadas para esta convocatoria
      */
-    public LinkedList<Presentacion> getSusPresentacionesDe(ColeccionPresentaciones presentaciones) {
+    public LinkedList<Presentacion> getSusPresentacionesDe(LinkedList<Presentacion> presentaciones) {
         LinkedList<Presentacion> presentacionesDeConvocatoria = new LinkedList<>();
-        for (Presentacion presentacion : presentaciones.getPresentacionesLinkedList()) {
+        for (Presentacion presentacion : presentaciones) {
             if (presentacion.isConvocatoria(this)) presentacionesDeConvocatoria.add(presentacion);
         }
         return presentacionesDeConvocatoria;
-    }
-
-    /**
-     * Remueve todas las presentaciones de la convocatoria de la coleccion pasada
-     *
-     * @param presentaciones Coleccion de todas las presentaciones del sistema
-     */
-    protected void eliminaSusPresentacionesDe(ColeccionPresentaciones presentaciones) {
-        // Toma las presentaciones realizadas para esta convocatoria
-        LinkedList<Presentacion> presentacionesPropias = getSusPresentacionesDe(presentaciones);
-        // Por cada presentacion de la convocatoria
-        for (Presentacion presentacionARemover : presentacionesPropias) {
-            // Remuevela de la coleccion
-            presentaciones.removePresentacion(presentacionARemover);
-        }
     }
 
     /**

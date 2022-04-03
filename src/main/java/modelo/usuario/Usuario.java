@@ -1,12 +1,9 @@
 package modelo.usuario;
 
-import modelo.*;
-import modelo.municipio.ColeccionMunicipios;
+import modelo.Entidad;
 import modelo.municipio.Municipio;
-import modelo.evento.presentacion.ColeccionPresentaciones;
-import modelo.evento.presentacion.Presentacion;
 
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Clase que abstrae a todos los usuarios del sistema
@@ -127,49 +124,17 @@ public class Usuario extends Entidad {
     }
 
     /**
-     * Remueve todas las presentaciones que el usuario haya creado de la coleccion de presentaciones especificada
-     *
-     * @param presentaciones Coleccion de todas las presentaciones del sistema
-     */
-    protected void eliminaSusPresentacionesDe(ColeccionPresentaciones presentaciones) {
-        // Toma las presentaciones realizadas por este usuario
-        LinkedList<Presentacion> presentacionesRealizadas = new LinkedList<>();
-        for (Presentacion presentacion : presentaciones.getPresentacionesLinkedList()) {
-            if (presentacion.isAutor(this)) presentacionesRealizadas.add(presentacion);
-        }
-        // Por cada presentacion realizada
-        for (Presentacion presentacionARemover : presentacionesRealizadas) {
-            // Remuevela de la coleccion
-            presentaciones.removePresentacion(presentacionARemover);
-        }
-    }
-
-    /**
      * Devuelve el municipio correspondiente a este usuario cuentadante
      *
      * @param municipios Coleccion de los municipios del sistema
      * @return municipio al cual representa este usuario, si no tiene ninguno devuelve null
      */
-    public Municipio getMunicipioRepresentadoDe(ColeccionMunicipios municipios) {
-        LinkedList<Municipio> municipiosLinkedList = municipios.getMunicipiosLinkedList();
-        for (Municipio municipio : municipiosLinkedList) {
+    public Municipio getMunicipioRepresentadoDe(List<Municipio> municipios) {
+        for (Municipio municipio : municipios) {
             if (municipio.isCuentadante(this))
                 return municipio;
         }
         return null;
-    }
-
-    /**
-     * Quita todas las relaciones a este usuario de todos los municipios
-     *
-     * @param municipios Coleccion de todos los municipios del sistema
-     */
-    protected void abandonaSusMunicipiosEn(ColeccionMunicipios municipios) {
-        // Busca todos los municipios que referencian a este usuario y remueve la referencia
-        for (Municipio municipio : municipios.getMunicipiosLinkedList()) {
-            if (municipio.isFiscal(this)) municipio.abandonaSupervisor();
-            else if (municipio.isCuentadante(this)) municipio.abandonaRepresentante();
-        }
     }
 
     /**

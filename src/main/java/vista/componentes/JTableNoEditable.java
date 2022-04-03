@@ -11,7 +11,7 @@ public class JTableNoEditable extends JTable {
     /**
      * Nombres de las columnas
      */
-    private String[] columnas;
+    private final String[] columnas;
 
     /**
      * Constructor SIN DATOS que realiza lo mismo que el del super

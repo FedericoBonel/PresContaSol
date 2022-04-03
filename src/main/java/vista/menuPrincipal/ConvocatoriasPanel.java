@@ -1,7 +1,7 @@
 package vista.menuPrincipal;
 
-import modelo.evento.presentacion.ColeccionPresentaciones;
-import modelo.evento.convocatoria.Convocatoria;
+import modelo.evento.Convocatoria;
+import modelo.evento.Presentacion;
 import vista.StringsFinales;
 import vista.componentes.JTableNoEditable;
 
@@ -17,23 +17,23 @@ public class ConvocatoriasPanel extends JPanel {
     /**
      * Boton crear
      */
-    public JButton crearBoton;
+    public final JButton crearBoton;
     /**
      * Boton Modificar
      */
-    public JButton modificarBoton;
+    public final JButton modificarBoton;
     /**
      * Boton Eliminar
      */
-    public JButton eliminarBoton;
+    public final JButton eliminarBoton;
     /**
      * Boton Actualizar
      */
-    public JButton actualizarBoton;
+    public final JButton actualizarBoton;
     /**
      * Tabla contenedora de todos los datos
      */
-    public JTableNoEditable tablaObjetos;
+    public final JTableNoEditable tablaObjetos;
     /**
      * Controlador que maneja las interacciones realizadas por el usuario
      */
@@ -75,7 +75,7 @@ public class ConvocatoriasPanel extends JPanel {
      * @param convocatorias Convocatorias a mostrar como linked list
      * @param presentaciones Coleccion de presentaciones del sistema
      */
-    public void mostrarConvocatorias(LinkedList<Convocatoria> convocatorias, ColeccionPresentaciones presentaciones){
+    public void mostrarConvocatorias(LinkedList<Convocatoria> convocatorias, LinkedList<Presentacion> presentaciones){
         String[][] tablaAMostrar = new String[convocatorias.size()][StringsFinales.COLUMNAS_CONVOCATORIAS.length];
         int i = 0;
         for (Convocatoria convocatoria : convocatorias) {

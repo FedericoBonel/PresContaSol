@@ -3,22 +3,23 @@ package controlador.controladorPaneles;
 import controlador.controladorObjetos.UsuariosControlador;
 import modelo.usuario.RolUsuario;
 import modelo.usuario.Usuario;
+import servicios.UsuariosServicio;
 import vista.StringsFinales;
+import vista.errores.ErrorVistaGenerador;
+import vista.formularios.ventanasEmergentes.FormularioOpcionesGenerador;
 import vista.menuPrincipal.UsuariosPanel;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Controlador del panel usuarios, funciona como un puente entre el usuario, la vista del panel de usuarios
  * y el controlador de usuarios
  */
-public class PanelUsuariosControlador implements ActionListener {
+public class PanelUsuariosControlador implements PanelControlador<UsuariosPanel> {
     /**
      * Controlador de usuarios a ser utilizado por el usuario
      */
-    private UsuariosControlador usuariosControlador;
+    private final UsuariosControlador usuariosControlador;
     /**
      * Vista de menu principal gestionada por este controlador
      */
@@ -27,18 +28,30 @@ public class PanelUsuariosControlador implements ActionListener {
      * Usuario autenticado que utilizara esta vista
      */
     private Usuario usuarioLogueado;
+    /**
+     * Servicio de usuarios
+     */
+    private final UsuariosServicio usuariosServicio;
 
     /**
      * Constructor del controlador del panel de usuarios
-     *
-     * @param panelUsuarios Vista del panel de usuarios que gestionara este controlador
-     * @param usuarioLogueado Usuario que utilizara el controlador
+     * @param usuariosControlador Controlador de usuarios
+     * @param usuariosServicio Servicio de usuarios
      */
-    public PanelUsuariosControlador(UsuariosPanel panelUsuarios, Usuario usuarioLogueado) {
+    public PanelUsuariosControlador(UsuariosControlador usuariosControlador, UsuariosServicio usuariosServicio) {
+        this.usuariosControlador = usuariosControlador;
+        this.usuariosServicio = usuariosServicio;
+    }
+
+    /**
+     * Asigna el usuario logueado que utilizara este panel
+     * @param usuarioLogueado Usuario que utilizara el panel
+     */
+    @Override
+    public void setUsuarioLogueado(Usuario usuarioLogueado){
         this.usuarioLogueado = usuarioLogueado;
-        usuariosControlador = new UsuariosControlador(usuarioLogueado);
-        setPanelUsuarios(panelUsuarios);
-        configurarPanelUsuarios(usuarioLogueado);
+        this.usuariosControlador.setUsuarioLogueado(usuarioLogueado);
+        configurarPanel(usuarioLogueado);
     }
 
     /**
@@ -46,7 +59,8 @@ public class PanelUsuariosControlador implements ActionListener {
      *
      * @param vista Vista del panel de usuarios a asignar
      */
-    private void setPanelUsuarios(UsuariosPanel vista) {
+    @Override
+    public void setPanel(UsuariosPanel vista) {
         this.panelUsuarios = vista;
         vista.addControlador(this);
     }
@@ -56,7 +70,8 @@ public class PanelUsuariosControlador implements ActionListener {
      *
      * @param usuarioLogueado Usuario que utilizara el panel
      */
-    private void configurarPanelUsuarios(Usuario usuarioLogueado) {
+    @Override
+    public void configurarPanel(Usuario usuarioLogueado) {
         // Carga los usuarios
         panelUsuarios.mostrarUsuarios(usuariosControlador.getUsuariosVisibles());
         // Si no tiene permiso para crear quita el boton
@@ -87,15 +102,16 @@ public class PanelUsuariosControlador implements ActionListener {
                 if (filaSeleccionada >= 0) {
                     String identificador = String.valueOf(
                             panelUsuarios.tablaObjetos.getValueAt(filaSeleccionada, 0));
-                    int decision = JOptionPane.showConfirmDialog(new JFrame(),
-                            StringsFinales.ESTA_SEGURO,
-                            StringsFinales.ELIMINAR + " " + identificador,
-                            JOptionPane.YES_NO_CANCEL_OPTION);
-                    if (decision == JOptionPane.YES_OPTION) {
-                        Usuario usuarioAEliminar = UsuariosControlador.leerUsuariosBaseDeDatos().getUsuario(identificador);
-                        usuariosControlador.eliminarUsuario(usuarioAEliminar);
-                        // Actualiza los datos
-                        panelUsuarios.mostrarUsuarios(usuariosControlador.getUsuariosVisibles());
+                    boolean eliminar = FormularioOpcionesGenerador.mostrarOpcionSiNoEliminar(identificador);
+                    if (eliminar) {
+                        try {
+                            Usuario usuarioAEliminar = usuariosServicio.leerPorID(identificador);
+                            usuariosControlador.eliminarUsuario(usuarioAEliminar);
+                            // Actualiza los datos
+                            panelUsuarios.mostrarUsuarios(usuariosControlador.getUsuariosVisibles());
+                        } catch (Exception e) {
+                            ErrorVistaGenerador.mostrarErrorDB(e);
+                        }
                     }
                 }
             }
@@ -105,8 +121,12 @@ public class PanelUsuariosControlador implements ActionListener {
                 if (filaSeleccionada >= 0) {
                     String identificador = String.valueOf(
                             panelUsuarios.tablaObjetos.getValueAt(filaSeleccionada, 0));
-                    Usuario usuarioAModificar = UsuariosControlador.leerUsuariosBaseDeDatos().getUsuario(identificador);
-                    usuariosControlador.mostrarFormularioModificar(usuarioAModificar);
+                    try {
+                        Usuario usuarioAModificar = usuariosServicio.leerPorID(identificador);
+                        usuariosControlador.mostrarFormularioModificar(usuarioAModificar);
+                    } catch (Exception e) {
+                        ErrorVistaGenerador.mostrarErrorDB(e);
+                    }
                 }
             }
             // Si el usuario desea actualizar los datos de los usuarios

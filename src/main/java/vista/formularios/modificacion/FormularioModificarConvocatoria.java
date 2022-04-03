@@ -1,7 +1,7 @@
-package vista.formularios;
+package vista.formularios.modificacion;
 
 import controlador.controladorObjetos.ConvocatoriasControlador;
-import modelo.evento.convocatoria.Convocatoria;
+import modelo.evento.Convocatoria;
 import vista.Estilo;
 import vista.StringsFinales;
 
@@ -17,7 +17,7 @@ public class FormularioModificarConvocatoria {
     /**
      * Ventana del formulario
      */
-    public JFrame ventana;
+    public final JFrame ventana;
     /**
      * Campo de texto de fecha de apertura (Se usan los limites de usuario por cuestiones visuales)
      */
@@ -37,7 +37,7 @@ public class FormularioModificarConvocatoria {
     /**
      * Boton de modificar
      */
-    public JButton modificarBoton;
+    public final JButton modificarBoton;
 
     /**
      * Controlador que debe gestionar las interacciones de esta vista
@@ -46,7 +46,7 @@ public class FormularioModificarConvocatoria {
     /**
      * Convocatoria a ser modificada
      */
-    public Convocatoria convocatoriaAModificar;
+    public final Convocatoria convocatoriaAModificar;
 
     /**
      * Constructor de un nuevo formulario de modificacion de convocatorias

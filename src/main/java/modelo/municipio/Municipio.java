@@ -1,11 +1,11 @@
 package modelo.municipio;
 
-import modelo.evento.presentacion.ColeccionPresentaciones;
 import modelo.Entidad;
-import modelo.evento.presentacion.Presentacion;
+import modelo.evento.Presentacion;
 import modelo.usuario.Usuario;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Clase que abstrae a un municipio del sistema
@@ -138,10 +138,10 @@ public class Municipio extends Entidad {
      * @param presentaciones Coleccion de presentaciones del sistema
      * @return Un LinkedList con todas las presentaciones realizadas por este municipio
      */
-    public LinkedList<Presentacion> getSusPresentacionesDe(ColeccionPresentaciones presentaciones) {
+    public LinkedList<Presentacion> getSusPresentacionesDe(LinkedList<Presentacion> presentaciones) {
         LinkedList<Presentacion> presentacionesRealizadas = new LinkedList<>();
         // Itera por todas las presentaciones agregando solo las que se realizaron para este municipio
-        for (Presentacion presentacion : presentaciones.getPresentacionesLinkedList()) {
+        for (Presentacion presentacion : presentaciones) {
             if (presentacion.isMunicipio(this)) presentacionesRealizadas.add(presentacion);
         }
         return presentacionesRealizadas;
@@ -152,13 +152,13 @@ public class Municipio extends Entidad {
      *
      * @param presentaciones Coleccion de todas las presentaciones del sistema
      */
-    protected void eliminaSusPresentacionesDe(ColeccionPresentaciones presentaciones) {
+    protected void eliminaSusPresentacionesDe(LinkedList<Presentacion> presentaciones) {
         // Toma las presentaciones realizadas para este municipio
         LinkedList<Presentacion> presentacionesPropias = getSusPresentacionesDe(presentaciones);
         // Por cada presentacion del municipio
         for (Presentacion presentacionARemover : presentacionesPropias) {
             // Remuevela de la coleccion
-            presentaciones.removePresentacion(presentacionARemover);
+            presentaciones.remove(presentacionARemover);
         }
     }
 
@@ -168,7 +168,7 @@ public class Municipio extends Entidad {
      * @param presentaciones Coleccion de todas las presentaciones del sistema
      * @return El total de todos los documentos presentados de este municipio en todas las presentaciones
      */
-    public int getTotalDocumentosPresentados(ColeccionPresentaciones presentaciones) {
+    public int getTotalDocumentosPresentados(LinkedList<Presentacion> presentaciones) {
         int totalDocumentosPresentados = 0;
         LinkedList<Presentacion> presentacionesRealizadas = getSusPresentacionesDe(presentaciones);
         for (Presentacion presentacion : presentacionesRealizadas)
@@ -200,10 +200,10 @@ public class Municipio extends Entidad {
      * Asigna un nuevo representante a este municipio
      *
      * @param municipios municipios del sistema
-     * @param cuentadante nuevo represenante a asignar
+     * @param cuentadante nuevo representante a asignar
      * @return Municipio antiguo del cuentadante si tenia alguno asignado, null en otro caso
      */
-    public Municipio tomaNuevoRepresentante(Usuario cuentadante, ColeccionMunicipios municipios) {
+    public Municipio tomaNuevoRepresentante(Usuario cuentadante, List<Municipio> municipios) {
         Municipio municipioAntiguo = cuentadante.getMunicipioRepresentadoDe(municipios);
         if (municipioAntiguo != null) municipioAntiguo.abandonaRepresentante();
         // Asigna el nuevo representante

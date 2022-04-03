@@ -1,7 +1,7 @@
-package vista.formularios;
+package vista.formularios.modificacion;
 
 import controlador.controladorObjetos.PresentacionesControlador;
-import modelo.evento.presentacion.Presentacion;
+import modelo.evento.Presentacion;
 import vista.Estilo;
 import vista.StringsFinales;
 import vista.componentes.ListaDinamicaCampoTexto;
@@ -18,7 +18,7 @@ public class FormularioModificarPresentacion {
     /**
      * Ventana del formulario
      */
-    public JFrame ventana;
+    public final JFrame ventana;
     /**
      * Opciones documentos requeridos
      */
@@ -34,11 +34,11 @@ public class FormularioModificarPresentacion {
     /**
      * Boton de modificar
      */
-    public JButton modificarBoton;
+    public final JButton modificarBoton;
     /**
      * Presentacion a modificar
      */
-    public Presentacion presentacionAModificar;
+    public final Presentacion presentacionAModificar;
 
     /**
      * Controlador que debe gestionar las interacciones de esta vista

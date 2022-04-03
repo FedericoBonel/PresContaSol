@@ -1,4 +1,4 @@
-package vista.formularios;
+package vista.formularios.modificacion;
 
 import controlador.controladorObjetos.UsuariosControlador;
 import modelo.usuario.Usuario;
@@ -16,7 +16,7 @@ public class FormularioModificarUsuario {
     /**
      * Ventana del formulario
      */
-    public JFrame ventana;
+    public final JFrame ventana;
     /**
      * Campo de texto de clave
      */
@@ -24,11 +24,11 @@ public class FormularioModificarUsuario {
     /**
      * Boton de modificar
      */
-    public JButton modificarBoton;
+    public final JButton modificarBoton;
     /**
      * Usuario a ser modificado en este formulario
      */
-    public Usuario usuarioAModificar;
+    public final Usuario usuarioAModificar;
 
     /**
      * Controlador que debe gestionar las interacciones de esta vista

@@ -1,7 +1,7 @@
-package vista.formularios;
+package vista.formularios.creacion;
 
 import controlador.controladorObjetos.ConvocatoriasControlador;
-import modelo.evento.convocatoria.Convocatoria;
+import modelo.evento.Convocatoria;
 import vista.Estilo;
 import vista.StringsFinales;
 
@@ -17,7 +17,7 @@ public class FormularioCrearConvocatoria {
     /**
      * Ventana del formulario
      */
-    public JFrame ventana;
+    public final JFrame ventana;
     /**
      * Campo de texto de identificador (Se usan los limites de usuario por cuestiones visuales)
      */
@@ -41,7 +41,7 @@ public class FormularioCrearConvocatoria {
     /**
      * Boton de crear
      */
-    public JButton crearBoton;
+    public final JButton crearBoton;
 
     /**
      * Controlador que debe gestionar las interacciones de esta vista

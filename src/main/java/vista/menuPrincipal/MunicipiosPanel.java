@@ -17,23 +17,23 @@ public class MunicipiosPanel extends JPanel {
     /**
      * Boton crear
      */
-    public JButton crearBoton;
+    public final JButton crearBoton;
     /**
      * Boton Modificar
      */
-    public JButton modificarBoton;
+    public final JButton modificarBoton;
     /**
      * Boton Eliminar
      */
-    public JButton eliminarBoton;
+    public final JButton eliminarBoton;
     /**
      * Boton Actualizar
      */
-    public JButton actualizarBoton;
+    public final JButton actualizarBoton;
     /**
      * Tabla contenedora de todos los datos
      */
-    public JTableNoEditable tablaObjetos;
+    public final JTableNoEditable tablaObjetos;
     /**
      * Controlador que maneja las interacciones realizadas por el usuario
      */

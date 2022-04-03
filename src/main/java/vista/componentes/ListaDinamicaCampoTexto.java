@@ -19,19 +19,19 @@ public class ListaDinamicaCampoTexto extends JPanel {
     /**
      * Contenedor items ya agregados
      */
-    public JList<String> itemsAgregados;
+    public final JList<String> itemsAgregados;
     /**
      * Contenedor de los datos de los items ya agregados
      */
-    public DefaultListModel<String> datosAgregados;
+    public final DefaultListModel<String> datosAgregados;
     /**
      * Boton agregar
      */
-    public JButton botonAgregar;
+    public final JButton botonAgregar;
     /**
      * Boton remover
      */
-    public JButton botonRemover;
+    public final JButton botonRemover;
 
 
     /**

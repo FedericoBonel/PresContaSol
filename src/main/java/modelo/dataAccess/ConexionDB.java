@@ -1,13 +1,14 @@
 package modelo.dataAccess;
 
 import java.io.FileInputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Properties;
 
 /**
  * Singleton utilizado para conectarse a la base de datos del programa
  */
-public class Singleton {
+public class ConexionDB {
 
     /**
      * String constante que posee el error a mostrar cuando hubo fallo en acceso a base de datos
@@ -42,7 +43,7 @@ public class Singleton {
     /**
      * Constructor privado del singleton, se llama automaticamente al llamar al metodo publico getConnection()
      */
-    private Singleton() {
+    private ConexionDB() {
         try {
             Properties prop = new Properties();
             FileInputStream ip = new FileInputStream("config.properties");
@@ -67,7 +68,7 @@ public class Singleton {
      */
     public static Connection getConnection() {
         if (conn == null) {
-            new Singleton();
+            new ConexionDB();
         }
         return conn;
     }

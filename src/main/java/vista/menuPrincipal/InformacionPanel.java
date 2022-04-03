@@ -1,10 +1,7 @@
 package vista.menuPrincipal;
 
-import controlador.MenuPrincipalControlador;
-import modelo.municipio.ColeccionMunicipios;
-import modelo.evento.presentacion.ColeccionPresentaciones;
+import modelo.evento.Presentacion;
 import modelo.municipio.Municipio;
-import modelo.evento.presentacion.Presentacion;
 import vista.Estilo;
 import vista.StringsFinales;
 import vista.componentes.JTableNoEditable;
@@ -13,6 +10,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
 /**
  * Panel del menu principal que contiene la informacion general del sistema
@@ -21,11 +19,11 @@ public class InformacionPanel extends JPanel {
     /**
      * Boton Actualizar
      */
-    public JButton actualizarBoton;
+    public final JButton actualizarBoton;
     /**
      * Tabla contenedora de todos los datos de los municipios a mostrar
      */
-    public JTableNoEditable tablaObjetos;
+    public final JTableNoEditable tablaObjetos;
     /**
      * Etiqueta contenedora del total de presentaciones realizadas a convocatorias abiertas
      */
@@ -73,12 +71,12 @@ public class InformacionPanel extends JPanel {
      * @param municipios Municipios con la informacion a mostrar
      * @param presentaciones Presentaciones con la informacion a mostrar
      */
-    public void mostrarInformacion(ColeccionMunicipios municipios, ColeccionPresentaciones presentaciones) {
+    public void mostrarInformacion(LinkedList<Municipio> municipios, LinkedList<Presentacion> presentaciones) {
         // Informacion de municipios
         String[][] tablaAMostrar =
-                new String[municipios.getMunicipiosLinkedList().size()][StringsFinales.COLUMNAS_MUNICIPIO_INFORMACION.length];
+                new String[municipios.size()][StringsFinales.COLUMNAS_MUNICIPIO_INFORMACION.length];
         int i = 0;
-        for (Municipio municipio : municipios.getMunicipiosLinkedList()) {
+        for (Municipio municipio : municipios) {
             tablaAMostrar[i][0] = municipio.getId();
             tablaAMostrar[i][1] = municipio.getNombre();
             tablaAMostrar[i][2] = String.valueOf(municipio.getSusPresentacionesDe(presentaciones).size());
@@ -89,7 +87,7 @@ public class InformacionPanel extends JPanel {
         // Informacion de presentaciones
         int totalPresentacionesAbiertas = 0;
         int totalPresentacionesCerradas = 0;
-        for (Presentacion presentacion : presentaciones.getPresentacionesLinkedList()) {
+        for (Presentacion presentacion : presentaciones) {
             if (presentacion.getConvocatoria().isAbierto()) totalPresentacionesAbiertas += 1;
             else totalPresentacionesCerradas += 1;
         }

@@ -1,7 +1,7 @@
-package vista.formularios;
+package vista.formularios.creacion;
 
 import controlador.controladorObjetos.PresentacionesControlador;
-import modelo.evento.convocatoria.Convocatoria;
+import modelo.evento.Convocatoria;
 import vista.Estilo;
 import vista.StringsFinales;
 
@@ -18,7 +18,7 @@ public class FormularioCrearPresentacion {
     /**
      * Ventana del formulario
      */
-    public JFrame ventana;
+    public final JFrame ventana;
     /**
      * Campo de texto de identificador (Se usan los limites de usuario por cuestiones visuales)
      */
@@ -30,7 +30,7 @@ public class FormularioCrearPresentacion {
     /**
      * Datos de las opciones de documentos requeridos
      */
-    private DefaultListModel<String> documentosRequeridosDatos;
+    private final DefaultListModel<String> documentosRequeridosDatos;
     /**
      * Campo que muestra las opciones de los documentos requeridos
      */
@@ -38,12 +38,12 @@ public class FormularioCrearPresentacion {
     /**
      * Boton de crear
      */
-    public JButton crearBoton;
+    public final JButton crearBoton;
 
     /**
      * Controlador que debe gestionar las interacciones de esta vista
      */
-    private PresentacionesControlador controlador;
+    private final PresentacionesControlador controlador;
 
     /**
      * Constructor de un nuevo formulario de creacion de convocatorias

@@ -1,20 +1,16 @@
 package controlador.controladorObjetos;
 
-import modelo.dataAccess.Singleton;
-import modelo.usuario.ColeccionUsuarios;
 import modelo.usuario.RolUsuario;
 import modelo.usuario.Usuario;
+import servicios.UsuariosServicio;
 import vista.StringsFinales;
-import vista.formularios.FormularioCrearUsuario;
-import vista.formularios.FormularioModificarUsuario;
+import vista.errores.ErrorVistaGenerador;
+import vista.formularios.creacion.FormularioCrearUsuario;
+import vista.formularios.modificacion.FormularioModificarUsuario;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.LinkedList;
 
 /**
@@ -30,7 +26,7 @@ public class UsuariosControlador implements ActionListener {
     /**
      * Usuario logueado que esta utilizando el sistema
      */
-    private final Usuario usuarioLogueado;
+    private Usuario usuarioLogueado;
 
     /**
      * Formulario de creacion de usuarios que este controlador debe gestionar
@@ -40,59 +36,22 @@ public class UsuariosControlador implements ActionListener {
      * Formulario de modificacion de usuarios que este controlador debe gestionar
      */
     private FormularioModificarUsuario formularioModificarUsuario;
+    /**
+     * Servicio de usuarios
+     */
+    private final UsuariosServicio usuariosServicio;
 
     /**
      * Costructor del controlador
      *
-     * @param usuarioLogueado Usuario autenticado en el sistema que utilizara el controlador
+     * @param usuariosServicio Servicio de usuarios
      */
-    public UsuariosControlador(Usuario usuarioLogueado) {
+    public UsuariosControlador(UsuariosServicio usuariosServicio) {
+        this.usuariosServicio = usuariosServicio;
+    }
+
+    public void setUsuarioLogueado(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
-    }
-
-    /**
-     * Autentica al usuario en el sistema con su clave
-     *
-     * @param nombre Nombre de usuario a verificar
-     * @param clave  Clave del usuario a verificar
-     * @return true si el usuario es autenticado correctamente, false en caso contrario
-     */
-    public static boolean autenticarUsuario(String nombre, String clave) {
-        try {
-            return (leerUsuariosBaseDeDatos().getUsuario(nombre).certificaClave(clave));
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-    }
-
-    /**
-     * Lee todos los usuarios de la base de datos y los devuelve
-     *
-     * @return Todos los usuarios de la base de datos
-     */
-    public static ColeccionUsuarios leerUsuariosBaseDeDatos() {
-        ColeccionUsuarios resultado = new ColeccionUsuarios();
-        try {
-            Usuario usuarioActual;
-            Connection baseDatos = Singleton.getConnection();
-            Statement stmt = baseDatos.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from usuario");
-            while (rs.next()) {
-                usuarioActual = new Usuario(
-                        rs.getString(2),
-                        rs.getString(1),
-                        rs.getString(3),
-                        new RolUsuario(rs.getString(4)));
-                resultado.addUsuario(usuarioActual);
-            }
-        } catch (Exception e) {
-            // Si ocurrio algun error muestralo por pantalla
-            JOptionPane.showMessageDialog(new JFrame(),
-                    Singleton.ERROR_ACCESO_BASE_DATOS + e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
-            System.out.print(Singleton.ERROR_ACCESO_BASE_DATOS);
-            System.out.println(e.getMessage());
-        }
-        return resultado;
     }
 
     /**
@@ -101,12 +60,17 @@ public class UsuariosControlador implements ActionListener {
      * @return Un linked list con todos los usuarios que deben ser visibles por el usuario logueado
      */
     public LinkedList<Usuario> getUsuariosVisibles() {
-        ColeccionUsuarios usuarios = leerUsuariosBaseDeDatos();
-        // Rol Administrador
-        if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[0], RolUsuario.ACCIONES[9])) {
-            return usuarios.getUsuariosLinkedList();
-            // Resto de roles
-        } else {
+        try {
+            LinkedList<Usuario> usuarios = usuariosServicio.leerTodo();
+            // Rol Administrador
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[0], RolUsuario.ACCIONES[9])) {
+                return usuarios;
+                // Resto de roles
+            } else {
+                return new LinkedList<>();
+            }
+        } catch (SQLException e) {
+            ErrorVistaGenerador.mostrarErrorDB(e);
             return new LinkedList<>();
         }
     }
@@ -121,16 +85,15 @@ public class UsuariosControlador implements ActionListener {
      * @throws IllegalArgumentException Si alguno de los parametros es erroneo o si el usuario esta registrado
      */
     public void crearUsuario(String nombre, String username, String clave, RolUsuario rolUsuario) throws IllegalArgumentException {
-        if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[0], RolUsuario.ACCIONES[0])) {
-            Usuario usuario = new Usuario(nombre, username.replaceAll("\\s+", ""), clave, rolUsuario);
-            // Verifica si ya esta creado
-            leerUsuariosBaseDeDatos().addUsuario(usuario);
-            // Guardar en base de datos
-            agregarUsuarioABaseDeDatos(usuario);
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(),
-                    StringsFinales.ERROR_NO_PERMISOS, "", JOptionPane.ERROR_MESSAGE);
-            System.out.println(StringsFinales.ERROR_NO_PERMISOS);
+        try {
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[0], RolUsuario.ACCIONES[0])) {
+                Usuario usuario = new Usuario(nombre, username.replaceAll("\\s+", ""), clave, rolUsuario);
+                usuariosServicio.registrar(usuario);
+            } else {
+                ErrorVistaGenerador.mostrarErrorNoPermisos();
+            }
+        } catch (SQLException e) {
+            ErrorVistaGenerador.mostrarErrorDB(e);
         }
     }
 
@@ -141,17 +104,15 @@ public class UsuariosControlador implements ActionListener {
      * @throws IllegalArgumentException Si el usuario ya no existe en el sistema
      */
     public void eliminarUsuario(Usuario usuario) {
-        if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[0], RolUsuario.ACCIONES[6]) &&
-                !usuarioLogueado.getId().equals(usuario.getId())) {
-            // Verifica si todavia existe en el sistema
-            leerUsuariosBaseDeDatos().removeUsuario(usuario, PresentacionesControlador.leerPresentacionesBaseDeDatos(),
-                    MunicipiosControlador.leerMunicipiosBaseDeDatos());
-            // Eliminalo de la base de datos
-            eliminarUsuarioDeBaseDeDatos(usuario);
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(),
-                    StringsFinales.ERROR_NO_PERMISOS, "", JOptionPane.ERROR_MESSAGE);
-            System.out.println(StringsFinales.ERROR_NO_PERMISOS);
+        try {
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[0], RolUsuario.ACCIONES[6]) &&
+                    !usuarioLogueado.getId().equals(usuario.getId())) {
+                usuariosServicio.eliminar(usuario);
+            } else {
+                ErrorVistaGenerador.mostrarErrorNoPermisos();
+            }
+        } catch (Exception e) {
+            ErrorVistaGenerador.mostrarErrorDB(e);
         }
     }
 
@@ -163,81 +124,16 @@ public class UsuariosControlador implements ActionListener {
      * @throws IllegalArgumentException Si la clave es invalida
      */
     public void actualizarClaveDe(Usuario usuario, String clave) throws IllegalArgumentException {
-        if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[0], RolUsuario.ACCIONES[1])) {
-            usuario.setClave(clave);
-            // Actualizalo en la base de datos
-            actualizarUsuarioEnBaseDeDatos(usuario, DB_CAMPOS[2], clave);
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(),
-                    StringsFinales.ERROR_NO_PERMISOS, "", JOptionPane.ERROR_MESSAGE);
-            System.out.println(StringsFinales.ERROR_NO_PERMISOS);
-        }
-    }
-
-    /**
-     * Agrega el usuario a la base de datos
-     *
-     * @param usuario Usuario a agregar
-     */
-    private void agregarUsuarioABaseDeDatos(Usuario usuario) {
         try {
-            Connection baseDatos = Singleton.getConnection();
-            PreparedStatement stmt = baseDatos.prepareStatement("insert into usuario values (?, ?, ?, ?)");
-            stmt.setString(1, usuario.getId());
-            stmt.setString(2, usuario.getNombre());
-            stmt.setString(3, usuario.getClave());
-            stmt.setString(4, usuario.rolUsuario.getNombreRol());
-            stmt.executeUpdate();
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[0], RolUsuario.ACCIONES[1])) {
+                usuario.setClave(clave);
+                // Actualizalo en la base de datos
+                usuariosServicio.actualizar(usuario, DB_CAMPOS[2], clave);
+            } else {
+                ErrorVistaGenerador.mostrarErrorNoPermisos();
+            }
         } catch (Exception e) {
-            // Si ocurrio algun error muestralo por pantalla
-            JOptionPane.showMessageDialog(new JFrame(),
-                    Singleton.ERROR_ACCESO_BASE_DATOS + e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
-            System.out.print(Singleton.ERROR_ACCESO_BASE_DATOS);
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Elimina el usuario de la base de datos
-     *
-     * @param usuario Usuario a eliminar
-     */
-    private void eliminarUsuarioDeBaseDeDatos(Usuario usuario) {
-        try {
-            Connection baseDatos = Singleton.getConnection();
-            PreparedStatement stmt = baseDatos.prepareStatement("delete from usuario where " + DB_CAMPOS[0] + " = ?");
-            stmt.setString(1, usuario.getId());
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            // Si ocurrio algun error muestralo por pantalla
-            JOptionPane.showMessageDialog(new JFrame(),
-                    Singleton.ERROR_ACCESO_BASE_DATOS + e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
-            System.out.print(Singleton.ERROR_ACCESO_BASE_DATOS);
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Actualiza el usuario en la base de datos en el campo especificado
-     *
-     * @param usuario          Usuario a actualizar
-     * @param campoBaseDatos   Campo a actualizar
-     * @param nuevoValorString Valor a poner en el campo como string
-     */
-    private void actualizarUsuarioEnBaseDeDatos(Usuario usuario, String campoBaseDatos, String nuevoValorString) {
-        try {
-            Connection baseDatos = Singleton.getConnection();
-            PreparedStatement stmt =
-                    baseDatos.prepareStatement("update usuario set " + campoBaseDatos + " = ? where " + DB_CAMPOS[0] + " = ?");
-            stmt.setString(1, nuevoValorString);
-            stmt.setString(2, usuario.getId());
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            // Si ocurrio algun error muestralo por pantalla
-            JOptionPane.showMessageDialog(new JFrame(),
-                    Singleton.ERROR_ACCESO_BASE_DATOS + e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
-            System.out.print(Singleton.ERROR_ACCESO_BASE_DATOS);
-            System.out.println(e.getMessage());
+            ErrorVistaGenerador.mostrarErrorDB(e);
         }
     }
 
@@ -281,11 +177,7 @@ public class UsuariosControlador implements ActionListener {
                     // Cierra la ventana
                     formularioCrearUsuario.ventana.dispose();
                 } catch (IllegalArgumentException e) {
-                    // Si ocurrio algun error muestralo por pantalla
-                    JOptionPane.showMessageDialog(new JFrame(),
-                            StringsFinales.ERROR_REALIZANDO_OPERACION + e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
-                    System.out.println(StringsFinales.ERROR_REALIZANDO_OPERACION);
-                    System.out.println(e.getMessage());
+                    ErrorVistaGenerador.mostrarErrorEnOperacion(e);
                 }
             }
 
@@ -302,11 +194,7 @@ public class UsuariosControlador implements ActionListener {
                     // Cierra la ventana
                     formularioModificarUsuario.ventana.dispose();
                 } catch (IllegalArgumentException e) {
-                    // Si ocurrio algun error muestralo por pantalla
-                    JOptionPane.showMessageDialog(new JFrame(),
-                            StringsFinales.ERROR_REALIZANDO_OPERACION + e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
-                    System.out.println(StringsFinales.ERROR_REALIZANDO_OPERACION);
-                    System.out.println(e.getMessage());
+                    ErrorVistaGenerador.mostrarErrorEnOperacion(e);
                 }
 
             }

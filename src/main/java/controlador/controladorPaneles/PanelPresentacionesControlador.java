@@ -1,25 +1,26 @@
 package controlador.controladorPaneles;
 
 import controlador.controladorObjetos.PresentacionesControlador;
-import modelo.evento.presentacion.Presentacion;
+import modelo.evento.Presentacion;
 import modelo.usuario.RolUsuario;
 import modelo.usuario.Usuario;
+import servicios.PresentacionesServicio;
 import vista.StringsFinales;
+import vista.errores.ErrorVistaGenerador;
+import vista.formularios.ventanasEmergentes.FormularioOpcionesGenerador;
 import vista.menuPrincipal.PresentacionesPanel;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Controlador del panel presentaciones, funciona como un puente entre el usuario, la vista del panel de presentaciones
  * y el controlador de presentaciones
  */
-public class PanelPresentacionesControlador implements ActionListener {
+public class PanelPresentacionesControlador implements PanelControlador<PresentacionesPanel> {
     /**
      * Controlador de presentaciones a ser utilizado por el usuario
      */
-    private PresentacionesControlador presentacionesControlador;
+    private final PresentacionesControlador presentacionesControlador;
     /**
      * Vista de menu principal gestionada por este controlador
      */
@@ -28,18 +29,32 @@ public class PanelPresentacionesControlador implements ActionListener {
      * Usuario autenticado que utilizara esta vista
      */
     private Usuario usuarioLogueado;
+    /**
+     * Servicio de presentaciones
+     */
+    private final PresentacionesServicio presentacionesServicio;
 
     /**
      * Constructor del controlador del panel de presentaciones
-     *
-     * @param panelPresentaciones Vista del panel de presentaciones que gestionara este controlador
-     * @param usuarioLogueado Usuario que utilizara el controlador
+     * @param presentacionesServicio Servicio de presentaciones
+     * @param presentacionesControlador controlador de presentaciones
      */
-    public PanelPresentacionesControlador(PresentacionesPanel panelPresentaciones, Usuario usuarioLogueado) {
+    public PanelPresentacionesControlador(PresentacionesServicio presentacionesServicio,
+                                          PresentacionesControlador presentacionesControlador) {
+        this.presentacionesServicio = presentacionesServicio;
+        this.presentacionesControlador = presentacionesControlador;
+
+    }
+
+    /**
+     * Asigna el usuario que utilizara este controlador
+     * @param usuarioLogueado Usuario a utilizar el controlador
+     */
+    @Override
+    public void setUsuarioLogueado(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
-        presentacionesControlador = new PresentacionesControlador(usuarioLogueado);
-        setPanelPresentaciones(panelPresentaciones);
-        configurarPanelPresentaciones(usuarioLogueado);
+        this.presentacionesControlador.setUsuarioLogueado(usuarioLogueado);
+        configurarPanel(usuarioLogueado);
     }
 
     /**
@@ -47,7 +62,8 @@ public class PanelPresentacionesControlador implements ActionListener {
      *
      * @param vista Vista del panel de presentaciones a asignar
      */
-    private void setPanelPresentaciones(PresentacionesPanel vista) {
+    @Override
+    public void setPanel(PresentacionesPanel vista) {
         this.panelPresentaciones = vista;
         vista.addControlador(this);
     }
@@ -57,7 +73,8 @@ public class PanelPresentacionesControlador implements ActionListener {
      *
      * @param usuarioLogueado Usuario que utilizara el panel
      */
-    private void configurarPanelPresentaciones(Usuario usuarioLogueado) {
+    @Override
+    public void configurarPanel(Usuario usuarioLogueado) {
         // Carga las presentaciones
         panelPresentaciones.mostrarPresentaciones(presentacionesControlador.getPresentacionesVisibles());
         // Si no tiene permiso para crear quita el boton
@@ -88,16 +105,16 @@ public class PanelPresentacionesControlador implements ActionListener {
                 int filaSeleccionada = panelPresentaciones.tablaObjetos.getSelectedRow();
                 if (filaSeleccionada >= 0) {
                     String identificador = String.valueOf(panelPresentaciones.tablaObjetos.getValueAt(filaSeleccionada, 0));
-                    int decision =
-                            JOptionPane.showConfirmDialog(new JFrame(),
-                                    StringsFinales.ESTA_SEGURO,
-                                    StringsFinales.ELIMINAR + " " + identificador,
-                                    JOptionPane.YES_NO_CANCEL_OPTION);
-                    if (decision == JOptionPane.YES_OPTION) {
-                        Presentacion presentacionAEliminar = PresentacionesControlador.leerPresentacionesBaseDeDatos().getPresentacion(identificador);
-                        presentacionesControlador.eliminarPresentacion(presentacionAEliminar);
-                        // Actualiza los datos
-                        panelPresentaciones.mostrarPresentaciones(presentacionesControlador.getPresentacionesVisibles());
+                    boolean eliminar = FormularioOpcionesGenerador.mostrarOpcionSiNoEliminar(identificador);
+                    if (eliminar) {
+                        try {
+                            Presentacion presentacionAEliminar = presentacionesServicio.leerPorID(identificador);
+                            presentacionesControlador.eliminarPresentacion(presentacionAEliminar);
+                            // Actualiza los datos
+                            panelPresentaciones.mostrarPresentaciones(presentacionesControlador.getPresentacionesVisibles());
+                        } catch (Exception e) {
+                            ErrorVistaGenerador.mostrarErrorDB(e);
+                        }
                     }
                 }
             }
@@ -105,9 +122,13 @@ public class PanelPresentacionesControlador implements ActionListener {
             case (StringsFinales.MODIFICAR) -> {
                 int filaSeleccionada = panelPresentaciones.tablaObjetos.getSelectedRow();
                 if (filaSeleccionada >= 0) {
-                    String identificador = String.valueOf(panelPresentaciones.tablaObjetos.getValueAt(filaSeleccionada, 0));
-                    Presentacion presentacionAModificar = PresentacionesControlador.leerPresentacionesBaseDeDatos().getPresentacion(identificador);
-                    presentacionesControlador.mostrarFormularioModificar(presentacionAModificar);
+                    try {
+                        String identificador = String.valueOf(panelPresentaciones.tablaObjetos.getValueAt(filaSeleccionada, 0));
+                        Presentacion presentacionAModificar = presentacionesServicio.leerPorID(identificador);
+                        presentacionesControlador.mostrarFormularioModificar(presentacionAModificar);
+                    } catch (Exception e) {
+                        ErrorVistaGenerador.mostrarErrorDB(e);
+                    }
                 }
             }
             // Si el usuario desea actualizar los datos de las presentaciones
