@@ -1,5 +1,5 @@
 # SolPresControl
-Accounting presentations tracker for government environments on **pure java**.
+Accounting presentations tracker developed on **pure java**.
 
 ## Requirements 
 
