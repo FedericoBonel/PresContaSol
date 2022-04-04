@@ -27,6 +27,9 @@ It's a tedious task I know, but by using SolPresControl you would only need to l
 - Keep track of all the documents that you need to turn in
 - Turn in additional documents if needed
 
+### Data in the cloud
+- When this application was initially used and developed all data was stored and recovered from Google Cloud Platform, but that doesn't mean that you can't use other DBMS, you can use any MySQL database without changing the code. And even if you want to use one noSQL like MongoDB, you can! The only thing that you need to do (Given that you already have the database setted) is add the implementation of the necessary repositories and that's it! Nothing else in the code needs to be changed, the magic of inversion of control am I right?
+
 ## Requirements 
 
 * Maven 3.8.4
