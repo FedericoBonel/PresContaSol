@@ -1,6 +1,6 @@
 package vista.formularios.modificacion;
 
-import controlador.controladorObjetos.MunicipiosControlador;
+import controlador.controladorobjetos.MunicipiosControlador;
 import modelo.municipio.Municipio;
 import modelo.usuario.Usuario;
 import vista.Estilo;

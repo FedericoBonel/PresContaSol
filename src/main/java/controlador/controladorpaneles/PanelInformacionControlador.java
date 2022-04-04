@@ -1,11 +1,11 @@
-package controlador.controladorPaneles;
+package controlador.controladorpaneles;
 
 import modelo.usuario.Usuario;
 import servicios.MunicipiosServicio;
 import servicios.PresentacionesServicio;
 import vista.StringsFinales;
 import vista.errores.ErrorVistaGenerador;
-import vista.menuPrincipal.InformacionPanel;
+import vista.menuprincipal.InformacionPanel;
 
 import java.awt.event.ActionEvent;
 

@@ -1,6 +1,6 @@
 package vista.formularios.creacion;
 
-import controlador.controladorObjetos.PresentacionesControlador;
+import controlador.controladorobjetos.PresentacionesControlador;
 import modelo.evento.Convocatoria;
 import vista.Estilo;
 import vista.StringsFinales;

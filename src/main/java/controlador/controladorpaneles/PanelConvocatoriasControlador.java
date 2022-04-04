@@ -1,6 +1,6 @@
-package controlador.controladorPaneles;
+package controlador.controladorpaneles;
 
-import controlador.controladorObjetos.ConvocatoriasControlador;
+import controlador.controladorobjetos.ConvocatoriasControlador;
 import modelo.evento.Convocatoria;
 import modelo.usuario.RolUsuario;
 import modelo.usuario.Usuario;
@@ -8,8 +8,8 @@ import servicios.ConvocatoriasServicio;
 import servicios.PresentacionesServicio;
 import vista.StringsFinales;
 import vista.errores.ErrorVistaGenerador;
-import vista.formularios.ventanasEmergentes.FormularioOpcionesGenerador;
-import vista.menuPrincipal.ConvocatoriasPanel;
+import vista.formularios.ventanasemergentes.FormularioOpcionesGenerador;
+import vista.menuprincipal.ConvocatoriasPanel;
 
 import java.awt.event.ActionEvent;
 

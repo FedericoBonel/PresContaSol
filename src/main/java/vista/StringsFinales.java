@@ -5,6 +5,11 @@ package vista;
  */
 public class StringsFinales {
 
+    // Constructor privado para evitar instanciacion
+    private StringsFinales() {
+    }
+
+
     // Strings principales
 
     /**

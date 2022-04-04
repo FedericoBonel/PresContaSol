@@ -1,4 +1,4 @@
-package controlador.controladorObjetos;
+package controlador.controladorobjetos;
 
 import modelo.evento.Convocatoria;
 import modelo.usuario.RolUsuario;

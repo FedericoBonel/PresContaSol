@@ -1,6 +1,6 @@
-package respositorios.mySQL;
+package respositorios.mysql;
 
-import modelo.dataAccess.ConexionDB;
+import modelo.accesodatos.ConexionDB;
 import modelo.usuario.RolUsuario;
 import modelo.usuario.Usuario;
 import respositorios.UsuariosRepositorio;

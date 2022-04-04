@@ -1,6 +1,6 @@
-package vista.menuPrincipal;
+package vista.menuprincipal;
 
-import modelo.evento.Presentacion;
+import modelo.usuario.Usuario;
 import vista.StringsFinales;
 import vista.componentes.JTableNoEditable;
 
@@ -10,9 +10,9 @@ import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
 /**
- * Panel de presentaciones con botones de crear, eliminar y modificar y una lista de ellas
+ * Panel de usuarios con botones de crear, eliminar y modificar y una lista de ellos
  */
-public class PresentacionesPanel extends JPanel {
+public class UsuariosPanel extends JPanel {
     /**
      * Boton crear
      */
@@ -39,12 +39,12 @@ public class PresentacionesPanel extends JPanel {
     private ActionListener controlador;
 
     /**
-     * Crea un panel para mostrar las presentaciones como una tabla con botones
+     * Crea un panel para mostrar los usuarios como una tabla con botones
      */
-    public PresentacionesPanel() {
+    public UsuariosPanel() {
         super(new BorderLayout());
-        // Tabla de presentaciones
-        tablaObjetos = new JTableNoEditable(StringsFinales.COLUMNAS_PRESENTACIONES);
+        // Tabla de usuarios
+        tablaObjetos = new JTableNoEditable(StringsFinales.COLUMNAS_USUARIOS);
         // Contenedor de los botones de operacion
         JPanel operaciones = new JPanel(new FlowLayout());
         JPanel botones = new JPanel(new BorderLayout());
@@ -63,7 +63,6 @@ public class PresentacionesPanel extends JPanel {
         // Boton de actualizar
         actualizarBoton = new JButton(StringsFinales.ACTUALIZAR);
         actualizarBoton.setActionCommand(StringsFinales.ACTUALIZAR);
-
         botones.add(BorderLayout.WEST, actualizarBoton);
         botones.add(BorderLayout.EAST, operaciones);
         super.add(BorderLayout.NORTH, botones);
@@ -71,21 +70,18 @@ public class PresentacionesPanel extends JPanel {
     }
 
     /**
-     * Metodo que toma las presentaciones pasadas y los muestra en la pestania de presentaciones
+     * Metodo que toma los usuarios pasados y los muestra en la pestania de usuarios
      *
-     * @param presentaciones Presentaciones a mostrar como linked list
+     * @param usuarios Usuarios a mostrar como LinkedList
      */
-    public void mostrarPresentaciones(LinkedList<Presentacion> presentaciones) {
-        String[][] tablaAMostrar = new String[presentaciones.size()][StringsFinales.COLUMNAS_PRESENTACIONES.length];
+    public void mostrarUsuarios(LinkedList<Usuario> usuarios) {
+        String[][] tablaAMostrar = new String[usuarios.size()][StringsFinales.COLUMNAS_USUARIOS.length];
         int i = 0;
-        for (Presentacion presentacion : presentaciones) {
-            tablaAMostrar[i][0] = presentacion.getId();
-            tablaAMostrar[i][1] = presentacion.getFechaInicio().toString();
-            tablaAMostrar[i][2] = presentacion.getAutor().getId();
-            tablaAMostrar[i][3] = presentacion.getDocumentos().toString();
-            tablaAMostrar[i][4] = presentacion.getMunicipio().getId();
-            tablaAMostrar[i][5] = String.valueOf(!presentacion.isAbierto());
-            tablaAMostrar[i][6] = presentacion.getConvocatoria().getId();
+        for (Usuario usuario : usuarios) {
+            tablaAMostrar[i][0] = usuario.getId();
+            tablaAMostrar[i][1] = usuario.getNombre();
+            tablaAMostrar[i][2] = usuario.getClave();
+            tablaAMostrar[i][3] = usuario.rolUsuario.getNombreRol();
             i++;
         }
         tablaObjetos.actualizarCon(tablaAMostrar);

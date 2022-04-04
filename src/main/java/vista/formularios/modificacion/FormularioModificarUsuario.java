@@ -1,6 +1,6 @@
 package vista.formularios.modificacion;
 
-import controlador.controladorObjetos.UsuariosControlador;
+import controlador.controladorobjetos.UsuariosControlador;
 import modelo.usuario.Usuario;
 import vista.Estilo;
 import vista.StringsFinales;

@@ -1,4 +1,4 @@
-package vista.menuPrincipal;
+package vista.menuprincipal;
 
 import modelo.evento.Convocatoria;
 import modelo.evento.Presentacion;

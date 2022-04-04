@@ -1,6 +1,6 @@
 package vista.formularios.modificacion;
 
-import controlador.controladorObjetos.PresentacionesControlador;
+import controlador.controladorobjetos.PresentacionesControlador;
 import modelo.evento.Presentacion;
 import vista.Estilo;
 import vista.StringsFinales;

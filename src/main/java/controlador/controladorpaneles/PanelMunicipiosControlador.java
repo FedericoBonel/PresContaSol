@@ -1,14 +1,14 @@
-package controlador.controladorPaneles;
+package controlador.controladorpaneles;
 
-import controlador.controladorObjetos.MunicipiosControlador;
+import controlador.controladorobjetos.MunicipiosControlador;
 import modelo.municipio.Municipio;
 import modelo.usuario.RolUsuario;
 import modelo.usuario.Usuario;
 import servicios.MunicipiosServicio;
 import vista.StringsFinales;
 import vista.errores.ErrorVistaGenerador;
-import vista.formularios.ventanasEmergentes.FormularioOpcionesGenerador;
-import vista.menuPrincipal.MunicipiosPanel;
+import vista.formularios.ventanasemergentes.FormularioOpcionesGenerador;
+import vista.menuprincipal.MunicipiosPanel;
 
 import java.awt.event.ActionEvent;
 

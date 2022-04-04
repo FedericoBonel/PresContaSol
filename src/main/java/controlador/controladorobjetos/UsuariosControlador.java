@@ -1,4 +1,4 @@
-package controlador.controladorObjetos;
+package controlador.controladorobjetos;
 
 import modelo.usuario.RolUsuario;
 import modelo.usuario.Usuario;

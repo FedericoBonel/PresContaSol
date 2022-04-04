@@ -1,13 +1,13 @@
-package controlador.controladorPaneles;
+package controlador.controladorpaneles;
 
-import controlador.controladorObjetos.UsuariosControlador;
+import controlador.controladorobjetos.UsuariosControlador;
 import modelo.usuario.RolUsuario;
 import modelo.usuario.Usuario;
 import servicios.UsuariosServicio;
 import vista.StringsFinales;
 import vista.errores.ErrorVistaGenerador;
-import vista.formularios.ventanasEmergentes.FormularioOpcionesGenerador;
-import vista.menuPrincipal.UsuariosPanel;
+import vista.formularios.ventanasemergentes.FormularioOpcionesGenerador;
+import vista.menuprincipal.UsuariosPanel;
 
 import java.awt.event.ActionEvent;
 

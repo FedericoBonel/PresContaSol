@@ -1,24 +1,24 @@
 import controlador.MenuPrincipalControlador;
-import controlador.controladorObjetos.ConvocatoriasControlador;
-import controlador.controladorObjetos.MunicipiosControlador;
-import controlador.controladorObjetos.PresentacionesControlador;
-import controlador.controladorObjetos.UsuariosControlador;
-import controlador.controladorPaneles.*;
+import controlador.controladorobjetos.ConvocatoriasControlador;
+import controlador.controladorobjetos.MunicipiosControlador;
+import controlador.controladorobjetos.PresentacionesControlador;
+import controlador.controladorobjetos.UsuariosControlador;
+import controlador.controladorpaneles.*;
 import respositorios.ConvocatoriasRepositorio;
 import respositorios.MunicipiosRepositorio;
 import respositorios.PresentacionesRepositorio;
 import respositorios.UsuariosRepositorio;
-import respositorios.mySQL.ConvocatoriasRepositorioMySQL;
-import respositorios.mySQL.MunicipiosRepositorioMySQL;
-import respositorios.mySQL.PresentacionesRepositorioMySQL;
-import respositorios.mySQL.UsuariosRepositorioMySQL;
+import respositorios.mysql.ConvocatoriasRepositorioMySQL;
+import respositorios.mysql.MunicipiosRepositorioMySQL;
+import respositorios.mysql.PresentacionesRepositorioMySQL;
+import respositorios.mysql.UsuariosRepositorioMySQL;
 import servicios.ConvocatoriasServicio;
 import servicios.MunicipiosServicio;
 import servicios.PresentacionesServicio;
 import servicios.UsuariosServicio;
 import vista.errores.ErrorVistaGenerador;
-import vista.formularios.ventanasEmergentes.LoginVista;
-import vista.menuPrincipal.MenuPrincipalVista;
+import vista.formularios.ventanasemergentes.LoginVista;
+import vista.menuprincipal.MenuPrincipalVista;
 
 /**
  * Clase que contiene el metodo main donde se lanza todos los componentes necesarios para la ejecucion del programa

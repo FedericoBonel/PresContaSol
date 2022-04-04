@@ -1,4 +1,4 @@
-package vista.menuPrincipal;
+package vista.menuprincipal;
 
 import modelo.evento.Presentacion;
 import modelo.municipio.Municipio;

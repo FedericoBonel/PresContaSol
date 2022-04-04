@@ -1,6 +1,6 @@
-package vista.menuPrincipal;
+package vista.menuprincipal;
 
-import modelo.municipio.Municipio;
+import modelo.evento.Presentacion;
 import vista.StringsFinales;
 import vista.componentes.JTableNoEditable;
 
@@ -10,10 +10,9 @@ import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
 /**
- * Panel de municipios con botones de crear, eliminar y modificar y una lista de ellos
+ * Panel de presentaciones con botones de crear, eliminar y modificar y una lista de ellas
  */
-public class MunicipiosPanel extends JPanel {
-
+public class PresentacionesPanel extends JPanel {
     /**
      * Boton crear
      */
@@ -40,12 +39,12 @@ public class MunicipiosPanel extends JPanel {
     private ActionListener controlador;
 
     /**
-     * Crea un panel para mostrar los municipios como una tabla con botones
+     * Crea un panel para mostrar las presentaciones como una tabla con botones
      */
-    public MunicipiosPanel() {
+    public PresentacionesPanel() {
         super(new BorderLayout());
-        // Tabla de municipios
-        tablaObjetos = new JTableNoEditable(StringsFinales.COLUMNAS_MUNICIPIO);
+        // Tabla de presentaciones
+        tablaObjetos = new JTableNoEditable(StringsFinales.COLUMNAS_PRESENTACIONES);
         // Contenedor de los botones de operacion
         JPanel operaciones = new JPanel(new FlowLayout());
         JPanel botones = new JPanel(new BorderLayout());
@@ -64,6 +63,7 @@ public class MunicipiosPanel extends JPanel {
         // Boton de actualizar
         actualizarBoton = new JButton(StringsFinales.ACTUALIZAR);
         actualizarBoton.setActionCommand(StringsFinales.ACTUALIZAR);
+
         botones.add(BorderLayout.WEST, actualizarBoton);
         botones.add(BorderLayout.EAST, operaciones);
         super.add(BorderLayout.NORTH, botones);
@@ -71,23 +71,21 @@ public class MunicipiosPanel extends JPanel {
     }
 
     /**
-     * Metodo que toma los municipios pasados y los muestra en la pestania de municipios
+     * Metodo que toma las presentaciones pasadas y los muestra en la pestania de presentaciones
      *
-     * @param municipios Municipios a mostrar como LinkedList
+     * @param presentaciones Presentaciones a mostrar como linked list
      */
-    public void mostrarMunicipios(LinkedList<Municipio> municipios) {
-        String[][] tablaAMostrar = new String[municipios.size()][StringsFinales.COLUMNAS_MUNICIPIO.length];
+    public void mostrarPresentaciones(LinkedList<Presentacion> presentaciones) {
+        String[][] tablaAMostrar = new String[presentaciones.size()][StringsFinales.COLUMNAS_PRESENTACIONES.length];
         int i = 0;
-        for (Municipio municipio : municipios) {
-            tablaAMostrar[i][0] = municipio.getId();
-            tablaAMostrar[i][1] = municipio.getNombre();
-            tablaAMostrar[i][2] = String.valueOf(municipio.getCategoria());
-            // Verifica si tiene supervisor
-            if (municipio.getFiscal() != null) tablaAMostrar[i][3] = municipio.getFiscal().getId();
-            else tablaAMostrar[i][3] = null;
-            // Verifica si tiene representante
-            if (municipio.getCuentadante() != null) tablaAMostrar[i][4] = municipio.getCuentadante().getId();
-            else tablaAMostrar[i][4] = null;
+        for (Presentacion presentacion : presentaciones) {
+            tablaAMostrar[i][0] = presentacion.getId();
+            tablaAMostrar[i][1] = presentacion.getFechaInicio().toString();
+            tablaAMostrar[i][2] = presentacion.getAutor().getId();
+            tablaAMostrar[i][3] = presentacion.getDocumentos().toString();
+            tablaAMostrar[i][4] = presentacion.getMunicipio().getId();
+            tablaAMostrar[i][5] = String.valueOf(!presentacion.isAbierto());
+            tablaAMostrar[i][6] = presentacion.getConvocatoria().getId();
             i++;
         }
         tablaObjetos.actualizarCon(tablaAMostrar);

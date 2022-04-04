@@ -1,4 +1,4 @@
-package vista.formularios.ventanasEmergentes;
+package vista.formularios.ventanasemergentes;
 
 import controlador.MenuPrincipalControlador;
 import vista.Estilo;

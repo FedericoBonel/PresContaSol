@@ -7,6 +7,11 @@ import java.awt.*;
  */
 public class Estilo {
 
+    // Constructor privado para evitar creacion de objetos
+    private Estilo() {
+    }
+
+
     // Dimensiones
 
     /**

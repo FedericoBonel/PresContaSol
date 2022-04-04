@@ -1,4 +1,4 @@
-package controlador.controladorObjetos;
+package controlador.controladorobjetos;
 
 import modelo.municipio.Municipio;
 import modelo.usuario.RolUsuario;

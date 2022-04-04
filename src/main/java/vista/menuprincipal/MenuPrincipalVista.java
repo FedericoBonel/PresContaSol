@@ -1,4 +1,4 @@
-package vista.menuPrincipal;
+package vista.menuprincipal;
 
 import controlador.MenuPrincipalControlador;
 import vista.Estilo;

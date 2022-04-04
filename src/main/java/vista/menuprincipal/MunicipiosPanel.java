@@ -1,6 +1,6 @@
-package vista.menuPrincipal;
+package vista.menuprincipal;
 
-import modelo.usuario.Usuario;
+import modelo.municipio.Municipio;
 import vista.StringsFinales;
 import vista.componentes.JTableNoEditable;
 
@@ -10,9 +10,10 @@ import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
 /**
- * Panel de usuarios con botones de crear, eliminar y modificar y una lista de ellos
+ * Panel de municipios con botones de crear, eliminar y modificar y una lista de ellos
  */
-public class UsuariosPanel extends JPanel {
+public class MunicipiosPanel extends JPanel {
+
     /**
      * Boton crear
      */
@@ -39,12 +40,12 @@ public class UsuariosPanel extends JPanel {
     private ActionListener controlador;
 
     /**
-     * Crea un panel para mostrar los usuarios como una tabla con botones
+     * Crea un panel para mostrar los municipios como una tabla con botones
      */
-    public UsuariosPanel() {
+    public MunicipiosPanel() {
         super(new BorderLayout());
-        // Tabla de usuarios
-        tablaObjetos = new JTableNoEditable(StringsFinales.COLUMNAS_USUARIOS);
+        // Tabla de municipios
+        tablaObjetos = new JTableNoEditable(StringsFinales.COLUMNAS_MUNICIPIO);
         // Contenedor de los botones de operacion
         JPanel operaciones = new JPanel(new FlowLayout());
         JPanel botones = new JPanel(new BorderLayout());
@@ -70,18 +71,23 @@ public class UsuariosPanel extends JPanel {
     }
 
     /**
-     * Metodo que toma los usuarios pasados y los muestra en la pestania de usuarios
+     * Metodo que toma los municipios pasados y los muestra en la pestania de municipios
      *
-     * @param usuarios Usuarios a mostrar como LinkedList
+     * @param municipios Municipios a mostrar como LinkedList
      */
-    public void mostrarUsuarios(LinkedList<Usuario> usuarios) {
-        String[][] tablaAMostrar = new String[usuarios.size()][StringsFinales.COLUMNAS_USUARIOS.length];
+    public void mostrarMunicipios(LinkedList<Municipio> municipios) {
+        String[][] tablaAMostrar = new String[municipios.size()][StringsFinales.COLUMNAS_MUNICIPIO.length];
         int i = 0;
-        for (Usuario usuario : usuarios) {
-            tablaAMostrar[i][0] = usuario.getId();
-            tablaAMostrar[i][1] = usuario.getNombre();
-            tablaAMostrar[i][2] = usuario.getClave();
-            tablaAMostrar[i][3] = usuario.rolUsuario.getNombreRol();
+        for (Municipio municipio : municipios) {
+            tablaAMostrar[i][0] = municipio.getId();
+            tablaAMostrar[i][1] = municipio.getNombre();
+            tablaAMostrar[i][2] = String.valueOf(municipio.getCategoria());
+            // Verifica si tiene supervisor
+            if (municipio.getFiscal() != null) tablaAMostrar[i][3] = municipio.getFiscal().getId();
+            else tablaAMostrar[i][3] = null;
+            // Verifica si tiene representante
+            if (municipio.getCuentadante() != null) tablaAMostrar[i][4] = municipio.getCuentadante().getId();
+            else tablaAMostrar[i][4] = null;
             i++;
         }
         tablaObjetos.actualizarCon(tablaAMostrar);

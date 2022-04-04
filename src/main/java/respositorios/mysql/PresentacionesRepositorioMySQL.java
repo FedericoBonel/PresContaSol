@@ -1,7 +1,7 @@
-package respositorios.mySQL;
+package respositorios.mysql;
 
 
-import modelo.dataAccess.ConexionDB;
+import modelo.accesodatos.ConexionDB;
 import modelo.evento.Presentacion;
 import respositorios.ConvocatoriasRepositorio;
 import respositorios.MunicipiosRepositorio;

@@ -1,4 +1,4 @@
-package vista.formularios.ventanasEmergentes;
+package vista.formularios.ventanasemergentes;
 
 import vista.StringsFinales;
 
@@ -8,6 +8,10 @@ import javax.swing.*;
  * Generador de formularios de opciones
  */
 public class FormularioOpcionesGenerador {
+
+    // Constructor privado para evitar instanciacion
+    private FormularioOpcionesGenerador(){}
+
     /**
      * Muestra una ventana emergente de eliminacion de algun objeto
      * @param identificador Identificador del objeto a preguntar si se desea borrar

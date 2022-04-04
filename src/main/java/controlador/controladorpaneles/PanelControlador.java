@@ -1,4 +1,4 @@
-package controlador.controladorPaneles;
+package controlador.controladorpaneles;
 
 import modelo.usuario.Usuario;
 

@@ -1,6 +1,6 @@
 package vista.errores;
 
-import modelo.dataAccess.ConexionDB;
+import modelo.accesodatos.ConexionDB;
 import vista.StringsFinales;
 
 import javax.swing.*;
@@ -9,6 +9,9 @@ import javax.swing.*;
  * Generador de errores
  */
 public class ErrorVistaGenerador {
+
+    // constructor privado para evitar instanciacion
+    private ErrorVistaGenerador(){}
 
     /**
      * Muestra una ventana de error en pantalla con contexto de base de datos
