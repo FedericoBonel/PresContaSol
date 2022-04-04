@@ -102,7 +102,6 @@ public class MenuPrincipalVista {
      */
     public void addControlador(MenuPrincipalControlador menuPrincipalControlador) {
         this.controlador = menuPrincipalControlador;
-        panelInformacion.addControlador(menuPrincipalControlador);
         salirBoton.addActionListener(menuPrincipalControlador);
     }
 
