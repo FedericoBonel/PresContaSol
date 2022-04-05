@@ -1,6 +1,8 @@
 # SolPresControl
 ## _The java purist enterprise application_
 
+[!GoogleCloud](https://imgur.com/a/BXqF4Jy)
+
 Ever found your self having to keep track of multiple accountants presentations? 
 It's a tedious task I know, but by using SolPresControl you would only need to login, create the call in for the documents, and wait for your registered accountants to turn them in and mark them as such. No hassle in between, the app keeps track of all the necessary roles and their corresponding permitions:
 
