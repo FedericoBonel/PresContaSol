@@ -28,7 +28,9 @@ It's a tedious task I know, but by using SolPresControl you would only need to l
 - Turn in additional documents if needed
 
 ### Data in the cloud
-- When this application was initially used and developed all data was stored and recovered from Google Cloud Platform, but that doesn't mean that you can't use other DBMS, you can use any MySQL database without changing the code. And even if you want to use one noSQL like MongoDB, you can! The only thing that you need to do (Given that you already have the database setted) is add the implementation of the necessary repositories and that's it! Nothing else in the code needs to be changed, the magic of inversion of control am I right?
+- When this application was initially used and developed all data was stored and recovered from Google Cloud Platform, but that doesn't mean that you can't use other DBMS, you can use any MySQL database without changing the code. And even if you want to use a noSQL one like MongoDB, you can! The only thing that you need to do (Given that you already have the database running somewhere) is add the implementation of the necessary repositories and that's it! Nothing else in the code needs to be changed, the magic of inversion of control am I right?
+
+![exactly](http://www.tvland.com/shows/impastor)
 
 ## Requirements 
 
