@@ -22,7 +22,7 @@ It's a tedious task I know, but by using SolPresControl you would only need to l
 - Supervise your assigned municipalities and accountants
 - Keep track of the documents that they have turned in
 
-### Accountant 💼
+### Accountants 💼
 - Create presentations to open call ins
 - Keep track of all the documents that you need to turn in
 - Turn in additional documents if needed
