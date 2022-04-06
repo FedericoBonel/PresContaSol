@@ -38,6 +38,8 @@ It's a tedious task I know, but by using SolPresControl you would only need to l
 * JDK 17
 * A database server with the schema that's contained in the resources folder __(I used mySQL)__
 
+## Take a look at it
+
 ![screen?](https://media.giphy.com/media/0iK2Cen5MEI79qK9ii/giphy.gif)
 
 ***Note:*** Code is spanish based [Code comments and variable names]
