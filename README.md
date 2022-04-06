@@ -36,7 +36,7 @@ It's a tedious task I know, but by using SolPresControl you would only need to l
 
 * Maven 3.8.4
 * JDK 17
-* A database server with the schema that's contained in the resources folder __(I used mySQL)__
+* A database server with the schema that's contained in the resources folder __(I used a mySQL one, if you decide to change that, be sure to check if the dialect is the same)__
 
 ## Take a look at it
 
