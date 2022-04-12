@@ -10,14 +10,16 @@ import javax.swing.*;
 public class FormularioOpcionesGenerador {
 
     // Constructor privado para evitar instanciacion
-    private FormularioOpcionesGenerador(){}
+    private FormularioOpcionesGenerador() {
+    }
 
     /**
      * Muestra una ventana emergente de eliminacion de algun objeto
+     *
      * @param identificador Identificador del objeto a preguntar si se desea borrar
      * @return La opcion seleccionada por el usuario
      */
-    public static boolean mostrarOpcionSiNoEliminar(String identificador){
+    public static boolean mostrarOpcionSiNoEliminar(String identificador) {
         int seleccion = JOptionPane.showConfirmDialog(new JFrame(),
                 StringsFinales.ESTA_SEGURO,
                 StringsFinales.ELIMINAR + " " + identificador,

@@ -3,12 +3,12 @@ package com.fedebonel.controlador.controladorobjetos;
 import com.fedebonel.modelo.municipio.Municipio;
 import com.fedebonel.modelo.usuario.RolUsuario;
 import com.fedebonel.modelo.usuario.Usuario;
+import com.fedebonel.servicios.MunicipiosServicio;
+import com.fedebonel.servicios.UsuariosServicio;
 import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.vista.errores.ErrorVistaGenerador;
 import com.fedebonel.vista.formularios.creacion.FormularioCrearMunicipio;
 import com.fedebonel.vista.formularios.modificacion.FormularioModificarMunicipio;
-import com.fedebonel.servicios.MunicipiosServicio;
-import com.fedebonel.servicios.UsuariosServicio;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,20 +23,6 @@ public class MunicipiosControlador implements ActionListener {
      * Nombres de los campos en la base de datos
      */
     private static final String[] DB_CAMPOS = new String[]{"identificador", "nombre", "categoria", "supervisor", "representante"};
-
-    /**
-     * Usuario logueado que esta utilizando el sistema
-     */
-    private Usuario usuarioLogueado;
-
-    /**
-     * Formulario de creacion de municipios que este controlador debe gestionar
-     */
-    private FormularioCrearMunicipio formularioCrearMunicipio;
-    /**
-     * Formulario de modificacion de municipios que este controlador debe gestionar
-     */
-    private FormularioModificarMunicipio formularioModificarMunicipio;
     /**
      * Servicio de municipios
      */
@@ -45,12 +31,25 @@ public class MunicipiosControlador implements ActionListener {
      * Servicio de usuarios
      */
     private final UsuariosServicio usuariosServicio;
+    /**
+     * Usuario logueado que esta utilizando el sistema
+     */
+    private Usuario usuarioLogueado;
+    /**
+     * Formulario de creacion de municipios que este controlador debe gestionar
+     */
+    private FormularioCrearMunicipio formularioCrearMunicipio;
+    /**
+     * Formulario de modificacion de municipios que este controlador debe gestionar
+     */
+    private FormularioModificarMunicipio formularioModificarMunicipio;
 
 
     /**
      * Costructor del controlador
+     *
      * @param municipiosServicio Servicio de municipios
-     * @param usuariosServicio Servicio de usuarios
+     * @param usuariosServicio   Servicio de usuarios
      */
     public MunicipiosControlador(MunicipiosServicio municipiosServicio,
                                  UsuariosServicio usuariosServicio) {
@@ -90,9 +89,10 @@ public class MunicipiosControlador implements ActionListener {
 
     /**
      * Crea un municipio
-     * @param id         Identificador alfanumerico unico de municipio: Puede tener desde 1 caracter hasta 30 caracteres
-     * @param nombre     Nombre del municipio a crear
-     * @param categoria  Categoria del municipio
+     *
+     * @param id        Identificador alfanumerico unico de municipio: Puede tener desde 1 caracter hasta 30 caracteres
+     * @param nombre    Nombre del municipio a crear
+     * @param categoria Categoria del municipio
      * @throws IllegalArgumentException Si alguno de los parametros es invalido o el municipio ya existe
      */
     public void crearMunicipio(String id, String nombre, int categoria) throws IllegalArgumentException {
@@ -112,7 +112,7 @@ public class MunicipiosControlador implements ActionListener {
     /**
      * Elimina el municipio
      *
-     * @param municipio      Municipio que se desea eliminar como objeto
+     * @param municipio Municipio que se desea eliminar como objeto
      * @throws IllegalArgumentException Si el municipio ya no existe en el sistema
      */
     public void eliminarMunicipio(Municipio municipio) {
@@ -154,8 +154,8 @@ public class MunicipiosControlador implements ActionListener {
     /**
      * Asigna el municipio al fiscal
      *
-     * @param municipio Municipio que se desee asignar
-     * @param supervisor    Fiscal que se desee asignar
+     * @param municipio  Municipio que se desee asignar
+     * @param supervisor Fiscal que se desee asignar
      */
     public void asignarSupervisorAMunicipio(Municipio municipio, Usuario supervisor) {
         try {
@@ -237,16 +237,17 @@ public class MunicipiosControlador implements ActionListener {
     /**
      * Crea y muestra el formulario para pedir los datos de un nuevo municipio
      */
-    public void mostrarFormularioCrear(){
+    public void mostrarFormularioCrear() {
         formularioCrearMunicipio = new FormularioCrearMunicipio(this);
         formularioCrearMunicipio.ventana.setVisible(true);
     }
 
     /**
      * Crea y muestra el formulario para modificar los datos de un municipio existente
+     *
      * @param municipioAModificar Municipio que se desea modificar en el formulario
      */
-    public void mostrarFormularioModificar(Municipio municipioAModificar){
+    public void mostrarFormularioModificar(Municipio municipioAModificar) {
         try {
             LinkedList<Usuario> representantes = new LinkedList<>();
             LinkedList<Usuario> supervisores = new LinkedList<>();
@@ -276,6 +277,7 @@ public class MunicipiosControlador implements ActionListener {
 
     /**
      * Metodo que lee las interacciones de los usuarios sobre las vistas gestionadas por este controlador
+     *
      * @param event Evento generado por la interaccion del usuario
      */
     @Override

@@ -1,9 +1,9 @@
 package com.fedebonel.vista.formularios.creacion;
 
-import com.fedebonel.vista.Estilo;
-import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.controlador.controladorobjetos.MunicipiosControlador;
 import com.fedebonel.modelo.municipio.Municipio;
+import com.fedebonel.vista.Estilo;
+import com.fedebonel.vista.StringsFinales;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -18,6 +18,14 @@ public class FormularioCrearMunicipio {
      */
     public final JFrame ventana;
     /**
+     * Boton de crear
+     */
+    public final JButton crearBoton;
+    /**
+     * Controlador que debe gestionar las interacciones de esta vista
+     */
+    private final MunicipiosControlador controlador;
+    /**
      * Campo de texto de identificador (Se usan los limites de usuario por cuestiones visuales)
      */
     public JTextField idCampo;
@@ -29,22 +37,13 @@ public class FormularioCrearMunicipio {
      * Opciones para la categoria
      */
     public JComboBox<Integer> categoriaCampo;
-    /**
-     * Boton de crear
-     */
-    public final JButton crearBoton;
-
-    /**
-     * Controlador que debe gestionar las interacciones de esta vista
-     */
-    private final MunicipiosControlador controlador;
 
     /**
      * Constructor de un nuevo formulario de creacion de usuarios
      *
      * @param controlador controlador que debe gestionar las interacciones de este formulario
      */
-    public FormularioCrearMunicipio(MunicipiosControlador controlador){
+    public FormularioCrearMunicipio(MunicipiosControlador controlador) {
         // Setea los parametros basicos de la ventana
         ventana = new JFrame(StringsFinales.CREAR + " " + StringsFinales.MUNICIPIO);
         ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

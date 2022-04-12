@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
  */
 public interface PanelControlador<T> extends ActionListener {
     void setUsuarioLogueado(Usuario usuarioLogueado);
+
     void setPanel(T panel);
+
     void configurarPanel(Usuario usuarioLogueado);
 }

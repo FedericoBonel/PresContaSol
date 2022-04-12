@@ -8,15 +8,15 @@ import java.util.LinkedList;
 /**
  * Interfaz que abstrae a un repositorio de convocatorias
  */
-public interface ConvocatoriasRepositorio extends RepositorioCRUD<Convocatoria, String>{
+public interface ConvocatoriasRepositorio extends RepositorioCRUD<Convocatoria, String> {
 
     /**
      * Agrega el documento a la convocatoria
      *
      * @param convocatoria Convocatoria a la que se desea agregar el documento
-     * @param documento Documento a agregar a la convocatoria
+     * @param documento    Documento a agregar a la convocatoria
      */
-    void agregarDocConvocatoria(Convocatoria convocatoria, String documento)  throws SQLException;
+    void agregarDocConvocatoria(Convocatoria convocatoria, String documento) throws SQLException;
 
     /**
      * Lee los documentos de la convocatoria pasada desde la base de datos
@@ -31,7 +31,7 @@ public interface ConvocatoriasRepositorio extends RepositorioCRUD<Convocatoria, 
      * Elimina el documento de la convocatoria
      *
      * @param convocatoria Convocatoria de la que se desea eliminar el documento
-     * @param documento Documento a eliminar de la convocatoria
+     * @param documento    Documento a eliminar de la convocatoria
      */
     void removerDocConvocatoria(Convocatoria convocatoria, String documento) throws SQLException;
 }

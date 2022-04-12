@@ -6,7 +6,7 @@ import com.fedebonel.respositorios.UsuariosRepositorio;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-public class UsuariosServicio implements EntidadServicio<String, Usuario>{
+public class UsuariosServicio implements EntidadServicio<String, Usuario> {
 
     /**
      * String constante que posee el error cuando el usuario esta registrado

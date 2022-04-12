@@ -1,9 +1,9 @@
 package com.fedebonel.vista.formularios.modificacion;
 
-import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.controlador.controladorobjetos.UsuariosControlador;
 import com.fedebonel.modelo.usuario.Usuario;
 import com.fedebonel.vista.Estilo;
+import com.fedebonel.vista.StringsFinales;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -18,10 +18,6 @@ public class FormularioModificarUsuario {
      */
     public final JFrame ventana;
     /**
-     * Campo de texto de clave
-     */
-    public JPasswordField claveCampo;
-    /**
      * Boton de modificar
      */
     public final JButton modificarBoton;
@@ -29,19 +25,22 @@ public class FormularioModificarUsuario {
      * Usuario a ser modificado en este formulario
      */
     public final Usuario usuarioAModificar;
-
     /**
      * Controlador que debe gestionar las interacciones de esta vista
      */
     private final UsuariosControlador controlador;
+    /**
+     * Campo de texto de clave
+     */
+    public JPasswordField claveCampo;
 
     /**
      * Constructor de un nuevo formulario de modificacion de usuarios
      *
-     * @param controlador controlador que debe gestionar las interacciones de este formulario
+     * @param controlador       controlador que debe gestionar las interacciones de este formulario
      * @param usuarioAModificar Usuario a modificar
      */
-    public FormularioModificarUsuario(UsuariosControlador controlador, Usuario usuarioAModificar){
+    public FormularioModificarUsuario(UsuariosControlador controlador, Usuario usuarioAModificar) {
         // Setea los parametros basicos de la ventana
         ventana = new JFrame(StringsFinales.MODIFICAR + " " + StringsFinales.USUARIO);
         ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

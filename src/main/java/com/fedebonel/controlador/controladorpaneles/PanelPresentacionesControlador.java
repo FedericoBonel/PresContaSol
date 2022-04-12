@@ -4,11 +4,11 @@ import com.fedebonel.controlador.controladorobjetos.PresentacionesControlador;
 import com.fedebonel.modelo.evento.Presentacion;
 import com.fedebonel.modelo.usuario.RolUsuario;
 import com.fedebonel.modelo.usuario.Usuario;
+import com.fedebonel.servicios.PresentacionesServicio;
 import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.vista.errores.ErrorVistaGenerador;
 import com.fedebonel.vista.formularios.ventanasemergentes.FormularioOpcionesGenerador;
 import com.fedebonel.vista.menuprincipal.PresentacionesPanel;
-import com.fedebonel.servicios.PresentacionesServicio;
 
 import java.awt.event.ActionEvent;
 
@@ -22,6 +22,10 @@ public class PanelPresentacionesControlador implements PanelControlador<Presenta
      */
     private final PresentacionesControlador presentacionesControlador;
     /**
+     * Servicio de presentaciones
+     */
+    private final PresentacionesServicio presentacionesServicio;
+    /**
      * Vista de menu principal gestionada por este controlador
      */
     private PresentacionesPanel panelPresentaciones;
@@ -29,14 +33,11 @@ public class PanelPresentacionesControlador implements PanelControlador<Presenta
      * Usuario autenticado que utilizara esta vista
      */
     private Usuario usuarioLogueado;
-    /**
-     * Servicio de presentaciones
-     */
-    private final PresentacionesServicio presentacionesServicio;
 
     /**
      * Constructor del controlador del panel de presentaciones
-     * @param presentacionesServicio Servicio de presentaciones
+     *
+     * @param presentacionesServicio    Servicio de presentaciones
      * @param presentacionesControlador controlador de presentaciones
      */
     public PanelPresentacionesControlador(PresentacionesServicio presentacionesServicio,
@@ -48,6 +49,7 @@ public class PanelPresentacionesControlador implements PanelControlador<Presenta
 
     /**
      * Asigna el usuario que utilizara este controlador
+     *
      * @param usuarioLogueado Usuario a utilizar el controlador
      */
     @Override

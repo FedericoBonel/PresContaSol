@@ -8,7 +8,7 @@ import java.util.LinkedList;
 /**
  * Interfaz que abstrae a un repositorio de presentacion
  */
-public interface PresentacionesRepositorio extends RepositorioCRUD<Presentacion, String>{
+public interface PresentacionesRepositorio extends RepositorioCRUD<Presentacion, String> {
 
     /**
      * Lee los documentos de la presentacion pasada desde la base de datos

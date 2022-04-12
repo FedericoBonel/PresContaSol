@@ -15,6 +15,7 @@ public class Permiso {
 
     /**
      * Constructor de permiso
+     *
      * @param objeto Objeto sobre el que se realizan las acciones como string
      * @param accion Accion a realizar sobre objetos como string
      */
@@ -25,6 +26,7 @@ public class Permiso {
 
     /**
      * Devuelve el objeto sobre el que se realiza la accion
+     *
      * @return Objeto sobre el que se realice la accion como string
      */
     public String getObjeto() {
@@ -33,6 +35,7 @@ public class Permiso {
 
     /**
      * Devuelve la accion que se realiza sobre el objeto
+     *
      * @return Accion que se realiza sobre el objeto como string
      */
     public String getAccion() {

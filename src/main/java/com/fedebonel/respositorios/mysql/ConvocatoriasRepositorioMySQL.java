@@ -1,8 +1,8 @@
 package com.fedebonel.respositorios.mysql;
 
-import com.fedebonel.respositorios.ConvocatoriasRepositorio;
 import com.fedebonel.modelo.accesodatos.ConexionDB;
 import com.fedebonel.modelo.evento.Convocatoria;
+import com.fedebonel.respositorios.ConvocatoriasRepositorio;
 
 import java.sql.*;
 import java.text.DateFormat;

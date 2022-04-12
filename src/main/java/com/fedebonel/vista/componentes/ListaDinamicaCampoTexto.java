@@ -74,7 +74,7 @@ public class ListaDinamicaCampoTexto extends JPanel {
      *
      * @return Todos los datos contenidos en la lista como un linked list
      */
-    public LinkedList<String> getDatos(){
+    public LinkedList<String> getDatos() {
         LinkedList<String> datos = new LinkedList<>();
         for (int i = 0; i < datosAgregados.size(); i++) {
             datos.add(datosAgregados.getElementAt(i));
@@ -88,7 +88,7 @@ public class ListaDinamicaCampoTexto extends JPanel {
      * @param habilitado Si es true la vista es interactuable, si es falso no lo es
      */
     @Override
-    public void setEnabled(boolean habilitado){
+    public void setEnabled(boolean habilitado) {
         itemNuevoCampo.setEnabled(habilitado);
         itemsAgregados.setEnabled(habilitado);
         botonAgregar.setEnabled(habilitado);

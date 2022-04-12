@@ -44,7 +44,7 @@ public abstract class Entidad {
      */
     private void setId(String identificador) throws IllegalArgumentException {
         if (!cumpleFormatoId(identificador)) throw new IllegalArgumentException(ERROR_IDENTIFICADOR_INVALIDO);
-        identificador = identificador.replaceAll("\\s+","");
+        identificador = identificador.replaceAll("\\s+", "");
         this.identificador = identificador;
     }
 

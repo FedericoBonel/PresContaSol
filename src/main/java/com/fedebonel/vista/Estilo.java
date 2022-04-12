@@ -7,17 +7,13 @@ import java.awt.*;
  */
 public class Estilo {
 
-    // Constructor privado para evitar creacion de objetos
-    private Estilo() {
-    }
-
-
-    // Dimensiones
-
     /**
      * Dimensiones de la ventana del menu principal en pixeles [anchura, altura]
      */
     public final static int[] DIMENSIONES_MENU_PRINCIPAL = new int[]{800, 400};
+
+
+    // Dimensiones
     /**
      * Dimensiones del formulario para crear convocatoriaas en pixeles [anchura, altura]
      */
@@ -58,25 +54,27 @@ public class Estilo {
      * Anchura del campo de descripcion en los formularios de convocatorias en numero de columnas
      */
     public final static int ANCHURA_DESCRIPCION_CAMPO = 25;
-
-
-    // Espaciados
-
     /**
      * Espaciado estandar utilizado en los componentes de cada panel (5,5,5,5)
      */
-    public static final Insets ESPACIADO_ESTANDAR = new Insets(5,5,5,5);
+    public static final Insets ESPACIADO_ESTANDAR = new Insets(5, 5, 5, 5);
+
+
+    // Espaciados
     /**
      * Espaciado utilizado en vista login (20,20,20,20)
      */
-    public static final Insets ESPACIADO_TODO_LOGIN = new Insets(20,20,20,20);
+    public static final Insets ESPACIADO_TODO_LOGIN = new Insets(20, 20, 20, 20);
     /**
      * Espaciado utilizado en nombre y clave de vista login
      */
-    public static final Insets ESPACIADO_NOMBRE_CLAVE_LOGIN = new Insets(5,0,5,0);
+    public static final Insets ESPACIADO_NOMBRE_CLAVE_LOGIN = new Insets(5, 0, 5, 0);
     /**
      * Espaciado utilizado en barra de menu del menu principal
      */
-    public static final Insets ESPACIADO_BARRA_MENU = new Insets(0,0,5,0);
+    public static final Insets ESPACIADO_BARRA_MENU = new Insets(0, 0, 5, 0);
+    // Constructor privado para evitar creacion de objetos
+    private Estilo() {
+    }
 
 }

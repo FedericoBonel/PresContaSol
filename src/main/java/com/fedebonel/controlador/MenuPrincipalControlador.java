@@ -3,11 +3,11 @@ package com.fedebonel.controlador;
 import com.fedebonel.controlador.controladorpaneles.PanelControlador;
 import com.fedebonel.modelo.usuario.RolUsuario;
 import com.fedebonel.modelo.usuario.Usuario;
+import com.fedebonel.servicios.UsuariosServicio;
 import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.vista.errores.ErrorVistaGenerador;
 import com.fedebonel.vista.formularios.ventanasemergentes.LoginVista;
 import com.fedebonel.vista.menuprincipal.*;
-import com.fedebonel.servicios.UsuariosServicio;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,18 +19,6 @@ import java.sql.SQLException;
  */
 public class MenuPrincipalControlador implements ActionListener {
 
-    /**
-     * Vista de autenticacion que gestiona este controlador
-     */
-    private LoginVista loginVista;
-    /**
-     * Vista de menu principal gestionada por este controlador
-     */
-    private MenuPrincipalVista menuPrincipalVista;
-    /**
-     * Usuario autenticado que utilizara este controlador
-     */
-    private Usuario usuarioLogueado;
     /**
      * Servicio de usuarios
      */
@@ -55,12 +43,25 @@ public class MenuPrincipalControlador implements ActionListener {
      * Controlador del panel de informacion
      */
     private final PanelControlador<InformacionPanel> panelInformacionControlador;
+    /**
+     * Vista de autenticacion que gestiona este controlador
+     */
+    private LoginVista loginVista;
+    /**
+     * Vista de menu principal gestionada por este controlador
+     */
+    private MenuPrincipalVista menuPrincipalVista;
+    /**
+     * Usuario autenticado que utilizara este controlador
+     */
+    private Usuario usuarioLogueado;
 
     /**
      * Constructor del controlador del menu principal
+     *
      * @param loginVista         Vista de autenticacion desde el cual el usuario se autentica
      * @param menuPrincipalVista Vista de menu principal que utilizara el usuario
-     * @param usuariosServicio Servicio de usuarios
+     * @param usuariosServicio   Servicio de usuarios
      */
     public MenuPrincipalControlador(LoginVista loginVista,
                                     MenuPrincipalVista menuPrincipalVista,

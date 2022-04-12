@@ -61,22 +61,23 @@ public class Municipio extends Entidad {
     }
 
     /**
+     * Devuelve el nombre del municipio
+     *
+     * @return Nombre del municipio como un string
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
      * Asigna el nombre de este municipio
      *
      * @param nombre Nombre a asignar
      * @throws IllegalArgumentException Si el nombre esta vacio
      */
-    private void setNombre(String nombre){
+    private void setNombre(String nombre) {
         if (nombre.length() < 1) throw new IllegalArgumentException(ERROR_NOMBRE_INVALIDO);
         this.nombre = nombre;
-    }
-
-    /**
-     * Devuelve el nombre del municipio
-     * @return Nombre del municipio como un string
-     */
-    public String getNombre(){
-        return nombre;
     }
 
     /**
@@ -135,6 +136,7 @@ public class Municipio extends Entidad {
 
     /**
      * Devuelve todas las presentaciones que se realizaron para este municipio
+     *
      * @param presentaciones Coleccion de presentaciones del sistema
      * @return Un LinkedList con todas las presentaciones realizadas por este municipio
      */
@@ -199,7 +201,7 @@ public class Municipio extends Entidad {
     /**
      * Asigna un nuevo representante a este municipio
      *
-     * @param municipios municipios del sistema
+     * @param municipios  municipios del sistema
      * @param cuentadante nuevo representante a asignar
      * @return Municipio antiguo del cuentadante si tenia alguno asignado, null en otro caso
      */

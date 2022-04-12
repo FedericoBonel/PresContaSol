@@ -4,12 +4,12 @@ import com.fedebonel.controlador.controladorobjetos.ConvocatoriasControlador;
 import com.fedebonel.modelo.evento.Convocatoria;
 import com.fedebonel.modelo.usuario.RolUsuario;
 import com.fedebonel.modelo.usuario.Usuario;
+import com.fedebonel.servicios.ConvocatoriasServicio;
+import com.fedebonel.servicios.PresentacionesServicio;
 import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.vista.errores.ErrorVistaGenerador;
 import com.fedebonel.vista.formularios.ventanasemergentes.FormularioOpcionesGenerador;
 import com.fedebonel.vista.menuprincipal.ConvocatoriasPanel;
-import com.fedebonel.servicios.ConvocatoriasServicio;
-import com.fedebonel.servicios.PresentacionesServicio;
 
 import java.awt.event.ActionEvent;
 
@@ -17,15 +17,11 @@ import java.awt.event.ActionEvent;
  * Controlador del panel convocatorias, funciona como un puente entre el usuario, la vista del panel de convocatorias
  * y el controlador de convocatorias
  */
-public class PanelConvocatoriasControlador implements PanelControlador<ConvocatoriasPanel>{
+public class PanelConvocatoriasControlador implements PanelControlador<ConvocatoriasPanel> {
     /**
      * Controlador de convocatorias a ser utilizado por el usuario
      */
     private final ConvocatoriasControlador convocatoriasControlador;
-    /**
-     * Vista de menu principal gestionada por este controlador
-     */
-    private ConvocatoriasPanel panelConvocatorias;
     /**
      * Servicio de convocatorias
      */
@@ -35,15 +31,20 @@ public class PanelConvocatoriasControlador implements PanelControlador<Convocato
      */
     private final PresentacionesServicio presentacionesServicio;
     /**
+     * Vista de menu principal gestionada por este controlador
+     */
+    private ConvocatoriasPanel panelConvocatorias;
+    /**
      * Usuario autenticado que utilizara esta vista
      */
     private Usuario usuarioLogueado;
 
     /**
      * Constructor del controlador del panel de convocatorias
+     *
      * @param convocatoriasControlador controlador de convocatorias
-     * @param convocatoriasServicio Servicio de convocatorias
-     * @param presentacionesServicio servicio de presentaciones
+     * @param convocatoriasServicio    Servicio de convocatorias
+     * @param presentacionesServicio   servicio de presentaciones
      */
     public PanelConvocatoriasControlador(ConvocatoriasControlador convocatoriasControlador,
                                          ConvocatoriasServicio convocatoriasServicio,
@@ -55,6 +56,7 @@ public class PanelConvocatoriasControlador implements PanelControlador<Convocato
 
     /**
      * Asigna el usuario que utilizara este panel
+     *
      * @param usuarioLogueado Usuario a utilizar este panel
      */
     @Override

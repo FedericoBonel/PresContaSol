@@ -3,12 +3,12 @@ package com.fedebonel.controlador.controladorobjetos;
 import com.fedebonel.modelo.evento.Convocatoria;
 import com.fedebonel.modelo.usuario.RolUsuario;
 import com.fedebonel.modelo.usuario.Usuario;
+import com.fedebonel.servicios.ConvocatoriasServicio;
+import com.fedebonel.servicios.PresentacionesServicio;
 import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.vista.errores.ErrorVistaGenerador;
 import com.fedebonel.vista.formularios.creacion.FormularioCrearConvocatoria;
 import com.fedebonel.vista.formularios.modificacion.FormularioModificarConvocatoria;
-import com.fedebonel.servicios.ConvocatoriasServicio;
-import com.fedebonel.servicios.PresentacionesServicio;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +28,14 @@ public class ConvocatoriasControlador implements ActionListener {
      */
     private static final String[] DB_CAMPOS = new String[]{"identificador", "fecha_apertura", "fecha_cierre", "descripcion"};
     /**
+     * Servicio de convocatorias
+     */
+    private final ConvocatoriasServicio convocatoriasServicio;
+    /**
+     * Servicio de presentaciones
+     */
+    private final PresentacionesServicio presentacionesServicio;
+    /**
      * Usuario logueado que esta utilizando el sistema
      */
     private Usuario usuarioLogueado;
@@ -39,18 +47,11 @@ public class ConvocatoriasControlador implements ActionListener {
      * Formulario de modificacion de municipios que este controlador debe gestionar
      */
     private FormularioModificarConvocatoria formularioModificarConvocatoria;
-    /**
-     * Servicio de convocatorias
-     */
-    private final ConvocatoriasServicio convocatoriasServicio;
-    /**
-     * Servicio de presentaciones
-     */
-    private final PresentacionesServicio presentacionesServicio;
 
     /**
      * Costructor del controlador
-     * @param convocatoriasServicio Servicio de convocatorias
+     *
+     * @param convocatoriasServicio  Servicio de convocatorias
      * @param presentacionesServicio Servicio de presentaciones
      */
     public ConvocatoriasControlador(ConvocatoriasServicio convocatoriasServicio,
@@ -89,12 +90,12 @@ public class ConvocatoriasControlador implements ActionListener {
     /**
      * Crea una convocatoria
      *
-     * @param id            Identificador alfanumerico unico de convocatoria: Puede tener desde 1 caracter hasta 100 caracteres
-     * @param fechaInicio   Fecha de apertura planeada como objeto LocalDate
-     * @param fechaCierre   Fecha de cierre de la convocatoria como objeto LocalDate: No puede ser antes de fechaInicio
-     * @param docsReq       Documentos requeridos de la convocatoria para las presentaciones: Solo pueden ser los establecidos
-     *                      en Convocatoria.DOCUMENTOS_OPCIONES
-     * @param descripcion   Descripcion de la convocatoria: Debe tener como maximo 2000 caracteres
+     * @param id          Identificador alfanumerico unico de convocatoria: Puede tener desde 1 caracter hasta 100 caracteres
+     * @param fechaInicio Fecha de apertura planeada como objeto LocalDate
+     * @param fechaCierre Fecha de cierre de la convocatoria como objeto LocalDate: No puede ser antes de fechaInicio
+     * @param docsReq     Documentos requeridos de la convocatoria para las presentaciones: Solo pueden ser los establecidos
+     *                    en Convocatoria.DOCUMENTOS_OPCIONES
+     * @param descripcion Descripcion de la convocatoria: Debe tener como maximo 2000 caracteres
      * @throws IllegalArgumentException Si alguno de los parametros es invalido o la convocatoria ya existe en el sistema
      */
     public void crearConvocatoria(String id, LocalDate fechaInicio, LocalDate fechaCierre, LinkedList<String> docsReq,
@@ -116,7 +117,7 @@ public class ConvocatoriasControlador implements ActionListener {
     /**
      * Elimina la convocatoria
      *
-     * @param convocatoria   Convocatoria que se desea eliminar como objeto
+     * @param convocatoria Convocatoria que se desea eliminar como objeto
      * @throws IllegalArgumentException Si la convocatoria ya no existe en el sistema
      */
     public void eliminarConvocatoria(Convocatoria convocatoria) throws IllegalArgumentException {
@@ -203,8 +204,8 @@ public class ConvocatoriasControlador implements ActionListener {
     /**
      * Establece la fecha pasada como parametro como fecha de apertura en la convocatoria
      *
-     * @param convocatoria Convocatoria en la cual se desea establecer fecha de apertura
-     * @param fechaApertura  Fecha de apertura como Objeto Local date a establecer
+     * @param convocatoria  Convocatoria en la cual se desea establecer fecha de apertura
+     * @param fechaApertura Fecha de apertura como Objeto Local date a establecer
      * @throws IllegalArgumentException Si la fecha es invalida
      */
     public void asignaFechaAperturaDe(Convocatoria convocatoria, LocalDate fechaApertura) throws IllegalArgumentException {
@@ -249,7 +250,7 @@ public class ConvocatoriasControlador implements ActionListener {
     /**
      * Crea y muestra el formulario para pedir los datos de una nueva convocatoria
      */
-    public void mostrarFormularioCrear(){
+    public void mostrarFormularioCrear() {
         formularioCrearConvocatoria = new FormularioCrearConvocatoria(this);
         formularioCrearConvocatoria.ventana.setVisible(true);
     }
@@ -259,13 +260,14 @@ public class ConvocatoriasControlador implements ActionListener {
      *
      * @param convocatoriaAModificar Convocatoria que se desea modificar
      */
-    public void mostrarFormularioModificar(Convocatoria convocatoriaAModificar){
+    public void mostrarFormularioModificar(Convocatoria convocatoriaAModificar) {
         this.formularioModificarConvocatoria = new FormularioModificarConvocatoria(this, convocatoriaAModificar);
         formularioModificarConvocatoria.ventana.setVisible(true);
     }
 
     /**
      * Metodo que lee las interacciones de los usuarios sobre las vistas gestionadas por este controlador
+     *
      * @param event Evento generado por la interaccion del usuario
      */
     @Override

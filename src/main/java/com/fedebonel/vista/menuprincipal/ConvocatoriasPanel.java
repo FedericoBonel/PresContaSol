@@ -1,9 +1,9 @@
 package com.fedebonel.vista.menuprincipal;
 
-import com.fedebonel.vista.StringsFinales;
-import com.fedebonel.vista.componentes.JTableNoEditable;
 import com.fedebonel.modelo.evento.Convocatoria;
 import com.fedebonel.modelo.evento.Presentacion;
+import com.fedebonel.vista.StringsFinales;
+import com.fedebonel.vista.componentes.JTableNoEditable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -72,10 +72,11 @@ public class ConvocatoriasPanel extends JPanel {
 
     /**
      * Metodo que toma las convocatorias pasadas y los muestra en la pestania de convocatorias
-     * @param convocatorias Convocatorias a mostrar como linked list
+     *
+     * @param convocatorias  Convocatorias a mostrar como linked list
      * @param presentaciones Coleccion de presentaciones del sistema
      */
-    public void mostrarConvocatorias(LinkedList<Convocatoria> convocatorias, LinkedList<Presentacion> presentaciones){
+    public void mostrarConvocatorias(LinkedList<Convocatoria> convocatorias, LinkedList<Presentacion> presentaciones) {
         String[][] tablaAMostrar = new String[convocatorias.size()][StringsFinales.COLUMNAS_CONVOCATORIAS.length];
         int i = 0;
         for (Convocatoria convocatoria : convocatorias) {

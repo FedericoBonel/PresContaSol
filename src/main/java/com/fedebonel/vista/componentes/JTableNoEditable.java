@@ -18,7 +18,7 @@ public class JTableNoEditable extends JTable {
      *
      * @param columnas Nombres de las columnas a mostrar en orden
      */
-    public JTableNoEditable(String[] columnas){
+    public JTableNoEditable(String[] columnas) {
         super(new String[][]{}, columnas);
         this.columnas = columnas;
         super.getTableHeader().setReorderingAllowed(false);
@@ -35,9 +35,10 @@ public class JTableNoEditable extends JTable {
 
     /**
      * Actualiza los datos de la tabla con unos nuevos bajo las mismas columnas
+     *
      * @param datos Datos a poner en la tabla actualizada
      */
-    public void actualizarCon(String[][] datos){
+    public void actualizarCon(String[][] datos) {
         super.setModel(new DefaultTableModel(datos, columnas));
     }
 

@@ -4,11 +4,11 @@ import com.fedebonel.controlador.controladorobjetos.MunicipiosControlador;
 import com.fedebonel.modelo.municipio.Municipio;
 import com.fedebonel.modelo.usuario.RolUsuario;
 import com.fedebonel.modelo.usuario.Usuario;
+import com.fedebonel.servicios.MunicipiosServicio;
 import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.vista.errores.ErrorVistaGenerador;
 import com.fedebonel.vista.formularios.ventanasemergentes.FormularioOpcionesGenerador;
 import com.fedebonel.vista.menuprincipal.MunicipiosPanel;
-import com.fedebonel.servicios.MunicipiosServicio;
 
 import java.awt.event.ActionEvent;
 
@@ -16,11 +16,15 @@ import java.awt.event.ActionEvent;
  * Controlador del panel municipios, funciona como un puente entre el usuario, la vista del panel de municipios
  * y el controlador de municipios
  */
-public class PanelMunicipiosControlador implements PanelControlador<MunicipiosPanel>{
+public class PanelMunicipiosControlador implements PanelControlador<MunicipiosPanel> {
     /**
      * Controlador de municipios a ser utilizado por el usuario
      */
     private final MunicipiosControlador municipiosControlador;
+    /**
+     * Servicio de municipios
+     */
+    private final MunicipiosServicio municipiosServicio;
     /**
      * Vista de menu principal gestionada por este controlador
      */
@@ -29,14 +33,11 @@ public class PanelMunicipiosControlador implements PanelControlador<MunicipiosPa
      * Usuario autenticado que utilizara esta vista
      */
     private Usuario usuarioLogueado;
-    /**
-     * Servicio de municipios
-     */
-    private final MunicipiosServicio municipiosServicio;
 
     /**
      * Constructor del controlador del panel de municipios
-     * @param municipiosServicio Servicio de municipios
+     *
+     * @param municipiosServicio    Servicio de municipios
      * @param municipiosControlador Controlador de municipios
      */
     public PanelMunicipiosControlador(MunicipiosServicio municipiosServicio,
@@ -47,6 +48,7 @@ public class PanelMunicipiosControlador implements PanelControlador<MunicipiosPa
 
     /**
      * Asigna el usuario que utilizara este controlador
+     *
      * @param usuarioLogueado Usuario a utilizar este controlador
      */
     @Override

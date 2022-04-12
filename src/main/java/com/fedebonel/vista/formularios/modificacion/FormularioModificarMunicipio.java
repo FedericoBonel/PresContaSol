@@ -1,10 +1,10 @@
 package com.fedebonel.vista.formularios.modificacion;
 
-import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.controlador.controladorobjetos.MunicipiosControlador;
 import com.fedebonel.modelo.municipio.Municipio;
 import com.fedebonel.modelo.usuario.Usuario;
 import com.fedebonel.vista.Estilo;
+import com.fedebonel.vista.StringsFinales;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -20,6 +20,18 @@ public class FormularioModificarMunicipio {
      */
     public final JFrame ventana;
     /**
+     * Boton de modificar
+     */
+    public final JButton modificarBoton;
+    /**
+     * Municipio a ser modificado en este formulario
+     */
+    public final Municipio municipioAModificar;
+    /**
+     * Controlador que debe gestionar las interacciones de esta vista
+     */
+    private final MunicipiosControlador controlador;
+    /**
      * Opciones para la categoria
      */
     public JComboBox<Integer> categoriaCampo;
@@ -31,29 +43,16 @@ public class FormularioModificarMunicipio {
      * Opciones para los supervisores (Sus identificadores)
      */
     public JComboBox<String> supervisorCampo;
-    /**
-     * Boton de modificar
-     */
-    public final JButton modificarBoton;
-    /**
-     * Municipio a ser modificado en este formulario
-     */
-    public final Municipio municipioAModificar;
-
-    /**
-     * Controlador que debe gestionar las interacciones de esta vista
-     */
-    private final MunicipiosControlador controlador;
 
     /**
      * Constructor de un nuevo formulario de modificacion de municipios
      *
-     * @param controlador controlador que debe gestionar las interacciones de este formulario
+     * @param controlador         controlador que debe gestionar las interacciones de este formulario
      * @param municipioAModificar Municipio a modificar
-     * @param representantes Representantes disponibles para el municipio
-     * @param supervisores Supervisores disponibles para el municipio
+     * @param representantes      Representantes disponibles para el municipio
+     * @param supervisores        Supervisores disponibles para el municipio
      */
-    public FormularioModificarMunicipio(MunicipiosControlador controlador, Municipio municipioAModificar, LinkedList<Usuario> representantes, LinkedList<Usuario> supervisores){
+    public FormularioModificarMunicipio(MunicipiosControlador controlador, Municipio municipioAModificar, LinkedList<Usuario> representantes, LinkedList<Usuario> supervisores) {
         // Setea los parametros basicos de la ventana
         ventana = new JFrame(StringsFinales.MODIFICAR + " " + StringsFinales.MUNICIPIO);
         ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -132,10 +131,10 @@ public class FormularioModificarMunicipio {
      * Crea el componente para el supervisor
      *
      * @param municipioAModificar Municipio que se desea modificar
-     * @param supervisores Lista de supervisores disponibles
+     * @param supervisores        Lista de supervisores disponibles
      * @return El panel con la informacion correspondiente al supervisor del municipio a modificar
      */
-    private JPanel crearComponenteSupervisor(Municipio municipioAModificar, LinkedList<Usuario> supervisores){
+    private JPanel crearComponenteSupervisor(Municipio municipioAModificar, LinkedList<Usuario> supervisores) {
         JPanel contenedorSupervisor = new JPanel(new BorderLayout());
         JLabel supervisorEtiqueta = new JLabel(StringsFinales.COLUMNAS_MUNICIPIO[3]);
         String[] opcionesSupervisor = new String[supervisores.size() + 1];
@@ -159,10 +158,10 @@ public class FormularioModificarMunicipio {
      * Crea el componente para el representante
      *
      * @param municipioAModificar Municipio que se desea modificar
-     * @param representantes Lista de representantes disponibles
+     * @param representantes      Lista de representantes disponibles
      * @return Un panel con la informacion del representante del municipio a modificar
      */
-    private JPanel crearComponenteRepresentante(Municipio municipioAModificar, LinkedList<Usuario> representantes){
+    private JPanel crearComponenteRepresentante(Municipio municipioAModificar, LinkedList<Usuario> representantes) {
         JPanel contenedorRepresentante = new JPanel(new BorderLayout());
         JLabel representanteEtiqueta = new JLabel(StringsFinales.COLUMNAS_MUNICIPIO[4]);
         String[] opcionesRepresentante = new String[representantes.size() + 1];
@@ -173,7 +172,8 @@ public class FormularioModificarMunicipio {
             i++;
         }
         representanteCampo = new JComboBox<>(opcionesRepresentante);
-        if (municipioAModificar.getCuentadante() != null) representanteCampo.setSelectedItem(municipioAModificar.getCuentadante().getId());
+        if (municipioAModificar.getCuentadante() != null)
+            representanteCampo.setSelectedItem(municipioAModificar.getCuentadante().getId());
         else representanteCampo.setSelectedItem(StringsFinales.NINGUNO);
         contenedorRepresentante.add(BorderLayout.WEST, representanteEtiqueta);
         contenedorRepresentante.add(BorderLayout.EAST, representanteCampo);

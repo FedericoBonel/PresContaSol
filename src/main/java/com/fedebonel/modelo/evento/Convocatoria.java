@@ -130,12 +130,14 @@ public class Convocatoria extends Evento {
      * @throws IllegalArgumentException Si la descripcion es mayor al limite en longitud = 2000 caracteres
      */
     public void setDescripcion(String descripcion) throws IllegalArgumentException {
-        if (descripcion.length() > LIMITE_DESCRIPCION) throw new IllegalArgumentException(ERROR_DESCRIPCION_INVALIDA + LIMITE_DESCRIPCION);
+        if (descripcion.length() > LIMITE_DESCRIPCION)
+            throw new IllegalArgumentException(ERROR_DESCRIPCION_INVALIDA + LIMITE_DESCRIPCION);
         this.descripcion = descripcion;
     }
 
     /**
      * Devuelve todas las presentaciones que se realizaron para esta convocatoria de la colección especificada
+     *
      * @param presentaciones Coleccion de presentaciones del sistema
      * @return un LinkedList con todas las presentaciones realizadas para esta convocatoria
      */

@@ -9,6 +9,7 @@ import java.util.List;
 public interface RepositorioCRUD<T, ID> {
     /**
      * Guarda la entidad en el repositorio
+     *
      * @param entidad Entidad a guardar
      * @throws SQLException Si no se consiguio conectarse
      */
@@ -16,6 +17,7 @@ public interface RepositorioCRUD<T, ID> {
 
     /**
      * Devuelve todas las entidades contenidas en el repositorio
+     *
      * @return Todas las entidades como una lista
      * @throws SQLException Si no consiguio conectarse
      */
@@ -23,6 +25,7 @@ public interface RepositorioCRUD<T, ID> {
 
     /**
      * Devuelve la entidad que contenga esa ID, si no un valor nulo
+     *
      * @param id Identificador de la entidad
      * @return Entidad encontrada, null si no encontro ninguna
      * @throws SQLException Si no consiguio conectarse
@@ -31,6 +34,7 @@ public interface RepositorioCRUD<T, ID> {
 
     /**
      * Elimina la entidad que tenga esa id del repositorio, si no no hace nada
+     *
      * @param id Identificador de la entidad
      * @throws SQLException Si no consiguio conectarse
      */
@@ -38,7 +42,8 @@ public interface RepositorioCRUD<T, ID> {
 
     /**
      * Actualiza la entidad en el respositorio que tenga esa id, en ese campo, con ese valor
-     * @param id Identificador de la entidad
+     *
+     * @param id    Identificador de la entidad
      * @param campo Campo a actualizar
      * @param valor Valor a poner
      * @throws SQLException Si no consiguio conectarse

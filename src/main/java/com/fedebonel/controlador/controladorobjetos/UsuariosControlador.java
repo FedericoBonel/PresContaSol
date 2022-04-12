@@ -2,11 +2,11 @@ package com.fedebonel.controlador.controladorobjetos;
 
 import com.fedebonel.modelo.usuario.RolUsuario;
 import com.fedebonel.modelo.usuario.Usuario;
+import com.fedebonel.servicios.UsuariosServicio;
 import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.vista.errores.ErrorVistaGenerador;
 import com.fedebonel.vista.formularios.creacion.FormularioCrearUsuario;
 import com.fedebonel.vista.formularios.modificacion.FormularioModificarUsuario;
-import com.fedebonel.servicios.UsuariosServicio;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,12 +22,14 @@ public class UsuariosControlador implements ActionListener {
      * Nombres de los campos en la base de datos
      */
     private static final String[] DB_CAMPOS = new String[]{"identificador", "nombre", "clave", "rol"};
-
+    /**
+     * Servicio de usuarios
+     */
+    private final UsuariosServicio usuariosServicio;
     /**
      * Usuario logueado que esta utilizando el sistema
      */
     private Usuario usuarioLogueado;
-
     /**
      * Formulario de creacion de usuarios que este controlador debe gestionar
      */
@@ -36,10 +38,6 @@ public class UsuariosControlador implements ActionListener {
      * Formulario de modificacion de usuarios que este controlador debe gestionar
      */
     private FormularioModificarUsuario formularioModificarUsuario;
-    /**
-     * Servicio de usuarios
-     */
-    private final UsuariosServicio usuariosServicio;
 
     /**
      * Costructor del controlador
