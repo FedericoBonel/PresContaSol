@@ -1,8 +1,8 @@
 package com.fedebonel.vista.menuprincipal;
 
+import com.fedebonel.modelo.municipio.Municipio;
 import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.vista.componentes.JTableNoEditable;
-import com.fedebonel.modelo.municipio.Municipio;
 
 import javax.swing.*;
 import java.awt.*;

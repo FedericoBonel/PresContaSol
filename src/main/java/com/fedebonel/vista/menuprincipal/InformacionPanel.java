@@ -1,10 +1,10 @@
 package com.fedebonel.vista.menuprincipal;
 
+import com.fedebonel.modelo.evento.Presentacion;
+import com.fedebonel.modelo.municipio.Municipio;
 import com.fedebonel.vista.Estilo;
 import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.vista.componentes.JTableNoEditable;
-import com.fedebonel.modelo.evento.Presentacion;
-import com.fedebonel.modelo.municipio.Municipio;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -68,7 +68,7 @@ public class InformacionPanel extends JPanel {
     /**
      * Metodo que toma las presentaciones y municipios, extrae la informacion y la presenta en el panel
      *
-     * @param municipios Municipios con la informacion a mostrar
+     * @param municipios     Municipios con la informacion a mostrar
      * @param presentaciones Presentaciones con la informacion a mostrar
      */
     public void mostrarInformacion(LinkedList<Municipio> municipios, LinkedList<Presentacion> presentaciones) {
@@ -100,7 +100,7 @@ public class InformacionPanel extends JPanel {
      *
      * @return Componente de presentaciones a convocatorias abiertas
      */
-    private JPanel crearComponenteTotalAbiertas(){
+    private JPanel crearComponenteTotalAbiertas() {
         JPanel totalPresConvoAbiertasContenedor = new JPanel(new BorderLayout());
         JLabel totalPresConvoAbiertasEtiqueta = new JLabel(StringsFinales.TOTAL_PRESEN_CONVO_ABIERTAS);
         totalPresConvoAbiertasCampo = new JLabel();
@@ -115,7 +115,7 @@ public class InformacionPanel extends JPanel {
      *
      * @return Componente de presentaciones a convocatorias cerradas
      */
-    private JPanel crearComponenteTotalCerradas(){
+    private JPanel crearComponenteTotalCerradas() {
         JPanel totalPresConvoCerradasContenedor = new JPanel(new BorderLayout());
         JLabel totalPresConvoCerradasEtiqueta = new JLabel(StringsFinales.TOTAL_PRES_CONVO_CERRADAS);
         totalPresConvoCerradasCampo = new JLabel();

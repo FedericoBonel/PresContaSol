@@ -6,7 +6,7 @@ import com.fedebonel.respositorios.PresentacionesRepositorio;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-public class PresentacionesServicio implements EntidadServicio<String, Presentacion>{
+public class PresentacionesServicio implements EntidadServicio<String, Presentacion> {
 
     /**
      * String constante que posee el error cuando la presentacion esta registrada

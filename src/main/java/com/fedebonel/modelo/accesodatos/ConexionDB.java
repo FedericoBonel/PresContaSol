@@ -20,6 +20,10 @@ public class ConexionDB {
      */
     private static Connection conn = null;
     /**
+     * Tiempo de espera en segundos antes de lanzar error de conexion
+     */
+    private final int TIME_OUT = 10;
+    /**
      * Driver a utilizar para la conexion
      */
     private String driver;
@@ -35,10 +39,6 @@ public class ConexionDB {
      * Contenedor de la clave del usuario
      */
     private String password;
-    /**
-     * Tiempo de espera en segundos antes de lanzar error de conexion
-     */
-    private final int TIME_OUT = 10;
 
     /**
      * Constructor privado del singleton, se llama automaticamente al llamar al metodo publico getConnection()
@@ -52,6 +52,7 @@ public class ConexionDB {
             driver = prop.getProperty("driver");
             usuario = prop.getProperty("usuario");
             password = prop.getProperty("clave");
+            ip.close();
             Class.forName(driver);
             DriverManager.setLoginTimeout(TIME_OUT);
             conn = DriverManager.getConnection(url, usuario, password);

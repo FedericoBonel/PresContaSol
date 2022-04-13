@@ -1,9 +1,9 @@
 package com.fedebonel.vista.formularios.creacion;
 
-import com.fedebonel.vista.Estilo;
-import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.controlador.controladorobjetos.UsuariosControlador;
 import com.fedebonel.modelo.usuario.RolUsuario;
+import com.fedebonel.vista.Estilo;
+import com.fedebonel.vista.StringsFinales;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -17,6 +17,14 @@ public class FormularioCrearUsuario {
      * Ventana del formulario
      */
     public final JFrame ventana;
+    /**
+     * Boton de crear
+     */
+    public final JButton crearBoton;
+    /**
+     * Controlador que debe gestionar las interacciones de esta vista
+     */
+    private final UsuariosControlador controlador;
     /**
      * Campo de texto de identificador
      */
@@ -33,22 +41,13 @@ public class FormularioCrearUsuario {
      * Opciones de rol
      */
     public JComboBox<String> opcionesRol;
-    /**
-     * Boton de crear
-     */
-    public final JButton crearBoton;
-
-    /**
-     * Controlador que debe gestionar las interacciones de esta vista
-     */
-    private final UsuariosControlador controlador;
 
     /**
      * Constructor de un nuevo formulario de creacion de usuarios
      *
      * @param controlador controlador que debe gestionar las interacciones de este formulario
      */
-    public FormularioCrearUsuario(UsuariosControlador controlador){
+    public FormularioCrearUsuario(UsuariosControlador controlador) {
         // Setea los parametros basicos de la ventana
         ventana = new JFrame(StringsFinales.CREAR + " " + StringsFinales.USUARIO);
         ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -141,10 +140,10 @@ public class FormularioCrearUsuario {
         JPanel contenedorRoles = new JPanel(new BorderLayout());
         JLabel rolesEtiqueta = new JLabel(StringsFinales.COLUMNAS_USUARIOS[3]);
         opcionesRol = new JComboBox<>(new String[]{
-                        RolUsuario.ROL_ADMINISTRADOR_NOMBRE,
-                        RolUsuario.ROL_FISCAL_GRAL_NOMBRE,
-                        RolUsuario.ROL_FISCAL_NOMBRE,
-                        RolUsuario.ROL_CUENTADANTE_NOMBRE});
+                RolUsuario.ROL_ADMINISTRADOR_NOMBRE,
+                RolUsuario.ROL_FISCAL_GRAL_NOMBRE,
+                RolUsuario.ROL_FISCAL_NOMBRE,
+                RolUsuario.ROL_CUENTADANTE_NOMBRE});
         contenedorRoles.add(BorderLayout.WEST, rolesEtiqueta);
         contenedorRoles.add(BorderLayout.EAST, opcionesRol);
         contenedorRoles.setBorder(new EmptyBorder(Estilo.ESPACIADO_ESTANDAR));

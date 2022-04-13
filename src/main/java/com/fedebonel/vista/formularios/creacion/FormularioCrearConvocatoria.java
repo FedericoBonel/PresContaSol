@@ -1,9 +1,9 @@
 package com.fedebonel.vista.formularios.creacion;
 
-import com.fedebonel.vista.Estilo;
-import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.controlador.controladorobjetos.ConvocatoriasControlador;
 import com.fedebonel.modelo.evento.Convocatoria;
+import com.fedebonel.vista.Estilo;
+import com.fedebonel.vista.StringsFinales;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -18,6 +18,14 @@ public class FormularioCrearConvocatoria {
      * Ventana del formulario
      */
     public final JFrame ventana;
+    /**
+     * Boton de crear
+     */
+    public final JButton crearBoton;
+    /**
+     * Controlador que debe gestionar las interacciones de esta vista
+     */
+    private final ConvocatoriasControlador controlador;
     /**
      * Campo de texto de identificador (Se usan los limites de usuario por cuestiones visuales)
      */
@@ -38,22 +46,13 @@ public class FormularioCrearConvocatoria {
      * Area de texto para la descripcion
      */
     public JTextArea descripcionArea;
-    /**
-     * Boton de crear
-     */
-    public final JButton crearBoton;
-
-    /**
-     * Controlador que debe gestionar las interacciones de esta vista
-     */
-    private final ConvocatoriasControlador controlador;
 
     /**
      * Constructor de un nuevo formulario de creacion de convocatorias
      *
      * @param controlador controlador que debe gestionar las interacciones de este formulario
      */
-    public FormularioCrearConvocatoria(ConvocatoriasControlador controlador){
+    public FormularioCrearConvocatoria(ConvocatoriasControlador controlador) {
         // Setea los parametros basicos de la ventana
         ventana = new JFrame(StringsFinales.CREAR + " " + StringsFinales.CONVOCATORIA);
         ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -115,7 +114,7 @@ public class FormularioCrearConvocatoria {
      *
      * @return Un panel con todos los componentes de la fecha de apertura
      */
-    private JPanel crearComponenteFechaApertura(){
+    private JPanel crearComponenteFechaApertura() {
         JPanel contenedorFechaApertura = new JPanel(new BorderLayout());
         JLabel fechaAperturaEtiqueta = new JLabel(StringsFinales.COLUMNAS_CONVOCATORIAS[1]);
         fechaAperturaCampo = new JTextField(Estilo.ANCHURA_CAMPO_TEXTO_ESTANDAR);
@@ -131,7 +130,7 @@ public class FormularioCrearConvocatoria {
      *
      * @return Un panel con todos los componentes de la fecha de cierre
      */
-    private JPanel crearComponenteFechaCierre(){
+    private JPanel crearComponenteFechaCierre() {
         JPanel contenedorFechaCierre = new JPanel(new BorderLayout());
         JLabel fechaCierreEtiqueta = new JLabel(StringsFinales.COLUMNAS_CONVOCATORIAS[2]);
         fechaCierreCampo = new JTextField(Estilo.ANCHURA_CAMPO_TEXTO_ESTANDAR);
@@ -147,7 +146,7 @@ public class FormularioCrearConvocatoria {
      *
      * @return Un panel con todos los componentes de los documentos requeridos
      */
-    private JPanel crearComponenteDocsRequeridos(){
+    private JPanel crearComponenteDocsRequeridos() {
         JPanel contenedorDocumentos = new JPanel(new BorderLayout());
         JLabel documentosEtiqueta = new JLabel(StringsFinales.COLUMNAS_CONVOCATORIAS[3]);
         documentosCampo = new JList<>(Convocatoria.DOCUMENTOS_OPCIONES);
@@ -162,7 +161,7 @@ public class FormularioCrearConvocatoria {
      *
      * @return Un panel con todos los componentes de la descripcion
      */
-    private JPanel crearComponenteDescripcion(){
+    private JPanel crearComponenteDescripcion() {
         JPanel contenedorDescripcion = new JPanel(new BorderLayout());
         JLabel descripcionEtiqueta = new JLabel(StringsFinales.COLUMNAS_CONVOCATORIAS[4]);
         descripcionArea = new JTextArea();

@@ -19,13 +19,13 @@ public class RolUsuario {
                     "Crear",
                     // Modificacion
                     "Modificar",
-                        "ModificarRepresentante", "ModificarSupervisor", "ModificarApertura", "ModificarPropio",
+                    "ModificarRepresentante", "ModificarSupervisor", "ModificarApertura", "ModificarPropio",
                     // Eliminacion
                     "Eliminar",
-                        "EliminarVacias", "EliminarPropio",
+                    "EliminarVacias", "EliminarPropio",
                     // Lectura
                     "Consultar",
-                        "ConsultarRepresentante", "ConsultarSupervisor", "ConsultarAsignado", "ConsultarAbiertas", "ConsultarPropio",
+                    "ConsultarRepresentante", "ConsultarSupervisor", "ConsultarAsignado", "ConsultarAbiertas", "ConsultarPropio",
                     // Supervision
                     "Supervisar",
                     // Representacion

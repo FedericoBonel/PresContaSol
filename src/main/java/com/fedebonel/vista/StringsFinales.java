@@ -5,17 +5,13 @@ package com.fedebonel.vista;
  */
 public class StringsFinales {
 
-    // Constructor privado para evitar instanciacion
-    private StringsFinales() {
-    }
-
-
-    // Strings principales
-
     /**
      * Nombre de la aplicacion
      */
     public final static String NOMBRE_SOFTWARE = "SolPresControl";
+
+
+    // Strings principales
     /**
      * String "Autenticacion de usuario"
      */
@@ -56,13 +52,12 @@ public class StringsFinales {
      * String "Informacion del sistema"
      */
     public static final String INFORMACION = "Informacion del sistema";
-
-    // Verbos
-
     /**
      * String "Crear"
      */
     public final static String CREAR = "Crear";
+
+    // Verbos
     /**
      * String "Modificar"
      */
@@ -99,27 +94,24 @@ public class StringsFinales {
      * String "agregar"
      */
     public final static String AGREGAR = "Agregar";
-
-    // Sustantivos
-
     /**
      * String "Clave"
      */
     public final static String CLAVE = "Clave";
 
-    // Preguntas
-
+    // Sustantivos
     /**
      * String "¿Esta seguro?"
      */
     public final static String ESTA_SEGURO = "¿Esta seguro?";
 
-    // Miscelaneo
-
+    // Preguntas
     /**
      * String "Ninguno"
      */
     public final static String NINGUNO = "Ninguno";
+
+    // Miscelaneo
     /**
      * String "Total de presentaciones realizadas a convocatorias abiertas"
      */
@@ -128,14 +120,13 @@ public class StringsFinales {
      * String "Total de presentaciones realizadas a convocatorias cerradas"
      */
     public final static String TOTAL_PRES_CONVO_CERRADAS = "Total de presentaciones realizadas a convocatorias cerradas";
-
-    // Campos a mostrar en las tablas de cada panel de objetos
-
     /**
      * Array de atributos a mostrar en la vista de informacion
      */
     public final static String[] COLUMNAS_MUNICIPIO_INFORMACION =
             new String[]{"Identificador del Municipio", "Nombre", "N° Presentaciones Realizadas", "N° Documentos Presentados"};
+
+    // Campos a mostrar en las tablas de cada panel de objetos
     /**
      * Array de atributos a mostrar en la vista de convocatorias
      */
@@ -155,13 +146,12 @@ public class StringsFinales {
      */
     public final static String[] COLUMNAS_MUNICIPIO =
             new String[]{"Identificador", "Nombre", "Categoria", "Supervisor", "Representante"};
-
-    // Errores
-
     /**
      * String constante que contiene el error a mostrar por usuario o clave incorrecto
      */
     public final static String ERROR_USUARIO_CLAVE = "Usuario o clave incorrecta";
+
+    // Errores
     /**
      * String constante que posee el mensaje a mostrar cuando hay un error por intentar asignar como supervisor a un
      * usuario que no tiene el permiso
@@ -176,11 +166,10 @@ public class StringsFinales {
      * String constante que posee el error cuando no se poseen los permisos
      */
     public static final String ERROR_NO_PERMISOS = "No se poseen los permisos para la operacion";
-
     /**
      * String constante que posee el mensaje a mostrar cuando hay un error
      */
-    public static final String ERROR_REALIZANDO_OPERACION ="Error al realizar operacion: ";
+    public static final String ERROR_REALIZANDO_OPERACION = "Error al realizar operacion: ";
     /**
      * String constante que posee el error a mostrar cuando la convocatoria esta cerrada
      */
@@ -193,7 +182,9 @@ public class StringsFinales {
      * String constate que posee el error a mostrar cuando la fecha se ingresa en un formato incorrecto
      */
     public static final String ERROR_FECHA_FORMATO_INCORRECTO = "Fechas deben ir formato 'AAAA-MM-DD' sin comillas";
-
+    // Constructor privado para evitar instanciacion
+    private StringsFinales() {
+    }
 
 
 }

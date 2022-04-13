@@ -158,11 +158,11 @@ public class Presentacion extends Evento {
     }
 
     /**
-     *  Devuelve los documentos requeridos de la convocatoria que estan entregados en la presentacion
+     * Devuelve los documentos requeridos de la convocatoria que estan entregados en la presentacion
      *
      * @return Un linked list con todos los documentos requeridos de la convocatoria que son entregados
      */
-    public LinkedList<String> getDocumentosRequeridosEntregados(){
+    public LinkedList<String> getDocumentosRequeridosEntregados() {
         LinkedList<String> documentosReqEntregados = new LinkedList<>();
         for (String documento : super.getDocumentos().getDocumentosLinkedList()) {
             if (convocatoria.containsDocumento(documento)) documentosReqEntregados.add(documento);
@@ -171,11 +171,11 @@ public class Presentacion extends Evento {
     }
 
     /**
-     *  Devuelve los documentos adicionales que estan entregados en la presentacion
+     * Devuelve los documentos adicionales que estan entregados en la presentacion
      *
      * @return Un linked list con todos los documentos adicionales que son entregados
      */
-    public LinkedList<String> getDocumentosAdicionalesEntregados(){
+    public LinkedList<String> getDocumentosAdicionalesEntregados() {
         LinkedList<String> documentosAdicionalesEntregados = new LinkedList<>();
         for (String documento : super.getDocumentos().getDocumentosLinkedList()) {
             if (!convocatoria.containsDocumento(documento)) documentosAdicionalesEntregados.add(documento);

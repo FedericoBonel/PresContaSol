@@ -3,11 +3,11 @@ package com.fedebonel.controlador.controladorpaneles;
 import com.fedebonel.controlador.controladorobjetos.UsuariosControlador;
 import com.fedebonel.modelo.usuario.RolUsuario;
 import com.fedebonel.modelo.usuario.Usuario;
+import com.fedebonel.servicios.UsuariosServicio;
 import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.vista.errores.ErrorVistaGenerador;
 import com.fedebonel.vista.formularios.ventanasemergentes.FormularioOpcionesGenerador;
 import com.fedebonel.vista.menuprincipal.UsuariosPanel;
-import com.fedebonel.servicios.UsuariosServicio;
 
 import java.awt.event.ActionEvent;
 
@@ -21,6 +21,10 @@ public class PanelUsuariosControlador implements PanelControlador<UsuariosPanel>
      */
     private final UsuariosControlador usuariosControlador;
     /**
+     * Servicio de usuarios
+     */
+    private final UsuariosServicio usuariosServicio;
+    /**
      * Vista de menu principal gestionada por este controlador
      */
     private UsuariosPanel panelUsuarios;
@@ -28,15 +32,12 @@ public class PanelUsuariosControlador implements PanelControlador<UsuariosPanel>
      * Usuario autenticado que utilizara esta vista
      */
     private Usuario usuarioLogueado;
-    /**
-     * Servicio de usuarios
-     */
-    private final UsuariosServicio usuariosServicio;
 
     /**
      * Constructor del controlador del panel de usuarios
+     *
      * @param usuariosControlador Controlador de usuarios
-     * @param usuariosServicio Servicio de usuarios
+     * @param usuariosServicio    Servicio de usuarios
      */
     public PanelUsuariosControlador(UsuariosControlador usuariosControlador, UsuariosServicio usuariosServicio) {
         this.usuariosControlador = usuariosControlador;
@@ -45,10 +46,11 @@ public class PanelUsuariosControlador implements PanelControlador<UsuariosPanel>
 
     /**
      * Asigna el usuario logueado que utilizara este panel
+     *
      * @param usuarioLogueado Usuario que utilizara el panel
      */
     @Override
-    public void setUsuarioLogueado(Usuario usuarioLogueado){
+    public void setUsuarioLogueado(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
         this.usuariosControlador.setUsuarioLogueado(usuarioLogueado);
         configurarPanel(usuarioLogueado);

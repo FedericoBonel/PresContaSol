@@ -1,11 +1,11 @@
 package com.fedebonel.controlador.controladorpaneles;
 
 import com.fedebonel.modelo.usuario.Usuario;
+import com.fedebonel.servicios.MunicipiosServicio;
+import com.fedebonel.servicios.PresentacionesServicio;
 import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.vista.errores.ErrorVistaGenerador;
 import com.fedebonel.vista.menuprincipal.InformacionPanel;
-import com.fedebonel.servicios.MunicipiosServicio;
-import com.fedebonel.servicios.PresentacionesServicio;
 
 import java.awt.event.ActionEvent;
 
@@ -15,10 +15,6 @@ import java.awt.event.ActionEvent;
  */
 public class PanelInformacionControlador implements PanelControlador<InformacionPanel> {
     /**
-     * Vista de menu principal gestionada por este controlador
-     */
-    private InformacionPanel informacionPanel;
-    /**
      * Servicio de Municipios
      */
     private final MunicipiosServicio municipiosServicio;
@@ -27,13 +23,18 @@ public class PanelInformacionControlador implements PanelControlador<Informacion
      */
     private final PresentacionesServicio presentacionesServicio;
     /**
+     * Vista de menu principal gestionada por este controlador
+     */
+    private InformacionPanel informacionPanel;
+    /**
      * Usuario que utilizara el panel
      */
     private Usuario usuarioLogueado;
 
     /**
      * Constructor del controlador del panel de informacion
-     * @param municipiosServicio Servicio de municipios
+     *
+     * @param municipiosServicio     Servicio de municipios
      * @param presentacionesServicio Servicio de presentaciones
      */
     public PanelInformacionControlador(MunicipiosServicio municipiosServicio,
@@ -44,12 +45,13 @@ public class PanelInformacionControlador implements PanelControlador<Informacion
 
     /**
      * Asigna el usuario a utilizar el panel
+     *
      * @param usuarioLogueado Usuario a utilizar el panel
      */
     @Override
-    public void setUsuarioLogueado(Usuario usuarioLogueado){
+    public void setUsuarioLogueado(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
-    };
+    }
 
     /**
      * Asigna la vista del panel de informacion que este controlador debe manejar
@@ -65,7 +67,6 @@ public class PanelInformacionControlador implements PanelControlador<Informacion
 
     /**
      * Configura el panel de informacion en la vista del menu principal asignada para el usuario logueado
-     *
      */
     @Override
     public void configurarPanel(Usuario usuarioLogueado) {

@@ -4,13 +4,13 @@ import com.fedebonel.modelo.evento.Convocatoria;
 import com.fedebonel.modelo.evento.Presentacion;
 import com.fedebonel.modelo.usuario.RolUsuario;
 import com.fedebonel.modelo.usuario.Usuario;
+import com.fedebonel.servicios.ConvocatoriasServicio;
+import com.fedebonel.servicios.MunicipiosServicio;
+import com.fedebonel.servicios.PresentacionesServicio;
 import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.vista.errores.ErrorVistaGenerador;
 import com.fedebonel.vista.formularios.creacion.FormularioCrearPresentacion;
 import com.fedebonel.vista.formularios.modificacion.FormularioModificarPresentacion;
-import com.fedebonel.servicios.ConvocatoriasServicio;
-import com.fedebonel.servicios.MunicipiosServicio;
-import com.fedebonel.servicios.PresentacionesServicio;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,20 +27,6 @@ public class PresentacionesControlador implements ActionListener {
      * Nombres de los campos en la base de datos
      */
     private static final String[] DB_CAMPOS = new String[]{"identificador", "fecha_creacion", "apertura", "convocatoria", "autor", "municipio"};
-
-    /**
-     * Usuario logueado que esta utilizando el sistema
-     */
-    private Usuario usuarioLogueado;
-
-    /**
-     * Formulario de creacion de presentaciones que este controlador debe gestionar
-     */
-    private FormularioCrearPresentacion formularioCrearPresentacion;
-    /**
-     * Formulario de modificacion de presentaciones que este controlador debe gestionar
-     */
-    private FormularioModificarPresentacion formularioModificarPresentacion;
     /**
      * Servicio de presentaciones
      */
@@ -53,12 +39,25 @@ public class PresentacionesControlador implements ActionListener {
      * Servicio de Municipios
      */
     private final MunicipiosServicio municipiosServicio;
+    /**
+     * Usuario logueado que esta utilizando el sistema
+     */
+    private Usuario usuarioLogueado;
+    /**
+     * Formulario de creacion de presentaciones que este controlador debe gestionar
+     */
+    private FormularioCrearPresentacion formularioCrearPresentacion;
+    /**
+     * Formulario de modificacion de presentaciones que este controlador debe gestionar
+     */
+    private FormularioModificarPresentacion formularioModificarPresentacion;
 
     /**
      * Costructor del controlador
+     *
      * @param presentacionesServicio Servicio de presentaciones
-     * @param convocatoriasServicio Servicio de convocatorias
-     * @param municipiosServicio Servicio de municipios
+     * @param convocatoriasServicio  Servicio de convocatorias
+     * @param municipiosServicio     Servicio de municipios
      */
     public PresentacionesControlador(PresentacionesServicio presentacionesServicio,
                                      ConvocatoriasServicio convocatoriasServicio,
@@ -68,7 +67,7 @@ public class PresentacionesControlador implements ActionListener {
         this.municipiosServicio = municipiosServicio;
     }
 
-    public void setUsuarioLogueado(Usuario usuarioLogueado){
+    public void setUsuarioLogueado(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
     }
 
@@ -214,8 +213,8 @@ public class PresentacionesControlador implements ActionListener {
                     // Rol cuentadante
                     (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[5]) &&
                             presentacion.isAutor(usuarioLogueado) && presentacion.isAbierto())) {
-                    presentacion.addDocumento(documento);
-                    presentacionesServicio.agregarDocumento(presentacion, documento);
+                presentacion.addDocumento(documento);
+                presentacionesServicio.agregarDocumento(presentacion, documento);
             } else {
                 ErrorVistaGenerador.mostrarErrorNoPermisos();
             }

@@ -64,23 +64,23 @@ public class Usuario extends Entidad {
     }
 
     /**
-     * Asigna el nombre de este usuario
-     *
-     * @param nombre Nombre a asignar
-     * @throws IllegalArgumentException Si el nombre esta vacio
-     */
-    private void setNombre(String nombre){
-        if (nombre.length() < 1) throw new IllegalArgumentException(ERROR_NOMBRE_INVALIDO);
-        this.nombre = nombre;
-    }
-
-    /**
      * Devuelve el nombre del usuario
      *
      * @return nombre del usuario como un string
      */
     public String getNombre() {
         return nombre;
+    }
+
+    /**
+     * Asigna el nombre de este usuario
+     *
+     * @param nombre Nombre a asignar
+     * @throws IllegalArgumentException Si el nombre esta vacio
+     */
+    private void setNombre(String nombre) {
+        if (nombre.length() < 1) throw new IllegalArgumentException(ERROR_NOMBRE_INVALIDO);
+        this.nombre = nombre;
     }
 
     /**
@@ -99,7 +99,8 @@ public class Usuario extends Entidad {
      * @throws IllegalArgumentException si la clave no cumple el formato requerido
      */
     public void setClave(String clave) throws IllegalArgumentException {
-        if (!cumpleFormatoClave(clave)) throw new IllegalArgumentException(ERROR_CLAVE_INVALIDA + LIMITE_CLAVE_SUPERIOR);
+        if (!cumpleFormatoClave(clave))
+            throw new IllegalArgumentException(ERROR_CLAVE_INVALIDA + LIMITE_CLAVE_SUPERIOR);
         this.clave = clave;
     }
 

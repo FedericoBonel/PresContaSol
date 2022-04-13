@@ -1,8 +1,8 @@
 package com.fedebonel.vista.menuprincipal;
 
+import com.fedebonel.controlador.MenuPrincipalControlador;
 import com.fedebonel.vista.Estilo;
 import com.fedebonel.vista.StringsFinales;
-import com.fedebonel.controlador.MenuPrincipalControlador;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -82,7 +82,7 @@ public class MenuPrincipalVista {
      *
      * @return Componente con la barra de menu
      */
-    private JMenuBar crearBarraMenu(){
+    private JMenuBar crearBarraMenu() {
         JMenuBar barraMenu = new JMenuBar();
         JMenu opciones = new JMenu(StringsFinales.USUARIO);
         salirBoton = new JMenuItem(StringsFinales.SALIR);
@@ -108,7 +108,7 @@ public class MenuPrincipalVista {
     /**
      * Reinicia todos los componentes de la vista
      */
-    public void reiniciarVista(){
+    public void reiniciarVista() {
         inicializarVista();
     }
 

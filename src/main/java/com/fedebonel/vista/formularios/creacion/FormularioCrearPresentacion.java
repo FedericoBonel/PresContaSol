@@ -1,9 +1,9 @@
 package com.fedebonel.vista.formularios.creacion;
 
-import com.fedebonel.vista.Estilo;
-import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.controlador.controladorobjetos.PresentacionesControlador;
 import com.fedebonel.modelo.evento.Convocatoria;
+import com.fedebonel.vista.Estilo;
+import com.fedebonel.vista.StringsFinales;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -20,6 +20,18 @@ public class FormularioCrearPresentacion {
      */
     public final JFrame ventana;
     /**
+     * Boton de crear
+     */
+    public final JButton crearBoton;
+    /**
+     * Datos de las opciones de documentos requeridos
+     */
+    private final DefaultListModel<String> documentosRequeridosDatos;
+    /**
+     * Controlador que debe gestionar las interacciones de esta vista
+     */
+    private final PresentacionesControlador controlador;
+    /**
      * Campo de texto de identificador (Se usan los limites de usuario por cuestiones visuales)
      */
     public JTextField idCampo;
@@ -28,30 +40,17 @@ public class FormularioCrearPresentacion {
      */
     public JComboBox<String> convocatoriaCampo;
     /**
-     * Datos de las opciones de documentos requeridos
-     */
-    private final DefaultListModel<String> documentosRequeridosDatos;
-    /**
      * Campo que muestra las opciones de los documentos requeridos
      */
     public JList<String> documentosRequeridosCampo;
-    /**
-     * Boton de crear
-     */
-    public final JButton crearBoton;
-
-    /**
-     * Controlador que debe gestionar las interacciones de esta vista
-     */
-    private final PresentacionesControlador controlador;
 
     /**
      * Constructor de un nuevo formulario de creacion de convocatorias
      *
-     * @param controlador Controlador que debe gestionar las interacciones de este formulario
+     * @param controlador   Controlador que debe gestionar las interacciones de este formulario
      * @param convocatorias Lista de convocatorias abiertas actualmente
      */
-    public FormularioCrearPresentacion(PresentacionesControlador controlador, LinkedList<Convocatoria> convocatorias){
+    public FormularioCrearPresentacion(PresentacionesControlador controlador, LinkedList<Convocatoria> convocatorias) {
         // Setea los parametros basicos de la ventana
         ventana = new JFrame(StringsFinales.CREAR + " " + StringsFinales.PRESENTACION);
         ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

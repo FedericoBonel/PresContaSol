@@ -1,8 +1,8 @@
 package com.fedebonel.vista.formularios.ventanasemergentes;
 
+import com.fedebonel.controlador.MenuPrincipalControlador;
 import com.fedebonel.vista.Estilo;
 import com.fedebonel.vista.StringsFinales;
-import com.fedebonel.controlador.MenuPrincipalControlador;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -45,13 +45,12 @@ public class LoginVista {
     }
 
 
-
     /**
      * Crea el componente del nombre de usuario
      *
      * @return Componente del nombre de usuario
      */
-    private JPanel crearComponenteNombreUsuario(){
+    private JPanel crearComponenteNombreUsuario() {
         JPanel contenedorUsuario = new JPanel();
         contenedorUsuario.setLayout(new BorderLayout());
         JLabel etiquetaUsuario = new JLabel(StringsFinales.USUARIO);
@@ -67,7 +66,7 @@ public class LoginVista {
      *
      * @return Componente de clave de usuario
      */
-    private JPanel crearComponenteClaveUsuario(){
+    private JPanel crearComponenteClaveUsuario() {
         JPanel contenedorClave = new JPanel();
         contenedorClave.setLayout(new BorderLayout());
         JLabel etiquetaClave = new JLabel(StringsFinales.CLAVE);
@@ -91,7 +90,7 @@ public class LoginVista {
     /**
      * Resetea la vista y todos sus componentes
      */
-    public void reiniciarVista(){
+    public void reiniciarVista() {
         inicializarVista();
     }
 

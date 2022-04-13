@@ -1,8 +1,8 @@
 package com.fedebonel.vista.menuprincipal;
 
+import com.fedebonel.modelo.evento.Presentacion;
 import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.vista.componentes.JTableNoEditable;
-import com.fedebonel.modelo.evento.Presentacion;
 
 import javax.swing.*;
 import java.awt.*;

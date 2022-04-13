@@ -1,10 +1,10 @@
 package com.fedebonel.vista.formularios.modificacion;
 
+import com.fedebonel.controlador.controladorobjetos.PresentacionesControlador;
+import com.fedebonel.modelo.evento.Presentacion;
 import com.fedebonel.vista.Estilo;
 import com.fedebonel.vista.StringsFinales;
 import com.fedebonel.vista.componentes.ListaDinamicaCampoTexto;
-import com.fedebonel.controlador.controladorobjetos.PresentacionesControlador;
-import com.fedebonel.modelo.evento.Presentacion;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -20,6 +20,18 @@ public class FormularioModificarPresentacion {
      */
     public final JFrame ventana;
     /**
+     * Boton de modificar
+     */
+    public final JButton modificarBoton;
+    /**
+     * Presentacion a modificar
+     */
+    public final Presentacion presentacionAModificar;
+    /**
+     * Controlador que debe gestionar las interacciones de esta vista
+     */
+    private final PresentacionesControlador controlador;
+    /**
      * Opciones documentos requeridos
      */
     public JList<String> documentosRequeridosCampo;
@@ -31,19 +43,6 @@ public class FormularioModificarPresentacion {
      * Campo de entregar activado significa entregado, no activado significa no entregado
      */
     public JCheckBox campoEstadoEntrega;
-    /**
-     * Boton de modificar
-     */
-    public final JButton modificarBoton;
-    /**
-     * Presentacion a modificar
-     */
-    public final Presentacion presentacionAModificar;
-
-    /**
-     * Controlador que debe gestionar las interacciones de esta vista
-     */
-    private final PresentacionesControlador controlador;
 
     /**
      * Constructor de un nuevo formulario de creacion de convocatorias
