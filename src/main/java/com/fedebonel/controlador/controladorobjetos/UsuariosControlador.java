@@ -48,6 +48,11 @@ public class UsuariosControlador implements ActionListener {
         this.usuariosServicio = usuariosServicio;
     }
 
+    /**
+     * Asigna el usuario que utiliza este controlador
+     *
+     * @param usuarioLogueado Usuario a asignar
+     */
     public void setUsuarioLogueado(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
     }
@@ -82,7 +87,10 @@ public class UsuariosControlador implements ActionListener {
      * @param rolUsuario Rol del usuario a crear
      * @throws IllegalArgumentException Si alguno de los parametros es erroneo o si el usuario esta registrado
      */
-    public void crearUsuario(String nombre, String username, String clave, RolUsuario rolUsuario) throws IllegalArgumentException {
+    public void crearUsuario(String nombre,
+                             String username,
+                             String clave,
+                             RolUsuario rolUsuario) throws IllegalArgumentException {
         try {
             if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[0], RolUsuario.ACCIONES[0])) {
                 Usuario usuario = new Usuario(nombre, username.replaceAll("\\s+", ""), clave, rolUsuario);
@@ -103,8 +111,8 @@ public class UsuariosControlador implements ActionListener {
      */
     public void eliminarUsuario(Usuario usuario) {
         try {
-            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[0], RolUsuario.ACCIONES[6]) &&
-                    !usuarioLogueado.getId().equals(usuario.getId())) {
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[0], RolUsuario.ACCIONES[6])
+                    && !usuarioLogueado.getId().equals(usuario.getId())) {
                 usuariosServicio.eliminar(usuario);
             } else {
                 ErrorVistaGenerador.mostrarErrorNoPermisos();

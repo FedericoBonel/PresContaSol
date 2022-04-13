@@ -14,7 +14,8 @@ public class Convocatoria extends Evento {
     /**
      * String constante que posee el error cuando la fecha es invalida
      */
-    public static final String ERROR_FECHA_INVALIDA = "La fecha de cierre ingresada es invalida, debe ser despues de la de apertura";
+    public static final String ERROR_FECHA_INVALIDA
+            = "La fecha de cierre ingresada es invalida, debe ser despues de la de apertura";
     /**
      * String constante que posee el error cuando la descripcion es invalida
      */
@@ -52,7 +53,8 @@ public class Convocatoria extends Evento {
      */
     public Convocatoria(String id, LocalDate fechaInicio, LocalDate fechaCierre, LinkedList<String> docsReq, String descripcion)
             throws IllegalArgumentException {
-        super(id.toLowerCase(), fechaInicio, (fechaInicio.isBefore(LocalDate.now().plusDays(1)) && fechaCierre.isAfter(LocalDate.now())), docsReq);
+        super(id.toLowerCase(), fechaInicio, (fechaInicio.isBefore(LocalDate.now().plusDays(1))
+                && fechaCierre.isAfter(LocalDate.now())), docsReq);
         setFechaCierre(fechaCierre);
         setDescripcion(descripcion);
     }
@@ -104,16 +106,6 @@ public class Convocatoria extends Evento {
     }
 
     /**
-     * Indica si el documento especificado es requerido en la convocatoria
-     *
-     * @param documento Documento a verificar su estado
-     * @return Estado de requerimiento del documento
-     */
-    public Boolean isRequerido(String documento) {
-        return super.containsDocumento(documento);
-    }
-
-    /**
      * Devuelve la descripcion de la convocatoria
      *
      * @return Descripcion como un String
@@ -156,13 +148,12 @@ public class Convocatoria extends Evento {
      */
     @Override
     public String toString() {
-        return "{" +
-                "identificador:" + super.getId() +
-                ", documentos=" + super.getDocumentos() +
-                ", fechaInicio=" + super.getFechaInicio() +
-                ", fechaCierre=" + fechaCierre +
-                ", descripcion=" + descripcion +
-                ", abierto=" + super.isAbierto() +
-                "} ";
+        return "{" + "identificador:"
+                + super.getId()
+                + ", documentos=" + super.getDocumentos()
+                + ", fechaInicio=" + super.getFechaInicio()
+                + ", fechaCierre=" + fechaCierre
+                + ", descripcion=" + descripcion
+                + ", abierto=" + super.isAbierto() + "} ";
     }
 }

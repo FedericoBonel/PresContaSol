@@ -23,10 +23,6 @@ public class FormularioCrearConvocatoria {
      */
     public final JButton crearBoton;
     /**
-     * Controlador que debe gestionar las interacciones de esta vista
-     */
-    private final ConvocatoriasControlador controlador;
-    /**
      * Campo de texto de identificador (Se usan los limites de usuario por cuestiones visuales)
      */
     public JTextField idCampo;
@@ -90,8 +86,6 @@ public class FormularioCrearConvocatoria {
         ventana.add(BorderLayout.CENTER, contenedorDescripcion);
         ventana.add(BorderLayout.SOUTH, crearBoton);
         ventana.setLocationRelativeTo(null);
-        // Asigna el controlador
-        this.controlador = controlador;
     }
 
     /**

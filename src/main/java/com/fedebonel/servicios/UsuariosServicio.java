@@ -17,22 +17,50 @@ public class UsuariosServicio implements EntidadServicio<String, Usuario> {
      */
     public static final String ERROR_USUARIO_NO_REGISTRADO = "Usuario no registrado";
 
+    /**
+     * Repositorio de usuarios
+     */
     private final UsuariosRepositorio usuariosRepositorio;
 
+    /**
+     * Constructor del servicio de usuarios
+     *
+     * @param usuariosRepositorio Repositorio a utilizar para conectarse a la base de datos
+     */
     public UsuariosServicio(UsuariosRepositorio usuariosRepositorio) {
         this.usuariosRepositorio = usuariosRepositorio;
     }
 
+    /**
+     * Retorna a todos los usuarios contenidos en la base de datos
+     *
+     * @return Todos los usuarios contenidos en la base de datos como lista
+     * @throws SQLException Si algun error en la conexion y sentencia de SQL es detectado
+     */
     @Override
     public LinkedList<Usuario> leerTodo() throws SQLException {
         return (LinkedList<Usuario>) usuariosRepositorio.leerTodo();
     }
 
+    /**
+     * Retorna al usuario que contenga ese identificador o nulo si no existe
+     *
+     * @param id Identificador de la entidad a leer
+     * @return Usuario que contenga dicho identificador
+     * @throws SQLException Si algun error en la conexion y sentencia de SQL es detectado
+     */
     @Override
     public Usuario leerPorID(String id) throws SQLException {
         return usuariosRepositorio.leerPorId(id);
     }
 
+    /**
+     * Busca usuarios en la base de datos por nombre
+     *
+     * @param name Nombre del usuario a buscar
+     * @return El usuario que posea ese nombre o null en caso que no exista
+     * @throws SQLException Si algun error en la conexion y sentencia de SQL es detectado
+     */
     public Usuario searchByName(String name) throws SQLException {
         return usuariosRepositorio.searchByName(name);
     }

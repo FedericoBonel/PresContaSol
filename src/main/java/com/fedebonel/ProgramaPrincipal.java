@@ -26,6 +26,7 @@ import com.fedebonel.vista.menuprincipal.MenuPrincipalVista;
  * Clase que contiene el metodo main donde se lanza todos los componentes necesarios para la ejecucion del programa
  */
 public class ProgramaPrincipal {
+
     /**
      * Metodo main que se ejecuta cuando se ejecuta el programa
      *

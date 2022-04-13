@@ -20,15 +20,15 @@ public class Municipio extends Entidad {
     /**
      * Limite inferior de longitud del identificador (en cantidad de caracteres)
      */
-    public final static int LIMITE_IDENTIFICADOR_INFERIOR = 1;
+    public static final int LIMITE_IDENTIFICADOR_INFERIOR = 1;
     /**
      * Limite superior de longitud del identificador (en cantidad de caracteres)
      */
-    public final static int LIMITE_IDENTIFICADOR_SUPERIOR = 30;
+    public static final int LIMITE_IDENTIFICADOR_SUPERIOR = 30;
     /**
      * Limite superior de categoria (en valor numerico)
      */
-    public final static int LIMITE_CATEGORIA_SUPERIOR = 100;
+    public static final int LIMITE_CATEGORIA_SUPERIOR = 100;
     /**
      * Nombre municipio
      */
@@ -56,7 +56,7 @@ public class Municipio extends Entidad {
      */
     public Municipio(String identificador, String nombre, int categoria) throws IllegalArgumentException {
         super(identificador.toLowerCase());
-        this.nombre = nombre;
+        setNombre(nombre);
         setCategoria(categoria);
     }
 
@@ -228,7 +228,8 @@ public class Municipio extends Entidad {
      */
     @Override
     protected boolean cumpleFormatoId(String identificador) {
-        return LIMITE_IDENTIFICADOR_INFERIOR <= identificador.length() && identificador.length() <= LIMITE_IDENTIFICADOR_SUPERIOR;
+        return LIMITE_IDENTIFICADOR_INFERIOR <= identificador.length()
+                && identificador.length() <= LIMITE_IDENTIFICADOR_SUPERIOR;
     }
 
     /**
@@ -238,11 +239,12 @@ public class Municipio extends Entidad {
      */
     @Override
     public String toString() {
-        return "{" +
-                "identificador:" + super.getId() +
-                ", categoria=" + categoria +
-                ", fiscal=" + fiscal +
-                ", cuentadante=" + cuentadante +
-                "} ";
+        return "{"
+                + "identificador:" + super.getId()
+                + ", categoria=" + categoria
+                + ", fiscal="
+                + fiscal + ", cuentadante"
+                + "=" + cuentadante
+                + "} ";
     }
 }

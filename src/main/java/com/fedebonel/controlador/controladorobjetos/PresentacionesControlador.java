@@ -26,7 +26,8 @@ public class PresentacionesControlador implements ActionListener {
     /**
      * Nombres de los campos en la base de datos
      */
-    private static final String[] DB_CAMPOS = new String[]{"identificador", "fecha_creacion", "apertura", "convocatoria", "autor", "municipio"};
+    private static final String[] DB_CAMPOS
+            = new String[]{"identificador", "fecha_creacion", "apertura", "convocatoria", "autor", "municipio"};
     /**
      * Servicio de presentaciones
      */
@@ -67,6 +68,11 @@ public class PresentacionesControlador implements ActionListener {
         this.municipiosServicio = municipiosServicio;
     }
 
+    /**
+     * Asigna el usuario que utilizara este controlador
+     *
+     * @param usuarioLogueado Usuario que utilizara el controlador
+     */
     public void setUsuarioLogueado(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
     }
@@ -117,8 +123,8 @@ public class PresentacionesControlador implements ActionListener {
     public void crearPresentacion(String id, Convocatoria convocatoria, LinkedList<String> docsEntregados)
             throws IllegalArgumentException {
         try {
-            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[0]) &&
-                    convocatoria.isAbierto()) {
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[0])
+                    && convocatoria.isAbierto()) {
                 // Cuando el usuario crea una presentacion siempre se establece como abierta por defecto
                 Presentacion nuevaPresentacion =
                         new Presentacion(id,
@@ -144,10 +150,10 @@ public class PresentacionesControlador implements ActionListener {
     public void eliminarPresentacion(Presentacion presentacion) {
         try {
             // Rol Administrador
-            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[6]) ||
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[6])
                     // Rol Cuentadante
-                    (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[8]) &&
-                            presentacion.isAbierto() && presentacion.isAutor(usuarioLogueado))) {
+                    || (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[8])
+                    && presentacion.isAbierto() && presentacion.isAutor(usuarioLogueado))) {
                 presentacionesServicio.eliminar(presentacion);
             } else {
                 ErrorVistaGenerador.mostrarErrorNoPermisos();
@@ -184,10 +190,10 @@ public class PresentacionesControlador implements ActionListener {
     public void entregarPresentacion(Presentacion presentacion) throws IllegalCallerException {
         try {
             // Rol Cuentadante
-            if ((usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[5]) &&
-                    presentacion.isAutor(usuarioLogueado) && presentacion.getConvocatoria().isAbierto() &&
-                    presentacion.todosDocsRequeridosEntregados()) ||
-                    usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[4])) {
+            if ((usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[5])
+                    && presentacion.isAutor(usuarioLogueado) && presentacion.getConvocatoria().isAbierto()
+                    && presentacion.todosDocsRequeridosEntregados())
+                    || usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[4])) {
                 presentacion.setAbierto(false);
                 presentacionesServicio.actualizar(presentacion, DB_CAMPOS[2], String.valueOf(0));
             } else {
@@ -209,10 +215,10 @@ public class PresentacionesControlador implements ActionListener {
     public void entregarDocumentoA(Presentacion presentacion, String documento) {
         try {
             // Rol Administrador
-            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[1]) ||
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[1])
                     // Rol cuentadante
-                    (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[5]) &&
-                            presentacion.isAutor(usuarioLogueado) && presentacion.isAbierto())) {
+                    || (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[5])
+                    && presentacion.isAutor(usuarioLogueado) && presentacion.isAbierto())) {
                 presentacion.addDocumento(documento);
                 presentacionesServicio.agregarDocumento(presentacion, documento);
             } else {
@@ -232,10 +238,10 @@ public class PresentacionesControlador implements ActionListener {
     public void retirarDocumentoDe(Presentacion presentacion, String documento) throws IllegalCallerException {
         try {
             // Rol Administrador
-            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[1]) ||
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[1])
                     // Rol cuentadante
-                    (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[5]) &&
-                            presentacion.isAutor(usuarioLogueado) && presentacion.isAbierto())) {
+                    || (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[5])
+                    && presentacion.isAutor(usuarioLogueado) && presentacion.isAbierto())) {
                 presentacion.removeDocumento(documento);
                 presentacionesServicio.eliminarDocumento(presentacion, documento);
             } else {
@@ -270,16 +276,16 @@ public class PresentacionesControlador implements ActionListener {
     public void mostrarFormularioModificar(Presentacion presentacionAModificar) {
         formularioModificarPresentacion = new FormularioModificarPresentacion(this, presentacionAModificar);
         // Si no tiene permisos para agregar documentos deshabilita los campos
-        if (!(usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[1]) ||
-                (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[5]) &&
-                        presentacionAModificar.isAbierto()))) {
+        if (!(usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[1])
+                || (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[5])
+                && presentacionAModificar.isAbierto()))) {
             formularioModificarPresentacion.documentosRequeridosCampo.setEnabled(false);
             formularioModificarPresentacion.documentosAdicionalesCampo.setEnabled(false);
         }
         // Si no tiene permisos para entregar o no entregar la presentacion deshabilita el campo
-        if (!(usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[4]) ||
-                (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[5]) &&
-                        presentacionAModificar.isAbierto())))
+        if (!(usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[4])
+                || (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[5])
+                && presentacionAModificar.isAbierto())))
             formularioModificarPresentacion.campoEstadoEntrega.setEnabled(false);
         formularioModificarPresentacion.ventana.setVisible(true);
     }
@@ -299,7 +305,8 @@ public class PresentacionesControlador implements ActionListener {
                     // Toma los datos
                     String identificador = formularioCrearPresentacion.idCampo.getText();
                     String convocatoriaId = String.valueOf(formularioCrearPresentacion.convocatoriaCampo.getSelectedItem());
-                    LinkedList<String> documentos = new LinkedList<>(formularioCrearPresentacion.documentosRequeridosCampo.getSelectedValuesList());
+                    LinkedList<String> documentos
+                            = new LinkedList<>(formularioCrearPresentacion.documentosRequeridosCampo.getSelectedValuesList());
                     // Intenta crear la presentacion
                     crearPresentacion(identificador, convocatoriasServicio.leerPorID(convocatoriaId), documentos);
                     // Cerrar formulario
@@ -314,22 +321,24 @@ public class PresentacionesControlador implements ActionListener {
                 // Toma la presentacion a modificar
                 Presentacion presentacionAModificar = formularioModificarPresentacion.presentacionAModificar;
                 // Toma los valores a modificar del formulario
-                HashSet<String> documentosReqNuevos = new HashSet<>(formularioModificarPresentacion.documentosRequeridosCampo.getSelectedValuesList());
-                HashSet<String> docsAdNuevos = new HashSet<>(formularioModificarPresentacion.documentosAdicionalesCampo.getDatos());
+                HashSet<String> documentosReqNuevos
+                        = new HashSet<>(formularioModificarPresentacion.documentosRequeridosCampo.getSelectedValuesList());
+                HashSet<String> docsAdNuevos
+                        = new HashSet<>(formularioModificarPresentacion.documentosAdicionalesCampo.getDatos());
                 boolean nuevoAbierto = !formularioModificarPresentacion.campoEstadoEntrega.isSelected();
 
                 // Verifica si se desea modificar los documentos requeridos
                 for (String documento : presentacionAModificar.getDocumentos().getDocumentosLinkedList())
-                    if (!documentosReqNuevos.contains(documento) &&
-                            presentacionAModificar.getConvocatoria().getDocumentos().containsDocumento(documento))
+                    if (!documentosReqNuevos.contains(documento)
+                            && presentacionAModificar.getConvocatoria().getDocumentos().containsDocumento(documento))
                         retirarDocumentoDe(presentacionAModificar, documento);
                 for (String documento : documentosReqNuevos)
                     if (!presentacionAModificar.containsDocumento(documento))
                         entregarDocumentoA(presentacionAModificar, documento);
                 // Verifica si se quiere agregar un documento adicional
                 for (String documento : presentacionAModificar.getDocumentos().getDocumentosLinkedList())
-                    if (!docsAdNuevos.contains(documento) &&
-                            !presentacionAModificar.getConvocatoria().getDocumentos().containsDocumento(documento))
+                    if (!docsAdNuevos.contains(documento)
+                            && !presentacionAModificar.getConvocatoria().getDocumentos().containsDocumento(documento))
                         retirarDocumentoDe(presentacionAModificar, documento);
                 for (String documento : docsAdNuevos)
                     if (!presentacionAModificar.containsDocumento(documento))

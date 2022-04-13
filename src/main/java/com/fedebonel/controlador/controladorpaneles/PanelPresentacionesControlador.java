@@ -29,10 +29,6 @@ public class PanelPresentacionesControlador implements PanelControlador<Presenta
      * Vista de menu principal gestionada por este controlador
      */
     private PresentacionesPanel panelPresentaciones;
-    /**
-     * Usuario autenticado que utilizara esta vista
-     */
-    private Usuario usuarioLogueado;
 
     /**
      * Constructor del controlador del panel de presentaciones
@@ -54,7 +50,6 @@ public class PanelPresentacionesControlador implements PanelControlador<Presenta
      */
     @Override
     public void setUsuarioLogueado(Usuario usuarioLogueado) {
-        this.usuarioLogueado = usuarioLogueado;
         this.presentacionesControlador.setUsuarioLogueado(usuarioLogueado);
         configurarPanel(usuarioLogueado);
     }
@@ -83,8 +78,8 @@ public class PanelPresentacionesControlador implements PanelControlador<Presenta
         if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[0]))
             panelPresentaciones.crearBoton.setVisible(false);
         // Si no tiene el permiso para modificar nada quita el boton
-        if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[4]) &&
-                !usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[5]))
+        if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[4])
+                && !usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[5]))
             panelPresentaciones.modificarBoton.setVisible(false);
         // Si no tiene permiso para eliminar ninguna quita el boton eliminar
         if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[8]))
@@ -134,7 +129,8 @@ public class PanelPresentacionesControlador implements PanelControlador<Presenta
                 }
             }
             // Si el usuario desea actualizar los datos de las presentaciones
-            case (StringsFinales.ACTUALIZAR) -> panelPresentaciones.mostrarPresentaciones(presentacionesControlador.getPresentacionesVisibles());
+            case (StringsFinales.ACTUALIZAR) ->
+                    panelPresentaciones.mostrarPresentaciones(presentacionesControlador.getPresentacionesVisibles());
         }
     }
 }

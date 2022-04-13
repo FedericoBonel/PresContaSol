@@ -34,10 +34,6 @@ public class PanelConvocatoriasControlador implements PanelControlador<Convocato
      * Vista de menu principal gestionada por este controlador
      */
     private ConvocatoriasPanel panelConvocatorias;
-    /**
-     * Usuario autenticado que utilizara esta vista
-     */
-    private Usuario usuarioLogueado;
 
     /**
      * Constructor del controlador del panel de convocatorias
@@ -61,7 +57,6 @@ public class PanelConvocatoriasControlador implements PanelControlador<Convocato
      */
     @Override
     public void setUsuarioLogueado(Usuario usuarioLogueado) {
-        this.usuarioLogueado = usuarioLogueado;
         this.convocatoriasControlador.setUsuarioLogueado(usuarioLogueado);
         configurarPanel(usuarioLogueado);
     }

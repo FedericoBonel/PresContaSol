@@ -33,11 +33,11 @@ public class RolUsuario {
     /**
      * Rol administrador
      */
-    public final static String ROL_ADMINISTRADOR_NOMBRE = "RolAdministrador";
+    public static final String ROL_ADMINISTRADOR_NOMBRE = "RolAdministrador";
     /**
      * Contenedor de todos los permisos de los administradores como matriz [objeto][accion]
      */
-    public final static String[][] PERMISOS_ADMINISTRADOR = new String[][]{
+    public static final String[][] PERMISOS_ADMINISTRADOR = new String[][]{
             // Usuarios (Todas las acciones)
             {OBJETOS[0], ACCIONES[0]},
             {OBJETOS[0], ACCIONES[1]},
@@ -60,11 +60,11 @@ public class RolUsuario {
     /**
      * Rol fiscal gral
      */
-    public final static String ROL_FISCAL_GRAL_NOMBRE = "RolFiscalGral";
+    public static final String ROL_FISCAL_GRAL_NOMBRE = "RolFiscalGral";
     /**
      * Contenedor de todos los permisos de los fiscales generales como matriz [objeto][accion]
      */
-    public final static String[][] PERMISOS_FISCAL_GRAL = new String[][]{
+    public static final String[][] PERMISOS_FISCAL_GRAL = new String[][]{
             // Usuarios (Solo consultar supervisores [Fiscales] y representantes [Cuentadantes])
             {OBJETOS[0], ACCIONES[10]},
             {OBJETOS[0], ACCIONES[11]},
@@ -83,11 +83,11 @@ public class RolUsuario {
     /**
      * Rol fiscal
      */
-    public final static String ROL_FISCAL_NOMBRE = "RolFiscal";
+    public static final String ROL_FISCAL_NOMBRE = "RolFiscal";
     /**
      * Contenedor de todos los permisos de los fiscales como matriz [objeto][accion]
      */
-    public final static String[][] PERMISOS_FISCAL = new String[][]{
+    public static final String[][] PERMISOS_FISCAL = new String[][]{
             // Municipios (Solo consultar todos y supervisar)
             {OBJETOS[1], ACCIONES[9]},
             {OBJETOS[1], ACCIONES[15]},
@@ -98,11 +98,11 @@ public class RolUsuario {
     /**
      * Rol cuentadante
      */
-    public final static String ROL_CUENTADANTE_NOMBRE = "RolCuentadante";
+    public static final String ROL_CUENTADANTE_NOMBRE = "RolCuentadante";
     /**
      * Contenedor de todos los permisos de los cuentadantes como matriz [objeto][accion]
      */
-    public final static String[][] PERMISOS_CUENTADANTE = new String[][]{
+    public static final String[][] PERMISOS_CUENTADANTE = new String[][]{
             // Municipios (Solo consultar el que tenga asignado y representar)
             {OBJETOS[1], ACCIONES[14]},
             {OBJETOS[1], ACCIONES[16]},

@@ -14,8 +14,16 @@ import java.util.List;
  */
 public class MunicipiosRepositorioMySQL implements MunicipiosRepositorio {
 
+    /**
+     * Repositorio de usuarios a utilizar
+     */
     private final UsuariosRepositorio usuariosRepositorio;
 
+    /**
+     * Constructor del repositorio de municipios
+     *
+     * @param usuariosRepositorio Repositorio de usuarios que este repositorio utilizara
+     */
     public MunicipiosRepositorioMySQL(UsuariosRepositorio usuariosRepositorio) {
         this.usuariosRepositorio = usuariosRepositorio;
     }
@@ -24,11 +32,12 @@ public class MunicipiosRepositorioMySQL implements MunicipiosRepositorio {
     @Override
     public void guardar(Municipio entidad) throws SQLException {
         Connection conn = ConexionDB.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("insert into municipio values (?, ?, ?, NULL, NULL)");
-        stmt.setString(1, entidad.getId());
-        stmt.setString(2, entidad.getNombre());
-        stmt.setInt(3, entidad.getCategoria());
-        stmt.executeUpdate();
+        try (PreparedStatement stmt = conn.prepareStatement("insert into municipio values (?, ?, ?, NULL, NULL)")) {
+            stmt.setString(1, entidad.getId());
+            stmt.setString(2, entidad.getNombre());
+            stmt.setInt(3, entidad.getCategoria());
+            stmt.executeUpdate();
+        }
     }
 
     @Override
@@ -37,64 +46,71 @@ public class MunicipiosRepositorioMySQL implements MunicipiosRepositorio {
         Municipio currMunicipio;
         String fiscalId, cuentadanteId;
         Connection conn = ConexionDB.getConnection();
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from municipio");
-        while (rs.next()) {
-            currMunicipio = new Municipio(
-                    rs.getString(1),
-                    rs.getString(2),
-                    rs.getInt(3));
-            fiscalId = rs.getString(4);
-            cuentadanteId = rs.getString(5);
-            if (fiscalId != null)
-                currMunicipio.tomaNuevoSupervisorFiscal(usuariosRepositorio.leerPorId(fiscalId));
-            if (cuentadanteId != null)
-                currMunicipio.tomaNuevoRepresentante(usuariosRepositorio.leerPorId(cuentadanteId), result);
-            result.add(currMunicipio);
+        try (Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery("select * from municipio");
+            while (rs.next()) {
+                currMunicipio = new Municipio(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getInt(3));
+                fiscalId = rs.getString(4);
+                cuentadanteId = rs.getString(5);
+                if (fiscalId != null)
+                    currMunicipio.tomaNuevoSupervisorFiscal(usuariosRepositorio.leerPorId(fiscalId));
+                if (cuentadanteId != null)
+                    currMunicipio.tomaNuevoRepresentante(usuariosRepositorio.leerPorId(cuentadanteId), result);
+                result.add(currMunicipio);
+            }
+            return result;
         }
-        return result;
     }
 
     @Override
     public Municipio leerPorId(String id) throws SQLException {
         Connection conn = ConexionDB.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("select * from municipio where identificador=?");
-        stmt.setString(1, id);
-        ResultSet rs = stmt.executeQuery();
-        if (!rs.next()) return null;
-        Municipio municipio = new Municipio(
-                rs.getString(1),
-                rs.getString(2),
-                rs.getInt(3));
-        String fiscalId = rs.getString(4);
-        if (fiscalId != null)
-            municipio.tomaNuevoSupervisorFiscal(usuariosRepositorio.leerPorId(fiscalId));
-        String cuentadanteId = rs.getString(5);
-        if (cuentadanteId != null)
-            municipio.tomaNuevoRepresentante(usuariosRepositorio.leerPorId(cuentadanteId), leerTodo());
-        return municipio;
+        try (PreparedStatement stmt = conn.prepareStatement("select * from municipio where identificador=?")) {
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) return null;
+            Municipio municipio = new Municipio(
+                    rs.getString(1),
+                    rs.getString(2),
+                    rs.getInt(3));
+            String fiscalId = rs.getString(4);
+            if (fiscalId != null)
+                municipio.tomaNuevoSupervisorFiscal(usuariosRepositorio.leerPorId(fiscalId));
+            String cuentadanteId = rs.getString(5);
+            if (cuentadanteId != null)
+                municipio.tomaNuevoRepresentante(usuariosRepositorio.leerPorId(cuentadanteId), leerTodo());
+            return municipio;
+        }
     }
 
     @Override
     public void eliminarPorId(String id) throws SQLException {
         Connection conn = ConexionDB.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("delete from municipio where identificador = ?");
-        stmt.setString(1, id);
-        stmt.executeUpdate();
+        try (PreparedStatement stmt = conn.prepareStatement("delete from municipio where identificador = ?")) {
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+        }
     }
 
     @Override
     public void actualizarPorId(String id, String campo, String valor) throws SQLException {
         Connection conn = ConexionDB.getConnection();
-        PreparedStatement stmt;
-        if (valor.equals("NULL")) {
-            stmt = conn.prepareStatement("update municipio set " + campo + " = NULL where identificador = ?");
-            stmt.setString(1, id);
-        } else {
-            stmt = conn.prepareStatement("update municipio set " + campo + " = ? where identificador = ?");
-            stmt.setString(1, valor);
-            stmt.setString(2, id);
+        PreparedStatement stmt = conn.prepareStatement(
+                "update municipio set " + campo + " = NULL where identificador = ?");
+        try {
+            if (valor.equals("NULL")) {
+                stmt.setString(1, id);
+            } else {
+                stmt = conn.prepareStatement("update municipio set " + campo + " = ? where identificador = ?");
+                stmt.setString(1, valor);
+                stmt.setString(2, id);
+            }
+            stmt.executeUpdate();
+        } finally {
+            stmt.close();
         }
-        stmt.executeUpdate();
     }
 }

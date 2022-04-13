@@ -17,8 +17,16 @@ public class ConvocatoriasServicio implements EntidadServicio<String, Convocator
      */
     public static final String ERROR_CONVOCATORIA_NO_REGISTRADA = "Convocatoria no registrada";
 
+    /**
+     * Repositorio de convocatorias
+     */
     private final ConvocatoriasRepositorio convocatoriasRepositorio;
 
+    /**
+     * Constructor del servicio de convocatorias
+     *
+     * @param convocatoriasRepositorio Repositorio de convocatorias a utililizar en este servicio
+     */
     public ConvocatoriasServicio(ConvocatoriasRepositorio convocatoriasRepositorio) {
         this.convocatoriasRepositorio = convocatoriasRepositorio;
     }
@@ -54,12 +62,28 @@ public class ConvocatoriasServicio implements EntidadServicio<String, Convocator
         convocatoriasRepositorio.actualizarPorId(convocatoria.getId(), field, value);
     }
 
+    /**
+     * Agrega el documento a la convocatoria indicada
+     *
+     * @param convocatoria Convocatoria a la que se debe agregar el documento
+     * @param document     Documento a agregar
+     * @throws IllegalArgumentException Si la convocatoria no existe en la base de datos
+     * @throws SQLException             Si algun error en la conexion y sentencia de SQL es detectado
+     */
     public void agregarDocumento(Convocatoria convocatoria, String document) throws IllegalArgumentException, SQLException {
         Convocatoria foundConvocatoria = convocatoriasRepositorio.leerPorId(convocatoria.getId());
         if (foundConvocatoria == null) throw new IllegalArgumentException(ERROR_CONVOCATORIA_NO_REGISTRADA);
         convocatoriasRepositorio.agregarDocConvocatoria(convocatoria, document);
     }
 
+    /**
+     * Remueve un documento de la convocatoria indicada
+     *
+     * @param convocatoria Convocatoria de la cual se debe remover un documento
+     * @param document     Documento a remover
+     * @throws IllegalArgumentException Si la convocatoria no existe
+     * @throws SQLException             Si algun error en la conexion y sentencia de SQL es detectado
+     */
     public void removerDocumento(Convocatoria convocatoria, String document) throws IllegalArgumentException, SQLException {
         Convocatoria foundConvocatoria = convocatoriasRepositorio.leerPorId(convocatoria.getId());
         if (foundConvocatoria == null) throw new IllegalArgumentException(ERROR_CONVOCATORIA_NO_REGISTRADA);

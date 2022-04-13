@@ -20,11 +20,11 @@ public abstract class Evento extends Entidad {
     /**
      * Limite inferior de la longitud del identificador
      */
-    private final static int LIMITE_IDENTIFICADOR_INFERIOR = 1;
+    private static final int LIMITE_IDENTIFICADOR_INFERIOR = 1;
     /**
      * Limite superior de la longitud del identificador
      */
-    private final static int LIMITE_IDENTIFICADOR_SUPERIOR = 100;
+    private static final int LIMITE_IDENTIFICADOR_SUPERIOR = 100;
     /**
      * Documentos requeridos o entregados
      */
@@ -47,7 +47,10 @@ public abstract class Evento extends Entidad {
      * @param documentos  Documentos requeridos o entregados del evento como un LinkedList
      * @throws IllegalArgumentException si alguno de los parametros no cumple con los requisitos del formato
      */
-    public Evento(String id, LocalDate fechaInicio, boolean isAbierto, LinkedList<String> documentos) throws IllegalArgumentException {
+    public Evento(String id,
+                  LocalDate fechaInicio,
+                  boolean isAbierto,
+                  LinkedList<String> documentos) throws IllegalArgumentException {
         super(id);
         setFechaInicio(fechaInicio);
         this.documentos = incializaDocumentos(documentos);
@@ -157,7 +160,8 @@ public abstract class Evento extends Entidad {
      */
     @Override
     protected boolean cumpleFormatoId(String identificador) {
-        return LIMITE_IDENTIFICADOR_INFERIOR <= identificador.length() && identificador.length() <= LIMITE_IDENTIFICADOR_SUPERIOR;
+        return LIMITE_IDENTIFICADOR_INFERIOR <= identificador.length()
+                && identificador.length() <= LIMITE_IDENTIFICADOR_SUPERIOR;
     }
 
     /**
@@ -167,11 +171,11 @@ public abstract class Evento extends Entidad {
      */
     @Override
     public String toString() {
-        return "{" +
-                "identificador:" + super.toString() +
-                ", documentos=" + documentos +
-                ", fechaInicio=" + fechaInicio +
-                ", abierto=" + abierto +
-                "} ";
+        return "{"
+                + "identificador:" + super.toString()
+                + ", documentos=" + documentos
+                + ", fechaInicio=" + fechaInicio
+                + ", abierto=" + abierto
+                + "} ";
     }
 }

@@ -17,8 +17,16 @@ public class PresentacionesServicio implements EntidadServicio<String, Presentac
      */
     public static final String ERROR_PRESENTACION_NO_REGISTRADA = "Presentacion no registrada";
 
+    /**
+     * Repositorio de presentaciones a ser utilizado en esta clase
+     */
     private final PresentacionesRepositorio presentacionesRepositorio;
 
+    /**
+     * Constructor del servicio de presentaciones
+     *
+     * @param presentacionesRepositorio Repositorio de presentaciones a utilizar
+     */
     public PresentacionesServicio(PresentacionesRepositorio presentacionesRepositorio) {
         this.presentacionesRepositorio = presentacionesRepositorio;
     }
@@ -54,12 +62,26 @@ public class PresentacionesServicio implements EntidadServicio<String, Presentac
         presentacionesRepositorio.actualizarPorId(presentacion.getId(), field, value);
     }
 
+    /**
+     * Agrega un documento a la presentacion indicada
+     *
+     * @param presentacion Presentacion a la que agregar un documento
+     * @param document     Documento a agregar
+     * @throws SQLException Si algun error en la conexion y sentencia de SQL es detectado
+     */
     public void agregarDocumento(Presentacion presentacion, String document) throws SQLException {
         Presentacion foundPresentacion = presentacionesRepositorio.leerPorId(presentacion.getId());
         if (foundPresentacion == null) throw new IllegalArgumentException(ERROR_PRESENTACION_NO_REGISTRADA);
         presentacionesRepositorio.agregarDocPresentacion(presentacion, document);
     }
 
+    /**
+     * Elimina un documento de la presentacion indicada
+     *
+     * @param presentacion Presentacion de la que eliminar documento
+     * @param document     Documento a eliminar
+     * @throws SQLException Si algun error en la conexion y sentencia de SQL es detectado
+     */
     public void eliminarDocumento(Presentacion presentacion, String document) throws SQLException {
         Presentacion foundPresentacion = presentacionesRepositorio.leerPorId(presentacion.getId());
         if (foundPresentacion == null) throw new IllegalArgumentException(ERROR_PRESENTACION_NO_REGISTRADA);

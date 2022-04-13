@@ -17,8 +17,16 @@ public class MunicipiosServicio implements EntidadServicio<String, Municipio> {
      */
     public static final String ERROR_MUNICIPIO_NO_REGISTRADO = "Municipio no registrado";
 
+    /**
+     * Repositorio de municipios a utilizar en esta clase
+     */
     private final MunicipiosRepositorio municipiosRepositorio;
 
+    /**
+     * Constructor del servicio de municipios
+     *
+     * @param municipiosRepositorio Repositorio de municipios a utilizar
+     */
     public MunicipiosServicio(MunicipiosRepositorio municipiosRepositorio) {
         this.municipiosRepositorio = municipiosRepositorio;
     }

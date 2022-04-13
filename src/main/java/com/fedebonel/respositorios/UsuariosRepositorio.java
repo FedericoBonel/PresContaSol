@@ -9,5 +9,12 @@ import java.sql.SQLException;
  */
 public interface UsuariosRepositorio extends RepositorioCRUD<Usuario, String> {
 
+    /**
+     * Retorna El usuario que tenga este nombre asignado
+     *
+     * @param name Nombre del usuario a buscar
+     * @return El usuario con ese nombre
+     * @throws SQLException Si algun error en la conexion y sentencia de SQL es detectado
+     */
     Usuario searchByName(String name) throws SQLException;
 }

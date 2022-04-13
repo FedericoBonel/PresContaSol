@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FindBugsFilter>
     <Match>
-        <Bug pattern="MS_EXPOSE_REP, EI_EXPOSE_REP2, SF_SWITCH_NO_DEFAULT, MS_MUTABLE_ARRAY"/>
+        <Bug pattern="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE, MS_EXPOSE_REP, EI_EXPOSE_REP2, SF_SWITCH_NO_DEFAULT, MS_MUTABLE_ARRAY"/>
     </Match>
 </FindBugsFilter>

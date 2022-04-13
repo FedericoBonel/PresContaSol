@@ -57,6 +57,11 @@ public class MunicipiosControlador implements ActionListener {
         this.usuariosServicio = usuariosServicio;
     }
 
+    /**
+     * Asigna el usuario que utilizara este controlador
+     *
+     * @param usuarioLogueado Usuario que utilizara el controlador
+     */
     public void setUsuarioLogueado(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
     }
@@ -137,8 +142,8 @@ public class MunicipiosControlador implements ActionListener {
     public void asignarRepresentanteAMunicipio(Municipio municipio, Usuario representante) {
         // Modificar Representante de cualquier municipio y usuario a asignar tiene permiso para representar (i.e. Cuentadantes)
         try {
-            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[2]) &&
-                    representante.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[16])) {
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[2])
+                    && representante.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[16])) {
                 // Toma el municipio antiguo del cuentadante y actualizalo
                 Municipio municipioAntiguo = municipio.tomaNuevoRepresentante(representante, municipiosServicio.leerTodo());
                 if (municipioAntiguo != null) municipiosServicio.actualizar(municipioAntiguo, DB_CAMPOS[4], "NULL");
@@ -160,8 +165,8 @@ public class MunicipiosControlador implements ActionListener {
     public void asignarSupervisorAMunicipio(Municipio municipio, Usuario supervisor) {
         try {
             // Modificar Supervisor de cualquier municipio y usuario a asignar tiene permiso para supervisar (i.e. Fiscales)
-            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[3]) &&
-                    supervisor.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[15])) {
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[3])
+                    && supervisor.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[15])) {
                 municipio.tomaNuevoSupervisorFiscal(supervisor);
                 // Actualiza base de datos
                 municipiosServicio.actualizar(municipio, DB_CAMPOS[3], supervisor.getId());
@@ -311,7 +316,8 @@ public class MunicipiosControlador implements ActionListener {
                     Usuario nuevoSupervisor = null;
                     if (!nuevoSupervisorId.equals(StringsFinales.NINGUNO))
                         nuevoSupervisor = usuariosServicio.leerPorID(nuevoSupervisorId);
-                    String nuevoRepresentanteId = String.valueOf(formularioModificarMunicipio.representanteCampo.getSelectedItem());
+                    String nuevoRepresentanteId
+                            = String.valueOf(formularioModificarMunicipio.representanteCampo.getSelectedItem());
                     Usuario nuevoRepresentante = null;
                     if (!nuevoRepresentanteId.equals(StringsFinales.NINGUNO))
                         nuevoRepresentante = usuariosServicio.leerPorID(nuevoRepresentanteId);

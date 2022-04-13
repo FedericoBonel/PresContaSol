@@ -31,8 +31,10 @@ public class ColeccionDocumentos {
      * Constructor de la coleccion de documentos con restricciones a solo los detallados en las opciones
      *
      * @param documentos         Documentos a agregar a esta coleccion
-     * @param opcionesDocumentos Lista de todos los posibles documentos que se pueden agregar a esta coleccion (Los demas no son aceptados)
-     * @throws IllegalArgumentException Si la lista de documentos a agregar tiene strings no contenidos en la lista de las opciones de documentos
+     * @param opcionesDocumentos Lista de todos los posibles documentos que se pueden agregar a esta coleccion (Los
+     *                           demas no son aceptados)
+     * @throws IllegalArgumentException Si la lista de documentos a agregar tiene strings no contenidos en la lista
+     *                                  de las opciones de documentos
      */
     public ColeccionDocumentos(LinkedList<String> documentos, LinkedList<String> opcionesDocumentos) {
         setOpciones(opcionesDocumentos);
@@ -61,12 +63,12 @@ public class ColeccionDocumentos {
      * Agrega un nuevo documento a la coleccion
      *
      * @param documento Documento a agregar como un string
-     * @throws IllegalArgumentException Si la coleccion posee una lista de opciones y el documento a asignar no esta contenido en ella
-     *                                  o si el documento ya esta agregado a la coleccion
+     * @throws IllegalArgumentException Si la coleccion posee una lista de opciones y el documento a asignar no esta
+     *                                  contenido en ella o si el documento ya esta agregado a la coleccion
      */
     protected void addDocumento(String documento) {
-        if ((opcionesDocumentos != null && !opcionesDocumentos.contains(documento)) ||
-                documentos.contains(documento)) throw new IllegalArgumentException(ERROR_DOCUMENTO_INVALIDO);
+        if ((opcionesDocumentos != null && !opcionesDocumentos.contains(documento))
+                || documentos.contains(documento)) throw new IllegalArgumentException(ERROR_DOCUMENTO_INVALIDO);
         documentos.add(documento);
     }
 
@@ -104,7 +106,8 @@ public class ColeccionDocumentos {
      * Asigna los documentos pasados al atributo de documentos
      *
      * @param documentos Documentos a asignar como un LinkedList de Strings
-     * @throws IllegalArgumentException Si la coleccion posee una lista de opciones y los documentos a asignar no estan contenidos en ella
+     * @throws IllegalArgumentException Si la coleccion posee una lista de opciones y los documentos a asignar no
+     *                                  estan contenidos en ella
      */
     private void setDocumentos(LinkedList<String> documentos) {
         if (opcionesDocumentos != null && !opcionesDocumentos.containsAll(documentos))

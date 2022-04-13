@@ -17,7 +17,7 @@ public class Presentacion extends Evento {
     /**
      * String que posee el error cuando el municipio pasado es nulo
      */
-    public final static String ERROR_MUNICIPIO_NULO = "El usuario no posee un municipio asignado";
+    public static final String ERROR_MUNICIPIO_NULO = "El usuario no posee un municipio asignado";
     /**
      * Convocatoria a la que presenta
      */
@@ -36,14 +36,19 @@ public class Presentacion extends Evento {
      *
      * @param id             Identificador alfanumerico unico de presentacion: Puede tener desde 1 caracter hasta 100 caracteres
      * @param fechaInicio    Fecha de creacion de la presentacion: No puede ser en el futuro
-     * @param isAbierto      Estado de apertura de la presentacion: True abierta (i.e. no entregada), False cerrada (i.e. entregada)
+     * @param isAbierto      Estado de apertura de la presentacion: True (i.e. no entregada) False (i.e. entregada)
      * @param convocatoria   Convocatoria a la cual se presenta: No puede estar cerrada
      * @param autor          Cuentadante autor/propietario de la presentacion
      * @param municipio      Municipio al cual pertenece la convocatoria
      * @param docsEntregados Documentos entregados en la presentacion para la convocatoria
      * @throws IllegalArgumentException Si algun parametro es invalido y no cumple con los requisitos de formato
      */
-    public Presentacion(String id, LocalDate fechaInicio, boolean isAbierto, Convocatoria convocatoria, Usuario autor, Municipio municipio,
+    public Presentacion(String id,
+                        LocalDate fechaInicio,
+                        boolean isAbierto,
+                        Convocatoria convocatoria,
+                        Usuario autor,
+                        Municipio municipio,
                         LinkedList<String> docsEntregados) throws IllegalArgumentException {
         super(id.toLowerCase(), fechaInicio, isAbierto, docsEntregados);
         setConvocatoria(convocatoria);
@@ -228,14 +233,13 @@ public class Presentacion extends Evento {
      */
     @Override
     public String toString() {
-        return "{" +
-                "identificador:" + super.getId() +
-                ", autor=" + autor +
-                ", municipio=" + municipio +
-                ", convocatoria=" + convocatoria +
-                ", documentos=" + super.getDocumentos() +
-                ", fechaInicio=" + super.getFechaInicio() +
-                ", abierto=" + super.isAbierto() +
-                "} ";
+        return "{" + "identificador:" + super.getId()
+                + ", autor=" + autor
+                + ", municipio=" + municipio
+                + ", convocatoria=" + convocatoria
+                + ", documentos=" + super.getDocumentos()
+                + ", fechaInicio=" + super.getFechaInicio()
+                + ", abierto=" + super.isAbierto()
+                + "} ";
     }
 }

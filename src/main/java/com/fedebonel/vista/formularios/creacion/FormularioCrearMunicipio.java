@@ -22,10 +22,6 @@ public class FormularioCrearMunicipio {
      */
     public final JButton crearBoton;
     /**
-     * Controlador que debe gestionar las interacciones de esta vista
-     */
-    private final MunicipiosControlador controlador;
-    /**
      * Campo de texto de identificador (Se usan los limites de usuario por cuestiones visuales)
      */
     public JTextField idCampo;
@@ -75,8 +71,6 @@ public class FormularioCrearMunicipio {
         ventana.add(BorderLayout.CENTER, contenedorTodos);
         ventana.add(BorderLayout.SOUTH, crearBoton);
         ventana.setLocationRelativeTo(null);
-        // Asigna el controlador
-        this.controlador = controlador;
     }
 
     /**

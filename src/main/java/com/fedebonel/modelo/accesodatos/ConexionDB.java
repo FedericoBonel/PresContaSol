@@ -14,15 +14,14 @@ public class ConexionDB {
      * String constante que posee el error a mostrar cuando hubo fallo en acceso a base de datos
      */
     public static final String ERROR_ACCESO_BASE_DATOS = "Error en acceso a base de datos: ";
-
+    /**
+     * Tiempo de espera en segundos antes de lanzar error de conexion
+     */
+    private static final int TIME_OUT = 10;
     /**
      * Objeto conexion del acceso a la base de datos
      */
     private static Connection conn = null;
-    /**
-     * Tiempo de espera en segundos antes de lanzar error de conexion
-     */
-    private final int TIME_OUT = 10;
     /**
      * Driver a utilizar para la conexion
      */

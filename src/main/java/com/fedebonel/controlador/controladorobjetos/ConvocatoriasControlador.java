@@ -60,6 +60,11 @@ public class ConvocatoriasControlador implements ActionListener {
         this.presentacionesServicio = presentacionesServicio;
     }
 
+    /**
+     * Asigna al usuario logueado que utilizara este controlador
+     *
+     * @param usuarioLogueado Usuario logueado a asignar
+     */
     public void setUsuarioLogueado(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
     }
@@ -123,10 +128,10 @@ public class ConvocatoriasControlador implements ActionListener {
     public void eliminarConvocatoria(Convocatoria convocatoria) throws IllegalArgumentException {
         try {
             // Eliminar cualquier convocatoria
-            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[2], RolUsuario.ACCIONES[6]) ||
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[2], RolUsuario.ACCIONES[6])
                     // Eliminar solo las convocatorias que no tienen presentaciones
-                    (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[2], RolUsuario.ACCIONES[7]) &&
-                            convocatoria.getSusPresentacionesDe(presentacionesServicio.leerTodo()).isEmpty())) {
+                    || (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[2], RolUsuario.ACCIONES[7])
+                    && convocatoria.getSusPresentacionesDe(presentacionesServicio.leerTodo()).isEmpty())) {
                 convocatoriasServicio.eliminar(convocatoria);
             } else {
                 ErrorVistaGenerador.mostrarErrorNoPermisos();
@@ -145,8 +150,8 @@ public class ConvocatoriasControlador implements ActionListener {
     public void requerirDocumentoEn(Convocatoria convocatoria, String documento) {
         try {
             // Modificar cualquier convocatoria
-            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[2], RolUsuario.ACCIONES[1]) &&
-                    convocatoria.isAbierto()) {
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[2], RolUsuario.ACCIONES[1])
+                    && convocatoria.isAbierto()) {
                 convocatoria.addDocumento(documento);
                 convocatoriasServicio.agregarDocumento(convocatoria, documento);
             } else {
@@ -166,8 +171,8 @@ public class ConvocatoriasControlador implements ActionListener {
     public void noRequerirDocumentoEn(Convocatoria convocatoria, String documento) {
         try {
             // Modificar cualquier convocatoria
-            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[2], RolUsuario.ACCIONES[1]) &&
-                    convocatoria.isAbierto()) {
+            if (usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[2], RolUsuario.ACCIONES[1])
+                    && convocatoria.isAbierto()) {
                 convocatoria.removeDocumento(documento);
                 convocatoriasServicio.removerDocumento(convocatoria, documento);
             } else {
@@ -281,7 +286,8 @@ public class ConvocatoriasControlador implements ActionListener {
                     String identificador = formularioCrearConvocatoria.idCampo.getText();
                     LocalDate fechaApertura = LocalDate.parse(formularioCrearConvocatoria.fechaAperturaCampo.getText());
                     LocalDate fechaCierre = LocalDate.parse(formularioCrearConvocatoria.fechaCierreCampo.getText());
-                    LinkedList<String> documentos = new LinkedList<>(formularioCrearConvocatoria.documentosCampo.getSelectedValuesList());
+                    LinkedList<String> documentos
+                            = new LinkedList<>(formularioCrearConvocatoria.documentosCampo.getSelectedValuesList());
                     String descripcion = formularioCrearConvocatoria.descripcionArea.getText();
                     // Intenta crear la convocatoria
                     crearConvocatoria(identificador, fechaApertura, fechaCierre, documentos, descripcion);
@@ -303,7 +309,8 @@ public class ConvocatoriasControlador implements ActionListener {
                     LocalDate nuevaFechaApertura = LocalDate.parse(formularioModificarConvocatoria.fechaAperturaCampo.getText());
                     LocalDate nuevaFechaCierre = LocalDate.parse(formularioModificarConvocatoria.fechaCierreCampo.getText());
                     String nuevaDescripcion = formularioModificarConvocatoria.descripcionArea.getText();
-                    HashSet<String> documentosNuevos = new HashSet<>(formularioModificarConvocatoria.documentosCampo.getSelectedValuesList());
+                    HashSet<String> documentosNuevos
+                            = new HashSet<>(formularioModificarConvocatoria.documentosCampo.getSelectedValuesList());
 
                     // Verifica si se desea modificar fecha apertura
                     if (!nuevaFechaApertura.isEqual(convocatoriaAModificar.getFechaInicio()))

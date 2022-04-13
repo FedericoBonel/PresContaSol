@@ -5,43 +5,43 @@ import java.awt.*;
 /**
  * Clase que contiene los elementos visuales de "Estilo" usados en las vistas (Dimensiones, espaciados, etc.)
  */
-public class Estilo {
+public final class Estilo {
 
     /**
      * Dimensiones de la ventana del menu principal en pixeles [anchura, altura]
      */
-    public final static int[] DIMENSIONES_MENU_PRINCIPAL = new int[]{800, 400};
+    public static final int[] DIMENSIONES_MENU_PRINCIPAL = new int[]{800, 400};
 
 
     // Dimensiones
     /**
      * Dimensiones del formulario para crear convocatoriaas en pixeles [anchura, altura]
      */
-    public final static int[] DIMENSIONES_FORM_CREAR_CONVO = new int[]{400, 500};
+    public static final int[] DIMENSIONES_FORM_CREAR_CONVO = new int[]{400, 500};
     /**
      * Dimensiones del formulario para modificar convocatorias en pixeles [anchura, altura]
      */
-    public final static int[] DIMENSIONES_FORM_MODIFICAR_CONVO = new int[]{400, 500};
+    public static final int[] DIMENSIONES_FORM_MODIFICAR_CONVO = new int[]{400, 500};
     /**
      * Dimensiones del formulario para crear municipios en pixeles [anchura, altura]
      */
-    public final static int[] DIMENSIONES_FORM_CREAR_MUNI = new int[]{400, 160};
+    public static final int[] DIMENSIONES_FORM_CREAR_MUNI = new int[]{400, 160};
     /**
      * Dimensiones del formulario para modificar municipios en pixeles [anchura, altura]
      */
-    public final static int[] DIMENSIONES_FORM_MODIFICAR_MUNI = new int[]{400, 210};
+    public static final int[] DIMENSIONES_FORM_MODIFICAR_MUNI = new int[]{400, 210};
     /**
      * Dimensiones del formulario para crear presentaciones en pixeles [anchura, altura]
      */
-    public final static int[] DIMENSIONES_FORM_CREAR_PRES = new int[]{400, 250};
+    public static final int[] DIMENSIONES_FORM_CREAR_PRES = new int[]{400, 250};
     /**
      * Dimensiones del formulario para modificar presentaciones en pixeles [anchura, altura]
      */
-    public final static int[] DIMENSIONES_FORM_MODIFICAR_PRES = new int[]{400, 600};
+    public static final int[] DIMENSIONES_FORM_MODIFICAR_PRES = new int[]{400, 600};
     /**
      * Dimensiones del formulario para crear usuarios en pixeles [anchura, altura]
      */
-    public final static int[] DIMENSIONES_FORM_CREAR_USUARIO = new int[]{400, 200};
+    public static final int[] DIMENSIONES_FORM_CREAR_USUARIO = new int[]{400, 200};
     /**
      * Dimensiones del formulario en pixeles [anchura, altura]
      */
@@ -49,11 +49,11 @@ public class Estilo {
     /**
      * Anchura estandar en columnas de los campos de texto
      */
-    public final static int ANCHURA_CAMPO_TEXTO_ESTANDAR = 10;
+    public static final int ANCHURA_CAMPO_TEXTO_ESTANDAR = 10;
     /**
      * Anchura del campo de descripcion en los formularios de convocatorias en numero de columnas
      */
-    public final static int ANCHURA_DESCRIPCION_CAMPO = 25;
+    public static final int ANCHURA_DESCRIPCION_CAMPO = 25;
     /**
      * Espaciado estandar utilizado en los componentes de cada panel (5,5,5,5)
      */
@@ -73,6 +73,7 @@ public class Estilo {
      * Espaciado utilizado en barra de menu del menu principal
      */
     public static final Insets ESPACIADO_BARRA_MENU = new Insets(0, 0, 5, 0);
+
     // Constructor privado para evitar creacion de objetos
     private Estilo() {
     }

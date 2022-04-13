@@ -8,9 +8,11 @@ import javax.swing.*;
 /**
  * Generador de errores
  */
-public class ErrorVistaGenerador {
+public final class ErrorVistaGenerador {
 
-    // constructor privado para evitar instanciacion
+    /**
+     * Constructor privado para evitar instanciacion de la clase
+     */
     private ErrorVistaGenerador() {
     }
 

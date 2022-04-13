@@ -51,17 +51,18 @@ public class MenuPrincipalControlador implements ActionListener {
      * Vista de menu principal gestionada por este controlador
      */
     private MenuPrincipalVista menuPrincipalVista;
-    /**
-     * Usuario autenticado que utilizara este controlador
-     */
-    private Usuario usuarioLogueado;
 
     /**
      * Constructor del controlador del menu principal
      *
-     * @param loginVista         Vista de autenticacion desde el cual el usuario se autentica
-     * @param menuPrincipalVista Vista de menu principal que utilizara el usuario
-     * @param usuariosServicio   Servicio de usuarios
+     * @param loginVista                     Vista de autenticacion desde el cual el usuario se autentica
+     * @param menuPrincipalVista             Vista de menu principal que utilizara el usuario
+     * @param usuariosServicio               Servicio de usuarios
+     * @param panelConvocatoriasControlador  Controlador del panel de convocatorias a utilizar
+     * @param panelInformacionControlador    Controlador del panel de informacion a utilizar
+     * @param panelMunicipiosControlador     Controlador del panel de municipios a utilizar
+     * @param panelPresentacionesControlador Controlador del panel de presentaciones a utilizar
+     * @param panelUsuariosControlador       Controlador del panel de usuarios a utilizar
      */
     public MenuPrincipalControlador(LoginVista loginVista,
                                     MenuPrincipalVista menuPrincipalVista,
@@ -105,7 +106,6 @@ public class MenuPrincipalControlador implements ActionListener {
      * @param usuarioLogueado usuario logueado que utilizara el sistema
      */
     private void inicializarMenuPrincipal(Usuario usuarioLogueado) {
-        this.usuarioLogueado = usuarioLogueado;
         loginVista.ventana.dispose();
         // Inicializa los controladores a ser utilizados por el usuario
         panelUsuariosControlador.setPanel(menuPrincipalVista.panelUsuarios);
@@ -174,8 +174,8 @@ public class MenuPrincipalControlador implements ActionListener {
      */
     private void configurarPanelPresentaciones(Usuario usuarioLogueado) {
         // Si no tiene permiso para ver presentaciones no muestres nada
-        if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[12]) &&
-                !usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[14])) {
+        if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[12])
+                && !usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[3], RolUsuario.ACCIONES[14])) {
             menuPrincipalVista.tabs.setEnabledAt(MenuPrincipalVista.INDICE_PANEL_PRESENTACIONES, false);
         }
     }
@@ -223,7 +223,6 @@ public class MenuPrincipalControlador implements ActionListener {
                 // Reinicialo para controlar los permisos del siguiente usuario
                 menuPrincipalVista.reiniciarVista();
                 menuPrincipalVista.addControlador(this);
-                usuarioLogueado = null;
                 // Lanza una nueva vista de autenticacion
                 loginVista.reiniciarVista();
                 loginVista.addControlador(this);

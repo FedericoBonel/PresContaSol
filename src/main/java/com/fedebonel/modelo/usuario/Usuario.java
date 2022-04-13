@@ -21,19 +21,19 @@ public class Usuario extends Entidad {
     /**
      * Limite inferior de la clave en su longitud
      */
-    public final static int LIMITE_CLAVE_INFERIOR = 4;
+    public static final int LIMITE_CLAVE_INFERIOR = 4;
     /**
      * Limite superior de la clave en su longitud
      */
-    public final static int LIMITE_CLAVE_SUPERIOR = 8;
+    public static final int LIMITE_CLAVE_SUPERIOR = 8;
     /**
      * Limite inferior del identificador en su longitud
      */
-    public final static int LIMITE_IDENTIFICADOR_INFERIOR = 1;
+    public static final int LIMITE_IDENTIFICADOR_INFERIOR = 1;
     /**
      * Limite superior del identificador en su longitud
      */
-    public final static int LIMITE_IDENTIFICADOR_SUPERIOR = 10;
+    public static final int LIMITE_IDENTIFICADOR_SUPERIOR = 10;
     /**
      * Rol del usuario
      */
@@ -155,7 +155,8 @@ public class Usuario extends Entidad {
      */
     @Override
     protected boolean cumpleFormatoId(String identificador) {
-        return LIMITE_IDENTIFICADOR_INFERIOR <= identificador.length() && identificador.length() <= LIMITE_IDENTIFICADOR_SUPERIOR;
+        return LIMITE_IDENTIFICADOR_INFERIOR <= identificador.length()
+                && identificador.length() <= LIMITE_IDENTIFICADOR_SUPERIOR;
     }
 
     /**
@@ -164,10 +165,10 @@ public class Usuario extends Entidad {
      * @return Un string con todos los parametros del objeto
      */
     public String toStringConClave() {
-        return "{" +
-                "nombre de usuario:" + super.toString() +
-                ", clave='" + clave + '\'' +
-                "} ";
+        return "{"
+                + "nombre de usuario:" + super.toString()
+                + ", clave='" + clave + "'"
+                + "} ";
     }
 
     /**
@@ -177,9 +178,9 @@ public class Usuario extends Entidad {
      */
     @Override
     public String toString() {
-        return "{" +
-                "nombre de usuario:" + super.toString() +
-                ", clave='" + "ESCONDIDA" + '\'' +
-                "} ";
+        return "{"
+                + "nombre de usuario:" + super.toString()
+                + ", clave='" + "ESCONDIDA" + '\''
+                + "} ";
     }
 }

@@ -29,10 +29,6 @@ public class PanelMunicipiosControlador implements PanelControlador<MunicipiosPa
      * Vista de menu principal gestionada por este controlador
      */
     private MunicipiosPanel panelMunicipios;
-    /**
-     * Usuario autenticado que utilizara esta vista
-     */
-    private Usuario usuarioLogueado;
 
     /**
      * Constructor del controlador del panel de municipios
@@ -53,7 +49,6 @@ public class PanelMunicipiosControlador implements PanelControlador<MunicipiosPa
      */
     @Override
     public void setUsuarioLogueado(Usuario usuarioLogueado) {
-        this.usuarioLogueado = usuarioLogueado;
         this.municipiosControlador.setUsuarioLogueado(usuarioLogueado);
         configurarPanel(usuarioLogueado);
     }
@@ -82,8 +77,8 @@ public class PanelMunicipiosControlador implements PanelControlador<MunicipiosPa
         if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[0]))
             panelMunicipios.crearBoton.setVisible(false);
         // Si no tiene el permiso para modificar nada quita el boton
-        if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[2]) &&
-                !usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[3]))
+        if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[2])
+                && !usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[3]))
             panelMunicipios.modificarBoton.setVisible(false);
         // Si no tiene permiso para eliminar quita el boton eliminar
         if (!usuarioLogueado.rolUsuario.tienePermiso(RolUsuario.OBJETOS[1], RolUsuario.ACCIONES[6]))
