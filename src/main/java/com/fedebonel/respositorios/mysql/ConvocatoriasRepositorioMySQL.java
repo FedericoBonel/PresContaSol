@@ -99,9 +99,9 @@ public class ConvocatoriasRepositorioMySQL implements ConvocatoriasRepositorio {
                      = ConexionDB.getConnection().prepareStatement("select * from docmnt_cnvctria where convocatoria = ?")) {
             tablaDocumentos.setString(1, idConvocatoria);
             documentosRs = tablaDocumentos.executeQuery();
-        }
-        while (documentosRs.next()) {
-            documentos.add(documentosRs.getString(1));
+            while (documentosRs.next()) {
+                documentos.add(documentosRs.getString(1));
+            }
         }
         return documentos;
     }
