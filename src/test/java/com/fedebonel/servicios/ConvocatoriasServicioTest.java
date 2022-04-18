@@ -32,6 +32,8 @@ class ConvocatoriasServicioTest {
         convocatoriasServicio = new ConvocatoriasServicio(convocatoriasRepositorio);
     }
 
+    /* leerTodo ----------------------------------------------------------------------------------------------------- */
+
     @Test
     void leerTodoTest() throws SQLException {
         // Dado
@@ -53,5 +55,39 @@ class ConvocatoriasServicioTest {
         assertNotNull(salidaReal);
         assertEquals(salidaEsperada.size(), salidaReal.size());
         verify(convocatoriasRepositorio, times(1)).leerTodo();
+    }
+
+    /* leerPorID ---------------------------------------------------------------------------------------------------- */
+
+    @Test
+    void leerPorIDTest() throws SQLException {
+        // Dado
+        Convocatoria convocatoriaEsperada
+                = new Convocatoria("c1",
+                LocalDate.of(2022, 2, 10),
+                LocalDate.of(2022, 2, 12),
+                new LinkedList<>(), "");
+        when(convocatoriasRepositorio.leerPorId(convocatoriaEsperada.getId())).thenReturn(convocatoriaEsperada);
+
+        // Cuando
+        Convocatoria convocatoriaReal = convocatoriasServicio.leerPorID(convocatoriaEsperada.getId());
+
+        // Entonces
+        assertNotNull(convocatoriaReal);
+        assertEquals(convocatoriaEsperada.getId(), convocatoriaReal.getId());
+        verify(convocatoriasRepositorio, times(1)).leerPorId(convocatoriaEsperada.getId());
+    }
+
+    @Test
+    void leerPorIDNullTest() throws SQLException {
+        // Dado
+        when(convocatoriasRepositorio.leerPorId(anyString())).thenReturn(null);
+
+        // Cuando
+        Convocatoria convocatoriaReal = convocatoriasServicio.leerPorID(" ");
+
+        // Entonces
+        assertNull(convocatoriaReal);
+        verify(convocatoriasRepositorio, times(1)).leerPorId(anyString());
     }
 }
