@@ -29,10 +29,6 @@ public class PanelPresentacionesControlador implements PanelControlador<Presenta
      * Vista de menu principal gestionada por este controlador
      */
     private PresentacionesPanel panelPresentaciones;
-    /**
-     * Usuario autenticado que utilizara esta vista
-     */
-    private Usuario usuarioLogueado;
 
     /**
      * Constructor del controlador del panel de presentaciones
@@ -54,7 +50,6 @@ public class PanelPresentacionesControlador implements PanelControlador<Presenta
      */
     @Override
     public void setUsuarioLogueado(Usuario usuarioLogueado) {
-        this.usuarioLogueado = usuarioLogueado;
         this.presentacionesControlador.setUsuarioLogueado(usuarioLogueado);
         configurarPanel(usuarioLogueado);
     }

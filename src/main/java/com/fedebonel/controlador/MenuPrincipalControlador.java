@@ -51,10 +51,6 @@ public class MenuPrincipalControlador implements ActionListener {
      * Vista de menu principal gestionada por este controlador
      */
     private MenuPrincipalVista menuPrincipalVista;
-    /**
-     * Usuario autenticado que utilizara este controlador
-     */
-    private Usuario usuarioLogueado;
 
     /**
      * Constructor del controlador del menu principal
@@ -105,7 +101,6 @@ public class MenuPrincipalControlador implements ActionListener {
      * @param usuarioLogueado usuario logueado que utilizara el sistema
      */
     private void inicializarMenuPrincipal(Usuario usuarioLogueado) {
-        this.usuarioLogueado = usuarioLogueado;
         loginVista.ventana.dispose();
         // Inicializa los controladores a ser utilizados por el usuario
         panelUsuariosControlador.setPanel(menuPrincipalVista.panelUsuarios);
@@ -223,7 +218,6 @@ public class MenuPrincipalControlador implements ActionListener {
                 // Reinicialo para controlar los permisos del siguiente usuario
                 menuPrincipalVista.reiniciarVista();
                 menuPrincipalVista.addControlador(this);
-                usuarioLogueado = null;
                 // Lanza una nueva vista de autenticacion
                 loginVista.reiniciarVista();
                 loginVista.addControlador(this);

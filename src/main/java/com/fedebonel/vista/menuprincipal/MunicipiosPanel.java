@@ -34,10 +34,6 @@ public class MunicipiosPanel extends JPanel {
      * Tabla contenedora de todos los datos
      */
     public final JTableNoEditable tablaObjetos;
-    /**
-     * Controlador que maneja las interacciones realizadas por el usuario
-     */
-    private ActionListener controlador;
 
     /**
      * Crea un panel para mostrar los municipios como una tabla con botones
@@ -99,7 +95,6 @@ public class MunicipiosPanel extends JPanel {
      * @param controlador Controlador a gestionar los eventos de interaccion de esta vista
      */
     public void addControlador(ActionListener controlador) {
-        this.controlador = controlador;
         crearBoton.addActionListener(controlador);
         modificarBoton.addActionListener(controlador);
         eliminarBoton.addActionListener(controlador);

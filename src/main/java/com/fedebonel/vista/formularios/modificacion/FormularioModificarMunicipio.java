@@ -28,10 +28,6 @@ public class FormularioModificarMunicipio {
      */
     public final Municipio municipioAModificar;
     /**
-     * Controlador que debe gestionar las interacciones de esta vista
-     */
-    private final MunicipiosControlador controlador;
-    /**
      * Opciones para la categoria
      */
     public JComboBox<Integer> categoriaCampo;
@@ -87,8 +83,6 @@ public class FormularioModificarMunicipio {
         ventana.add(BorderLayout.CENTER, contenedorTodos);
         ventana.add(BorderLayout.SOUTH, modificarBoton);
         ventana.setLocationRelativeTo(null);
-        // Asigna el controlador
-        this.controlador = controlador;
         // Asigna el usuario
         this.municipioAModificar = municipioAModificar;
     }

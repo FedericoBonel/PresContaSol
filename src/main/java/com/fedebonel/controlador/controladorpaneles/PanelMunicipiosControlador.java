@@ -29,10 +29,6 @@ public class PanelMunicipiosControlador implements PanelControlador<MunicipiosPa
      * Vista de menu principal gestionada por este controlador
      */
     private MunicipiosPanel panelMunicipios;
-    /**
-     * Usuario autenticado que utilizara esta vista
-     */
-    private Usuario usuarioLogueado;
 
     /**
      * Constructor del controlador del panel de municipios
@@ -53,7 +49,6 @@ public class PanelMunicipiosControlador implements PanelControlador<MunicipiosPa
      */
     @Override
     public void setUsuarioLogueado(Usuario usuarioLogueado) {
-        this.usuarioLogueado = usuarioLogueado;
         this.municipiosControlador.setUsuarioLogueado(usuarioLogueado);
         configurarPanel(usuarioLogueado);
     }

@@ -64,10 +64,6 @@ public class MenuPrincipalVista {
      * Panel de Presentaciones
      */
     public PresentacionesPanel panelPresentaciones;
-    /**
-     * Controlador que gestiona a esta vista
-     */
-    private MenuPrincipalControlador controlador;
 
     /**
      * Constructor del menu principal, crea un ventana con todos los componentes necesarios para que el usuario
@@ -101,7 +97,6 @@ public class MenuPrincipalVista {
      * @param menuPrincipalControlador Controlador a ser asignado
      */
     public void addControlador(MenuPrincipalControlador menuPrincipalControlador) {
-        this.controlador = menuPrincipalControlador;
         salirBoton.addActionListener(menuPrincipalControlador);
     }
 

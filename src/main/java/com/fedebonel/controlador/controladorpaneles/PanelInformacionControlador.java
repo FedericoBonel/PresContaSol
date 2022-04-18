@@ -53,8 +53,6 @@ public class PanelInformacionControlador implements PanelControlador<Informacion
         this.usuarioLogueado = usuarioLogueado;
     }
 
-    ;
-
     /**
      * Asigna la vista del panel de informacion que este controlador debe manejar
      *

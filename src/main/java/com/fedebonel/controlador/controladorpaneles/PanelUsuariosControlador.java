@@ -28,10 +28,6 @@ public class PanelUsuariosControlador implements PanelControlador<UsuariosPanel>
      * Vista de menu principal gestionada por este controlador
      */
     private UsuariosPanel panelUsuarios;
-    /**
-     * Usuario autenticado que utilizara esta vista
-     */
-    private Usuario usuarioLogueado;
 
     /**
      * Constructor del controlador del panel de usuarios
@@ -51,7 +47,6 @@ public class PanelUsuariosControlador implements PanelControlador<UsuariosPanel>
      */
     @Override
     public void setUsuarioLogueado(Usuario usuarioLogueado) {
-        this.usuarioLogueado = usuarioLogueado;
         this.usuariosControlador.setUsuarioLogueado(usuarioLogueado);
         configurarPanel(usuarioLogueado);
     }

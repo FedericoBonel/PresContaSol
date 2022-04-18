@@ -27,10 +27,6 @@ public class FormularioModificarConvocatoria {
      */
     public final Convocatoria convocatoriaAModificar;
     /**
-     * Controlador que debe gestionar las interacciones de esta vista
-     */
-    private final ConvocatoriasControlador controlador;
-    /**
      * Campo de texto de fecha de apertura (Se usan los limites de usuario por cuestiones visuales)
      */
     public JTextField fechaAperturaCampo;
@@ -91,8 +87,6 @@ public class FormularioModificarConvocatoria {
         ventana.add(BorderLayout.CENTER, contenedorDescripcion);
         ventana.add(BorderLayout.SOUTH, modificarBoton);
         ventana.setLocationRelativeTo(null);
-        // Asigna el controlador
-        this.controlador = controlador;
         this.convocatoriaAModificar = convocatoriaAModificar;
     }
 

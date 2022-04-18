@@ -159,18 +159,6 @@ public class Usuario extends Entidad {
     }
 
     /**
-     * Devuelve los parametros como string a mostrar a los administradores
-     *
-     * @return Un string con todos los parametros del objeto
-     */
-    public String toStringConClave() {
-        return "{" +
-                "nombre de usuario:" + super.toString() +
-                ", clave='" + clave + '\'' +
-                "} ";
-    }
-
-    /**
      * Devuelve los parametros como string a mostrar a los usuarios
      *
      * @return El identificador del usuario

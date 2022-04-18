@@ -26,10 +26,6 @@ public class FormularioModificarUsuario {
      */
     public final Usuario usuarioAModificar;
     /**
-     * Controlador que debe gestionar las interacciones de esta vista
-     */
-    private final UsuariosControlador controlador;
-    /**
      * Campo de texto de clave
      */
     public JPasswordField claveCampo;
@@ -69,8 +65,6 @@ public class FormularioModificarUsuario {
         ventana.add(BorderLayout.CENTER, contenedorTodos);
         ventana.add(BorderLayout.SOUTH, modificarBoton);
         ventana.setLocationRelativeTo(null);
-        // Asigna el controlador
-        this.controlador = controlador;
         // Asigna el usuario
         this.usuarioAModificar = usuarioAModificar;
     }

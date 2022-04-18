@@ -56,7 +56,7 @@ public class Municipio extends Entidad {
      */
     public Municipio(String identificador, String nombre, int categoria) throws IllegalArgumentException {
         super(identificador.toLowerCase());
-        this.nombre = nombre;
+        setNombre(nombre);
         setCategoria(categoria);
     }
 
@@ -147,21 +147,6 @@ public class Municipio extends Entidad {
             if (presentacion.isMunicipio(this)) presentacionesRealizadas.add(presentacion);
         }
         return presentacionesRealizadas;
-    }
-
-    /**
-     * Remueve todas las presentaciones del municipio de la coleccion pasada
-     *
-     * @param presentaciones Coleccion de todas las presentaciones del sistema
-     */
-    protected void eliminaSusPresentacionesDe(LinkedList<Presentacion> presentaciones) {
-        // Toma las presentaciones realizadas para este municipio
-        LinkedList<Presentacion> presentacionesPropias = getSusPresentacionesDe(presentaciones);
-        // Por cada presentacion del municipio
-        for (Presentacion presentacionARemover : presentacionesPropias) {
-            // Remuevela de la coleccion
-            presentaciones.remove(presentacionARemover);
-        }
     }
 
     /**

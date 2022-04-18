@@ -32,10 +32,6 @@ public class LoginVista {
      * Boton de ingreso
      */
     public JButton botonIngreso;
-    /**
-     * Controlador que manejara los eventos de esta vista
-     */
-    private MenuPrincipalControlador controlador;
 
     /**
      * Constructor de la vista de autenticacion, crea una ventana con todos los componentes necesarios para autenticar usuarios
@@ -83,7 +79,6 @@ public class LoginVista {
      * @param controlador Controlador que gestionara las interacciones sobre esta vista
      */
     public void addControlador(MenuPrincipalControlador controlador) {
-        this.controlador = controlador;
         botonIngreso.addActionListener(controlador);
     }
 

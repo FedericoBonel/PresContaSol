@@ -73,6 +73,7 @@ public class Estilo {
      * Espaciado utilizado en barra de menu del menu principal
      */
     public static final Insets ESPACIADO_BARRA_MENU = new Insets(0, 0, 5, 0);
+
     // Constructor privado para evitar creacion de objetos
     private Estilo() {
     }

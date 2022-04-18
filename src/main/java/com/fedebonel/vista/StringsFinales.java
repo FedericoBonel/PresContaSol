@@ -3,7 +3,7 @@ package com.fedebonel.vista;
 /**
  * Clase que contiene los strings constantes utilizados en las vistas
  */
-public class StringsFinales {
+public final class StringsFinales {
 
     /**
      * Nombre de la aplicacion
@@ -153,16 +153,6 @@ public class StringsFinales {
 
     // Errores
     /**
-     * String constante que posee el mensaje a mostrar cuando hay un error por intentar asignar como supervisor a un
-     * usuario que no tiene el permiso
-     */
-    public static final String ERROR_USUARIO_NO_SUPERVISOR = "El usuario a asignar no posee el rol requerido para supervisar municipios";
-    /**
-     * String constante que posee el mensaje a mostrar cuando hay un error por intentar asignar como representante a un
-     * usuario que no tiene el permiso
-     */
-    public static final String ERROR_USUARIO_NO_REPRESENTANTE = "El usuario a asignar no posee el rol requerido para representar municipios";
-    /**
      * String constante que posee el error cuando no se poseen los permisos
      */
     public static final String ERROR_NO_PERMISOS = "No se poseen los permisos para la operacion";
@@ -182,9 +172,6 @@ public class StringsFinales {
      * String constate que posee el error a mostrar cuando la fecha se ingresa en un formato incorrecto
      */
     public static final String ERROR_FECHA_FORMATO_INCORRECTO = "Fechas deben ir formato 'AAAA-MM-DD' sin comillas";
-    // Constructor privado para evitar instanciacion
-    private StringsFinales() {
-    }
 
 
 }

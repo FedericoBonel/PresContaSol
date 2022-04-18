@@ -22,10 +22,6 @@ public class FormularioCrearUsuario {
      */
     public final JButton crearBoton;
     /**
-     * Controlador que debe gestionar las interacciones de esta vista
-     */
-    private final UsuariosControlador controlador;
-    /**
      * Campo de texto de identificador
      */
     public JTextField idCampo;
@@ -82,8 +78,6 @@ public class FormularioCrearUsuario {
         ventana.add(BorderLayout.CENTER, contenedorTodos);
         ventana.add(BorderLayout.SOUTH, crearBoton);
         ventana.setLocationRelativeTo(null);
-        // Asigna el controlador
-        this.controlador = controlador;
     }
 
     /**

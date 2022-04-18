@@ -201,15 +201,6 @@ public class Presentacion extends Evento {
     }
 
     /**
-     * Remueve todas las relaciones de esta presentacion
-     */
-    protected void abandonaRelaciones() {
-        autor = null;
-        municipio = null;
-        convocatoria = null;
-    }
-
-    /**
      * Devuelve si la fecha de creacion de la presentacion es invalida
      * Si es en el futuro es invalida (Es imposible crear presentaciones en el futuro)
      *

@@ -32,10 +32,6 @@ public class InformacionPanel extends JPanel {
      * Etiqueta contenedora del total de presentaciones realizadas a convocatorias cerradas
      */
     public JLabel totalPresConvoCerradasCampo;
-    /**
-     * Controlador que maneja las interacciones realizadas por el usuario
-     */
-    private ActionListener controlador;
 
 
     /**
@@ -131,7 +127,6 @@ public class InformacionPanel extends JPanel {
      * @param controlador Controlador a gestionar los eventos de interaccion de esta vista
      */
     public void addControlador(ActionListener controlador) {
-        this.controlador = controlador;
         actualizarBoton.addActionListener(controlador);
     }
 }

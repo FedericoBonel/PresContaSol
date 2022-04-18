@@ -28,10 +28,6 @@ public class FormularioModificarPresentacion {
      */
     public final Presentacion presentacionAModificar;
     /**
-     * Controlador que debe gestionar las interacciones de esta vista
-     */
-    private final PresentacionesControlador controlador;
-    /**
      * Opciones documentos requeridos
      */
     public JList<String> documentosRequeridosCampo;
@@ -88,8 +84,6 @@ public class FormularioModificarPresentacion {
         ventana.add(BorderLayout.NORTH, contenedorTodos);
         ventana.add(BorderLayout.SOUTH, modificarBoton);
         ventana.setLocationRelativeTo(null);
-        // Asigna el controlador
-        this.controlador = controlador;
         this.presentacionAModificar = presentacionAModificar;
     }
 

@@ -28,10 +28,6 @@ public class FormularioCrearPresentacion {
      */
     private final DefaultListModel<String> documentosRequeridosDatos;
     /**
-     * Controlador que debe gestionar las interacciones de esta vista
-     */
-    private final PresentacionesControlador controlador;
-    /**
      * Campo de texto de identificador (Se usan los limites de usuario por cuestiones visuales)
      */
     public JTextField idCampo;
@@ -85,8 +81,6 @@ public class FormularioCrearPresentacion {
         ventana.add(BorderLayout.NORTH, contenedorTodos);
         ventana.add(BorderLayout.SOUTH, crearBoton);
         ventana.setLocationRelativeTo(null);
-        // Asigna el controlador
-        this.controlador = controlador;
     }
 
     /**

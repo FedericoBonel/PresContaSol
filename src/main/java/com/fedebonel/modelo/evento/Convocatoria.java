@@ -104,16 +104,6 @@ public class Convocatoria extends Evento {
     }
 
     /**
-     * Indica si el documento especificado es requerido en la convocatoria
-     *
-     * @param documento Documento a verificar su estado
-     * @return Estado de requerimiento del documento
-     */
-    public Boolean isRequerido(String documento) {
-        return super.containsDocumento(documento);
-    }
-
-    /**
      * Devuelve la descripcion de la convocatoria
      *
      * @return Descripcion como un String
