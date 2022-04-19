@@ -116,11 +116,42 @@ class UsuariosServicioTest {
         verify(usuariosRepositorio, times(0)).guardar(any());
     }
 
+    /* eliminar ----------------------------------------------------------------------------------------------------- */
+
+    @Test
+    void eliminarTest() throws SQLException {
+        // Dado
+        Usuario usuario = new Usuario(
+                "nombre",
+                "username",
+                "1234",
+                new RolUsuario(RolUsuario.ROL_ADMINISTRADOR_NOMBRE));
+        when(usuariosRepositorio.leerPorId(usuario.getId())).thenReturn(usuario);
+
+        // Cuando
+        usuariosServicio.eliminar(usuario);
+
+        // Entonces
+        verify(usuariosRepositorio, times(1)).eliminarPorId(usuario.getId());
+    }
+
+    @Test
+    void eliminarFalloTest() throws SQLException {
+        // Dado
+        Usuario usuario = new Usuario(
+                "nombre",
+                "username",
+                "1234",
+                new RolUsuario(RolUsuario.ROL_ADMINISTRADOR_NOMBRE));
+        when(usuariosRepositorio.leerPorId(usuario.getId())).thenReturn(null);
+
+        // Cuando, entonces
+        assertThrows(IllegalArgumentException.class, () -> usuariosServicio.eliminar(usuario));
+        verify(usuariosRepositorio, times(0)).eliminarPorId(anyString());
+    }
+
     @Test
     void searchByName() {
-    }
-    @Test
-    void eliminar() {
     }
 
     @Test
