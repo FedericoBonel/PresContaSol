@@ -197,4 +197,43 @@ class ConvocatoriasServicioTest {
                 () -> convocatoriasServicio.actualizar(convocatoria, campo, valor));
         verify(convocatoriasRepositorio, times(0)).actualizarPorId(anyString(), anyString(), anyString());
     }
+
+    /* agregarDocumento --------------------------------------------------------------------------------------------- */
+
+    @Test
+    void agregarDocumentoTest() throws SQLException {
+        // Dado
+        Convocatoria convocatoria
+                = new Convocatoria("c1",
+                LocalDate.of(2022, 2, 10),
+                LocalDate.of(2022, 2, 12),
+                new LinkedList<>(), "");
+        String documento = "documento";
+        when(convocatoriasRepositorio.leerPorId(convocatoria.getId())).thenReturn(convocatoria);
+
+        // Cuando
+        convocatoriasServicio.agregarDocumento(convocatoria, documento);
+
+        // Entonces
+        verify(convocatoriasRepositorio, times(1)).agregarDocConvocatoria(convocatoria, documento);
+    }
+
+    @Test
+    void agregarDocumentoFalloTest() throws SQLException {
+        // Dado
+        Convocatoria convocatoria
+                = new Convocatoria("c1",
+                LocalDate.of(2022, 2, 10),
+                LocalDate.of(2022, 2, 12),
+                new LinkedList<>(), "");
+        String documento = "documento";
+        when(convocatoriasRepositorio.leerPorId(convocatoria.getId())).thenReturn(null);
+
+        // Cuando, entonces
+        assertThrows(IllegalArgumentException.class,
+                () -> convocatoriasServicio.agregarDocumento(convocatoria, documento));
+        verify(convocatoriasRepositorio, times(0)).agregarDocConvocatoria(convocatoria, documento);
+    }
+
+
 }
