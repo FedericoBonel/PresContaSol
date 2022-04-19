@@ -107,7 +107,7 @@ class ConvocatoriasServicioTest {
         convocatoriasServicio.registrar(convocatoria);
 
         // Entonces
-        verify(convocatoriasRepositorio, times(1)).guardar(any());
+        verify(convocatoriasRepositorio, times(1)).guardar(convocatoria);
     }
 
     @Test
@@ -141,7 +141,7 @@ class ConvocatoriasServicioTest {
         convocatoriasServicio.eliminar(convocatoria);
 
         // Entonces
-        verify(convocatoriasRepositorio, times(1)).eliminarPorId(anyString());
+        verify(convocatoriasRepositorio, times(1)).eliminarPorId(convocatoria.getId());
     }
 
     @Test
@@ -157,5 +157,44 @@ class ConvocatoriasServicioTest {
         // Cuando, entonces
         assertThrows(IllegalArgumentException.class, () -> convocatoriasServicio.eliminar(convocatoria));
         verify(convocatoriasRepositorio, times(0)).eliminarPorId(anyString());
+    }
+
+    /* actualizar --------------------------------------------------------------------------------------------------- */
+
+    @Test
+    void actualizarTest() throws SQLException {
+        // Dado
+        Convocatoria convocatoria
+                = new Convocatoria("c1",
+                LocalDate.of(2022, 2, 10),
+                LocalDate.of(2022, 2, 12),
+                new LinkedList<>(), "");
+        String campo = "descripcion";
+        String valor = "nuevaDescripcion";
+        when(convocatoriasRepositorio.leerPorId(convocatoria.getId())).thenReturn(convocatoria);
+
+        // Cuando
+        convocatoriasServicio.actualizar(convocatoria, campo, valor);
+
+        // Entonces
+        verify(convocatoriasRepositorio, times(1)).actualizarPorId(convocatoria.getId(), campo, valor);
+    }
+
+    @Test
+    void actualizarFalloTest() throws SQLException {
+        // Dado
+        Convocatoria convocatoria
+                = new Convocatoria("c1",
+                LocalDate.of(2022, 2, 10),
+                LocalDate.of(2022, 2, 12),
+                new LinkedList<>(), "");
+        String campo = "descripcion";
+        String valor = "nuevaDescripcion";
+        when(convocatoriasRepositorio.leerPorId(convocatoria.getId())).thenReturn(null);
+
+        // Cuando, entonces
+        assertThrows(IllegalArgumentException.class,
+                () -> convocatoriasServicio.actualizar(convocatoria, campo, valor));
+        verify(convocatoriasRepositorio, times(0)).actualizarPorId(anyString(), anyString(), anyString());
     }
 }
