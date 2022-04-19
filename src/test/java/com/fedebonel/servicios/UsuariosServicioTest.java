@@ -1,6 +1,5 @@
 package com.fedebonel.servicios;
 
-import com.fedebonel.modelo.municipio.Municipio;
 import com.fedebonel.modelo.usuario.RolUsuario;
 import com.fedebonel.modelo.usuario.Usuario;
 import com.fedebonel.respositorios.UsuariosRepositorio;
