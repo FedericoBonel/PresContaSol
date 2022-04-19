@@ -150,11 +150,42 @@ class UsuariosServicioTest {
         verify(usuariosRepositorio, times(0)).eliminarPorId(anyString());
     }
 
+    /* actualizar --------------------------------------------------------------------------------------------------- */
+
     @Test
-    void searchByName() {
+    void actualizarTest() throws SQLException {
+        // Dado
+        Usuario usuario = new Usuario(
+                "nombre",
+                "username",
+                "1234",
+                new RolUsuario(RolUsuario.ROL_ADMINISTRADOR_NOMBRE));
+        String campo = "nombre";
+        String valor = "nombre1";
+        when(usuariosRepositorio.leerPorId(usuario.getId())).thenReturn(usuario);
+
+        // Cuando
+        usuariosServicio.actualizar(usuario, campo, valor);
+
+        // Entonces
+        verify(usuariosRepositorio, times(1)).actualizarPorId(usuario.getId(), campo, valor);
     }
 
     @Test
-    void actualizar() {
+    void actualizarFalloTest() throws SQLException {
+        // Dado
+        Usuario usuario = new Usuario(
+                "nombre",
+                "username",
+                "1234",
+                new RolUsuario(RolUsuario.ROL_ADMINISTRADOR_NOMBRE));
+        String campo = "nombre";
+        String valor = "nombre1";
+        when(usuariosRepositorio.leerPorId(usuario.getId())).thenReturn(null);
+
+        // Cuando, entonces
+        assertThrows(IllegalArgumentException.class,
+                () -> usuariosServicio.actualizar(usuario, campo, valor));
+        verify(usuariosRepositorio, times(0)).actualizarPorId(anyString(), anyString(), anyString());
     }
 }
