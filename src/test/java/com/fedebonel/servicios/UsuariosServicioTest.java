@@ -75,21 +75,50 @@ class UsuariosServicioTest {
         when(usuariosRepositorio.leerPorId(anyString())).thenReturn(null);
 
         // Cuando
-        Usuario usuarioEsperado = usuariosServicio.leerPorID(" ");
+        Usuario usuario = usuariosServicio.leerPorID(" ");
 
         // Entonces
-        assertNull(usuarioEsperado);
+        assertNull(usuario);
         verify(usuariosRepositorio, times(1)).leerPorId(anyString());
+    }
+
+    /* registrar ---------------------------------------------------------------------------------------------------- */
+
+    @Test
+    void registrarTest() throws SQLException {
+        // Dado
+        when(usuariosRepositorio.leerPorId(anyString())).thenReturn(null);
+
+        // Cuando
+        Usuario usuario = new Usuario(
+                "nombre",
+                "username",
+                "1234",
+                new RolUsuario(RolUsuario.ROL_ADMINISTRADOR_NOMBRE));
+        usuariosServicio.registrar(usuario);
+
+        // Entonces
+        verify(usuariosRepositorio, times(1)).guardar(usuario);
+    }
+
+    @Test
+    void registrarFalloTest() throws SQLException {
+        // Dado
+        Usuario usuario = new Usuario(
+                "nombre",
+                "username",
+                "1234",
+                new RolUsuario(RolUsuario.ROL_ADMINISTRADOR_NOMBRE));
+        when(usuariosRepositorio.leerPorId(usuario.getId())).thenReturn(usuario);
+
+        // Cuando, Entonces
+        assertThrows(IllegalArgumentException.class, () -> usuariosServicio.registrar(usuario));
+        verify(usuariosRepositorio, times(0)).guardar(any());
     }
 
     @Test
     void searchByName() {
     }
-
-    @Test
-    void registrar() {
-    }
-
     @Test
     void eliminar() {
     }
