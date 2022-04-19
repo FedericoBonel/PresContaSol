@@ -154,8 +154,42 @@ class PresentacionesServicioTest {
         verify(presentacionesRepositorio, times(0)).guardar(any());
     }
 
+    /* eliminar ----------------------------------------------------------------------------------------------------- */
+
     @Test
-    void eliminar() {
+    void eliminarTest() throws SQLException {
+        // Dado
+        Presentacion presentacion = new Presentacion("p1",
+                LocalDate.of(2022, 2, 11),
+                true,
+                convocatoria,
+                usuario,
+                municipio,
+                new LinkedList<>());
+        when(presentacionesRepositorio.leerPorId(presentacion.getId())).thenReturn(presentacion);
+
+        // Cuando
+        presentacionesServicio.eliminar(presentacion);
+
+        // Entonces
+        verify(presentacionesRepositorio, times(1)).eliminarPorId(presentacion.getId());
+    }
+
+    @Test
+    void eliminarFalloTest() throws SQLException {
+        // Dado
+        Presentacion presentacion = new Presentacion("p1",
+                LocalDate.of(2022, 2, 11),
+                true,
+                convocatoria,
+                usuario,
+                municipio,
+                new LinkedList<>());
+        when(presentacionesRepositorio.leerPorId(anyString())).thenReturn(null);
+
+        // Cuando, entonces
+        assertThrows(IllegalArgumentException.class, () -> presentacionesServicio.eliminar(presentacion));
+        verify(presentacionesRepositorio, times(0)).eliminarPorId(anyString());
     }
 
     @Test
