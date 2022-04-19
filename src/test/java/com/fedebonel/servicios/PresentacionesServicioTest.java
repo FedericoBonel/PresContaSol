@@ -192,8 +192,47 @@ class PresentacionesServicioTest {
         verify(presentacionesRepositorio, times(0)).eliminarPorId(anyString());
     }
 
+    /* actualizar --------------------------------------------------------------------------------------------------- */
+
     @Test
-    void actualizar() {
+    void actualizarTest() throws SQLException {
+        // Dado
+        Presentacion presentacion = new Presentacion("p1",
+                LocalDate.of(2022, 2, 11),
+                true,
+                convocatoria,
+                usuario,
+                municipio,
+                new LinkedList<>());
+        String campo = "apertura";
+        String valor = "false";
+        when(presentacionesRepositorio.leerPorId(presentacion.getId())).thenReturn(presentacion);
+
+        // Cuando
+        presentacionesServicio.actualizar(presentacion, campo, valor);
+
+        // Entonces
+        verify(presentacionesRepositorio, times(1)).actualizarPorId(presentacion.getId(), campo, valor);
+    }
+
+    @Test
+    void actualizarFalloTest() throws SQLException {
+        // Dado
+        Presentacion presentacion = new Presentacion("p1",
+                LocalDate.of(2022, 2, 11),
+                true,
+                convocatoria,
+                usuario,
+                municipio,
+                new LinkedList<>());
+        String campo = "apertura";
+        String valor = "false";
+        when(presentacionesRepositorio.leerPorId(presentacion.getId())).thenReturn(null);
+
+        // Cuando, entonces
+        assertThrows(IllegalArgumentException.class,
+                () -> presentacionesServicio.actualizar(presentacion, campo, valor));
+        verify(presentacionesRepositorio, times(0)).actualizarPorId(anyString(), anyString(), anyString());
     }
 
     @Test
