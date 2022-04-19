@@ -56,19 +56,19 @@ class PresentacionesServicioTest {
         // Dado
         LinkedList<Presentacion> salidaEsperada = new LinkedList<>();
         salidaEsperada.add(new Presentacion("p1",
-                        LocalDate.of(2022, 2, 11),
-                        true,
-                        convocatoria,
-                        usuario,
-                        municipio,
-                        new LinkedList<>()));
+                LocalDate.of(2022, 2, 11),
+                true,
+                convocatoria,
+                usuario,
+                municipio,
+                new LinkedList<>()));
         salidaEsperada.add(new Presentacion("p2",
-                        LocalDate.of(2022, 2, 11),
-                        true,
-                        convocatoria,
-                        usuario,
-                        municipio,
-                        new LinkedList<>()));
+                LocalDate.of(2022, 2, 11),
+                true,
+                convocatoria,
+                usuario,
+                municipio,
+                new LinkedList<>()));
         when(presentacionesRepositorio.leerTodo()).thenReturn(salidaEsperada);
 
         // Cuando
@@ -116,8 +116,42 @@ class PresentacionesServicioTest {
         verify(presentacionesRepositorio, times(1)).leerPorId(anyString());
     }
 
+    /* registrar ---------------------------------------------------------------------------------------------------- */
+
     @Test
-    void registrar() {
+    void registrarTest() throws SQLException {
+        // Dado
+        when(presentacionesRepositorio.leerPorId(anyString())).thenReturn(null);
+
+        // Cuando
+        Presentacion presentacion = new Presentacion("p1",
+                LocalDate.of(2022, 2, 11),
+                true,
+                convocatoria,
+                usuario,
+                municipio,
+                new LinkedList<>());
+        presentacionesServicio.registrar(presentacion);
+
+        // Entonces
+        verify(presentacionesRepositorio, times(1)).guardar(presentacion);
+    }
+
+    @Test
+    void registrarFalloTest() throws SQLException {
+        // Dado
+        Presentacion presentacion = new Presentacion("p1",
+                LocalDate.of(2022, 2, 11),
+                true,
+                convocatoria,
+                usuario,
+                municipio,
+                new LinkedList<>());
+        when(presentacionesRepositorio.leerPorId(presentacion.getId())).thenReturn(presentacion);
+
+        // Cuando, Entonces
+        assertThrows(IllegalArgumentException.class, () -> presentacionesServicio.registrar(presentacion));
+        verify(presentacionesRepositorio, times(0)).guardar(any());
     }
 
     @Test
