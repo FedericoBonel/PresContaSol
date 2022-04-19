@@ -48,8 +48,38 @@ class UsuariosServicioTest {
         verify(usuariosRepositorio, times(1)).leerTodo();
     }
 
+    /* leerPorID ---------------------------------------------------------------------------------------------------- */
+
     @Test
-    void leerPorID() {
+    void leerPorIDTest() throws SQLException {
+        // Dado
+        Usuario usuarioEsperado = new Usuario(
+                "nombre",
+                "username",
+                "1234",
+                new RolUsuario(RolUsuario.ROL_ADMINISTRADOR_NOMBRE));
+        when(usuariosRepositorio.leerPorId(usuarioEsperado.getId())).thenReturn(usuarioEsperado);
+
+        // Cuando
+        Usuario usuarioReal = usuariosServicio.leerPorID(usuarioEsperado.getId());
+
+        // Entonces
+        assertNotNull(usuarioReal);
+        assertEquals(usuarioEsperado.getId(), usuarioReal.getId());
+        verify(usuariosRepositorio, times(1)).leerPorId(usuarioEsperado.getId());
+    }
+
+    @Test
+    void leerPorIDNullTest() throws SQLException {
+        // Dado
+        when(usuariosRepositorio.leerPorId(anyString())).thenReturn(null);
+
+        // Cuando
+        Usuario usuarioEsperado = usuariosServicio.leerPorID(" ");
+
+        // Entonces
+        assertNull(usuarioEsperado);
+        verify(usuariosRepositorio, times(1)).leerPorId(anyString());
     }
 
     @Test
