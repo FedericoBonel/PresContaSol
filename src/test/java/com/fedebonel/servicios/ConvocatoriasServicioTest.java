@@ -122,6 +122,40 @@ class ConvocatoriasServicioTest {
 
         // Cuando, Entonces
         assertThrows(IllegalArgumentException.class, () -> convocatoriasServicio.registrar(convocatoria));
-        verify(convocatoriasRepositorio, times(1)).leerPorId(any());
+        verify(convocatoriasRepositorio, times(0)).guardar(any());
+    }
+
+    /* eliminar ----------------------------------------------------------------------------------------------------- */
+
+    @Test
+    void eliminarTest() throws SQLException {
+        // Dado
+        Convocatoria convocatoria
+                = new Convocatoria("c1",
+                LocalDate.of(2022, 2, 10),
+                LocalDate.of(2022, 2, 12),
+                new LinkedList<>(), "");
+        when(convocatoriasRepositorio.leerPorId(convocatoria.getId())).thenReturn(convocatoria);
+
+        // Cuando
+        convocatoriasServicio.eliminar(convocatoria);
+
+        // Entonces
+        verify(convocatoriasRepositorio, times(1)).eliminarPorId(anyString());
+    }
+
+    @Test
+    void eliminarFalloTest() throws SQLException {
+        // Dado
+        Convocatoria convocatoria
+                = new Convocatoria("c1",
+                LocalDate.of(2022, 2, 10),
+                LocalDate.of(2022, 2, 12),
+                new LinkedList<>(), "");
+        when(convocatoriasRepositorio.leerPorId(anyString())).thenReturn(null);
+
+        // Cuando, entonces
+        assertThrows(IllegalArgumentException.class, () -> convocatoriasServicio.eliminar(convocatoria));
+        verify(convocatoriasRepositorio, times(0)).eliminarPorId(anyString());
     }
 }
