@@ -105,8 +105,30 @@ class MunicipiosServicioTest {
         verify(municipiosRepositorio, times(0)).guardar(any());
     }
 
+    /* eliminar ----------------------------------------------------------------------------------------------------- */
+
     @Test
-    void eliminar() {
+    void eliminarTest() throws SQLException {
+        // Dado
+        Municipio municipio = new Municipio("m1", "nombre1", 1);
+        when(municipiosRepositorio.leerPorId(municipio.getId())).thenReturn(municipio);
+
+        // Cuando
+        municipiosServicio.eliminar(municipio);
+
+        // Entonces
+        verify(municipiosRepositorio, times(1)).eliminarPorId(municipio.getId());
+    }
+
+    @Test
+    void eliminarFalloTest() throws SQLException {
+        // Dado
+        Municipio municipio = new Municipio("m1", "nombre1", 1);
+        when(municipiosRepositorio.leerPorId(municipio.getId())).thenReturn(null);
+
+        // Cuando, entonces
+        assertThrows(IllegalArgumentException.class, () -> municipiosServicio.eliminar(municipio));
+        verify(municipiosRepositorio, times(0)).eliminarPorId(anyString());
     }
 
     @Test
