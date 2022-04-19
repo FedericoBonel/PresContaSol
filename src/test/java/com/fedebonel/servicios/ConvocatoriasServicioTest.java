@@ -90,4 +90,38 @@ class ConvocatoriasServicioTest {
         assertNull(convocatoriaReal);
         verify(convocatoriasRepositorio, times(1)).leerPorId(anyString());
     }
+
+    /* registrar ---------------------------------------------------------------------------------------------------- */
+
+    @Test
+    void registrarTest() throws SQLException {
+        // Dado
+        when(convocatoriasRepositorio.leerPorId(anyString())).thenReturn(null);
+
+        // Cuando
+        Convocatoria convocatoria
+                = new Convocatoria("c1",
+                LocalDate.of(2022, 2, 10),
+                LocalDate.of(2022, 2, 12),
+                new LinkedList<>(), "");
+        convocatoriasServicio.registrar(convocatoria);
+
+        // Entonces
+        verify(convocatoriasRepositorio, times(1)).guardar(any());
+    }
+
+    @Test
+    void registrarFalloTest() throws SQLException {
+        // Dado
+        Convocatoria convocatoria
+                = new Convocatoria("c1",
+                LocalDate.of(2022, 2, 10),
+                LocalDate.of(2022, 2, 12),
+                new LinkedList<>(), "");
+        when(convocatoriasRepositorio.leerPorId(convocatoria.getId())).thenReturn(convocatoria);
+
+        // Cuando, Entonces
+        assertThrows(IllegalArgumentException.class, () -> convocatoriasServicio.registrar(convocatoria));
+        verify(convocatoriasRepositorio, times(1)).leerPorId(any());
+    }
 }
