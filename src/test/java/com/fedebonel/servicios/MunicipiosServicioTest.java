@@ -79,8 +79,30 @@ class MunicipiosServicioTest {
         verify(municipiosRepositorio, times(1)).leerPorId(anyString());
     }
 
+    /* registrar ---------------------------------------------------------------------------------------------------- */
+
     @Test
-    void registrar() {
+    void registrarTest() throws SQLException {
+        // Dado
+        when(municipiosRepositorio.leerPorId(anyString())).thenReturn(null);
+
+        // Cuando
+        Municipio municipio = new Municipio("m1", "nombre1", 1);
+        municipiosServicio.registrar(municipio);
+
+        // Entonces
+        verify(municipiosRepositorio, times(1)).guardar(municipio);
+    }
+
+    @Test
+    void registrarFalloTest() throws SQLException {
+        // Dado
+        Municipio municipio = new Municipio("m1", "nombre1", 1);
+        when(municipiosRepositorio.leerPorId(municipio.getId())).thenReturn(municipio);
+
+        // Cuando, Entonces
+        assertThrows(IllegalArgumentException.class, () -> municipiosServicio.registrar(municipio));
+        verify(municipiosRepositorio, times(0)).guardar(any());
     }
 
     @Test
