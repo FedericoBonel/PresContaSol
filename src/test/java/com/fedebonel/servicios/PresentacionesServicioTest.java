@@ -80,8 +80,40 @@ class PresentacionesServicioTest {
         verify(presentacionesRepositorio, times(1)).leerTodo();
     }
 
+    /* leerPorID ---------------------------------------------------------------------------------------------------- */
+
     @Test
-    void leerPorID() {
+    void leerPorIDTest() throws SQLException {
+        // Dado
+        Presentacion presentacionEsperada = new Presentacion("p1",
+                LocalDate.of(2022, 2, 11),
+                true,
+                convocatoria,
+                usuario,
+                municipio,
+                new LinkedList<>());
+        when(presentacionesRepositorio.leerPorId(presentacionEsperada.getId())).thenReturn(presentacionEsperada);
+
+        // Cuando
+        Presentacion presentacionReal = presentacionesServicio.leerPorID(presentacionEsperada.getId());
+
+        // Entonces
+        assertNotNull(presentacionReal);
+        assertEquals(presentacionEsperada.getId(), presentacionReal.getId());
+        verify(presentacionesRepositorio, times(1)).leerPorId(presentacionEsperada.getId());
+    }
+
+    @Test
+    void leerPorIDNullTest() throws SQLException {
+        // Dado
+        when(presentacionesRepositorio.leerPorId(anyString())).thenReturn(null);
+
+        // Cuando
+        Presentacion presentacionReal = presentacionesServicio.leerPorID(" ");
+
+        // Entonces
+        assertNull(presentacionReal);
+        verify(presentacionesRepositorio, times(1)).leerPorId(anyString());
     }
 
     @Test
