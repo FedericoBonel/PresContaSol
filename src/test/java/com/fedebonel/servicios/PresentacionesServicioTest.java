@@ -276,7 +276,44 @@ class PresentacionesServicioTest {
         verify(presentacionesRepositorio, times(0)).agregarDocPresentacion(presentacion, documento);
     }
 
+    /* removerDocumento --------------------------------------------------------------------------------------------- */
+
     @Test
-    void eliminarDocumento() {
+    void removerDocumentoTest() throws SQLException {
+        // Dado
+        Presentacion presentacion = new Presentacion("p1",
+                LocalDate.of(2022, 2, 11),
+                true,
+                convocatoria,
+                usuario,
+                municipio,
+                new LinkedList<>());
+        String documento = "documento";
+        when(presentacionesRepositorio.leerPorId(presentacion.getId())).thenReturn(presentacion);
+
+        // Cuando
+        presentacionesServicio.eliminarDocumento(presentacion, documento);
+
+        // Entonces
+        verify(presentacionesRepositorio, times(1)).removerDocPresentacion(presentacion, documento);
+    }
+
+    @Test
+    void removerDocumentoFalloTest() throws SQLException {
+        // Dado
+        Presentacion presentacion = new Presentacion("p1",
+                LocalDate.of(2022, 2, 11),
+                true,
+                convocatoria,
+                usuario,
+                municipio,
+                new LinkedList<>());
+        String documento = "documento";
+        when(presentacionesRepositorio.leerPorId(presentacion.getId())).thenReturn(null);
+
+        // Cuando, entonces
+        assertThrows(IllegalArgumentException.class,
+                () -> presentacionesServicio.eliminarDocumento(presentacion, documento));
+        verify(presentacionesRepositorio, times(0)).removerDocPresentacion(presentacion, documento);
     }
 }
