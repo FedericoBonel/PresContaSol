@@ -33,10 +33,6 @@ public class UsuariosServicio implements EntidadServicio<String, Usuario> {
         return usuariosRepositorio.leerPorId(id);
     }
 
-    public Usuario searchByName(String name) throws SQLException {
-        return usuariosRepositorio.searchByName(name);
-    }
-
     @Override
     public void registrar(Usuario usuario) throws SQLException {
         Usuario foundUser = usuariosRepositorio.leerPorId(usuario.getId());
