@@ -49,8 +49,34 @@ class MunicipiosServicioTest {
         verify(municipiosRepositorio, times(1)).leerTodo();
     }
 
+    /* leerPorID ---------------------------------------------------------------------------------------------------- */
+
     @Test
-    void leerPorID() {
+    void leerPorIDTest() throws SQLException {
+        // Dado
+        Municipio municipioEsperado = new Municipio("m1", "nombre1", 1);
+        when(municipiosRepositorio.leerPorId(municipioEsperado.getId())).thenReturn(municipioEsperado);
+
+        // Cuando
+        Municipio municipioReal = municipiosServicio.leerPorID(municipioEsperado.getId());
+
+        // Entonces
+        assertNotNull(municipioReal);
+        assertEquals(municipioEsperado.getId(), municipioReal.getId());
+        verify(municipiosRepositorio, times(1)).leerPorId(municipioEsperado.getId());
+    }
+
+    @Test
+    void leerPorIDNullTest() throws SQLException {
+        // Dado
+        when(municipiosRepositorio.leerPorId(anyString())).thenReturn(null);
+
+        // Cuando
+        Municipio municipioReal = municipiosServicio.leerPorID(" ");
+
+        // Entonces
+        assertNull(municipioReal);
+        verify(municipiosRepositorio, times(1)).leerPorId(anyString());
     }
 
     @Test
